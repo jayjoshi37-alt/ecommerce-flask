@@ -14,7 +14,8 @@ from itsdangerous import URLSafeTimedSerializer
 from datetime import datetime, timedelta
 import random
 import string
-import random
+from flask import Response
+from PIL import Image
 import os
 from dotenv import load_dotenv
 
@@ -1796,8 +1797,6 @@ def upload_profile_image():
 
     return redirect(url_for('profile'))
 
-from flask import Response
-import imghdr
 
 @app.route('/get_profile_image/<email>')
 def get_profile_image(email):
