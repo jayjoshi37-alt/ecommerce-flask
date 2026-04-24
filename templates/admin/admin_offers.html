@@ -1,0 +1,320 @@
+{% include 'admin/base_admin.html' %}
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --pink: #ff2d8d;
+            --pink-hover: #e6207a;
+            --bg: #f8fafc;
+            --dark: #111827;
+            --border: #e5e7eb;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+        }
+ .sidebar {
+            width: 230px;
+            position: fixed;
+            height: 100vh;
+            background: #1d2b64;
+            z-index: 100;
+        }
+
+        /* Main Content wrapper to prevent merging under sidebar */
+        .main-content-fixed {
+            flex: 1;
+            margin-left: 230px; /* Matches sidebar width */
+            padding: 30px;
+            min-width: 0;
+        }
+
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); display: flex; color: var(--text-main); }
+
+
+
+        .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .top-header h1 { font-size: 28px; margin: 0; font-weight: 700; }
+
+        .primary-btn { background: var(--pink); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .primary-btn:hover { background: var(--pink-hover); transform: translateY(-2px); }
+
+        /* Stats Section */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 16px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .stat-card h4 { margin: 0; font-size: 13px; color: var(--text-muted); text-transform: uppercase; }
+        .stat-card .value { font-size: 24px; font-weight: 700; margin-top: 8px; display: block; }
+        .stat-icon { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+
+        /* Cards Grid */
+        .offer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; }
+        .offer-card { background: white; border-radius: 16px; border: 1px solid var(--border); padding: 24px; position: relative; transition: 0.3s; }
+        .offer-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+        .status-badge { position: absolute; top: 20px; left: 20px; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .status-active { background: #dcfce7; color: #166534; }
+        .status-expired { background: #fee2e2; color: #991b1b; }
+        .status-scheduled { background: #fef3c7; color: #92400e; }
+
+        .offer-title { font-size: 18px; font-weight: 700; margin: 40px 0 8px; }
+        .offer-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; height: 40px; overflow: hidden; }
+
+        .promo-code-container { background: #f9fafb; border: 1px dashed var(--pink); border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .promo-code { font-family: 'Courier New', monospace; font-weight: 700; color: var(--pink); font-size: 16px; }
+
+        .offer-details { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; border-top: 1px solid var(--border); padding-top: 15px; margin-bottom: 20px; }
+        .detail-item span { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+        .detail-item strong { font-size: 14px; color: var(--text-main); }
+
+        .card-actions { display: flex; gap: 10px; border-top: 1px solid var(--border); padding-top: 15px; align-items: center; }
+        .action-btn { flex: 1; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: #f3f4f6; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .action-btn:hover { background: #e5e7eb; }
+        .delete-btn { color: #e11d48; background: #fff1f2; border-color: #fecdd3; }
+
+        /* Switch Toggle */
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--pink); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        /* Modal Overlay */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal-content { background: white; padding: 32px; border-radius: 20px; width: 550px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        .close-modal { font-size: 28px; cursor: pointer; color: var(--text-muted); }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #374151; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; transition: 0.3s; }
+        .form-control:focus { outline: none; border-color: var(--pink); box-shadow: 0 0 0 3px rgba(255, 45, 141, 0.1); }
+        .row { display: flex; gap: 15px; }
+        .row > .form-group { flex: 1; }
+        .logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+    </style>
+
+    <div class="main-content">
+        <div class="top-header">
+            <div>
+                <h1>Offers & Promotions</h1>
+                <p>Manage your discount codes and seasonal campaigns</p>
+            </div>
+            <button class="primary-btn" onclick="openCreateModal()">
+                <i class="fa fa-plus"></i> Create New Offer
+            </button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div><h4>Active Now</h4><span class="value">{{ offers|length }}</span></div>
+                <div class="stat-icon" style="background:#fff1f2; color:var(--pink)"><i class="fa fa-fire"></i></div>
+            </div>
+            <div class="stat-card">
+                <div><h4>Redeemed</h4><span class="value">1,240</span></div>
+                <div class="stat-icon" style="background:#e0f2fe; color:#0284c7"><i class="fa fa-shopping-cart"></i></div>
+            </div>
+            <div class="stat-card">
+                <div><h4>Avg. Value</h4><span class="value">20%</span></div>
+                <div class="stat-icon" style="background:#fef3c7; color:#d97706"><i class="fa fa-tag"></i></div>
+            </div>
+            <div class="stat-card">
+                <div><h4>Revenue Impact</h4><span class="value">₹1.8L</span></div>
+                <div class="stat-icon" style="background:#dcfce7; color:#16a34a"><i class="fa fa-chart-line"></i></div>
+            </div>
+        </div>
+
+        <div class="offer-grid">
+            {% for o in offers %}
+            <div class="offer-card">
+                <span class="status-badge status-{{ o[12] }}">{{ o[12] }}</span>
+
+                <div class="offer-title">{{ o[1] }}</div>
+                <div class="offer-desc">{{ o[2] }}</div>
+
+                <div class="promo-code-container">
+                    <span class="promo-code">{{ o[3] }}</span>
+                    <button class="copy-btn" onclick="copyCode('{{ o[3] }}')"><i class="fa fa-copy"></i></button>
+                </div>
+
+                <div class="offer-details">
+                    <div class="detail-item"><span>Discount</span><strong>{{ o[5] }}{% if o[4]=='percentage' %}%{% else %}₹{% endif %} OFF</strong></div>
+                    <div class="detail-item"><span>Min. Spend</span><strong>₹{{ o[6] }}</strong></div>
+                    <div class="detail-item"><span>Limit</span><strong>{{ o[10] }}/{{ o[8] }}</strong></div>
+                    <div class="detail-item"><span>Expiry</span><strong>{{ o[11] }}</strong></div>
+                </div>
+
+                <div class="card-actions">
+                    <button class="action-btn" onclick="openEditModal(
+                        '{{ o[0] }}', '{{ o[1] }}', '{{ o[2] }}', '{{ o[3] }}', '{{ o[4] }}',
+                        '{{ o[5] }}', '{{ o[6] }}', '{{ o[7] }}', '{{ o[8] }}', '{{ o[9] }}', '{{ o[11] }}'
+                    )">
+                        <i class="fa fa-edit"></i> Edit
+                    </button>
+
+                    <label class="switch">
+                        <input type="checkbox" {% if o[12] == 'active' %}checked{% endif %} onchange="confirmToggle({{ o[0] }})">
+                        <span class="slider"></span>
+                    </label>
+
+                    <button class="action-btn delete-btn" onclick="confirmDelete({{ o[0] }})">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="offerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Create Offer</h2>
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+            </div>
+
+            <form id="offerForm" action="/admin_offers/create" method="post">
+                <input type="hidden" name="offer_id" id="m_id">
+
+                <div class="form-group">
+                    <label>Campaign Title *</label>
+                    <input name="title" id="m_title" class="form-control" placeholder="e.g. Summer Special" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" id="m_desc" class="form-control" rows="2"></textarea>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Coupon Code *</label>
+                        <input name="offer_code" id="m_code" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Discount Type</label>
+                        <select name="discount_type" id="m_type" class="form-control">
+                            <option value="percentage">Percentage (%)</option>
+                            <option value="fixed">Fixed Amount (₹)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Discount Value *</label>
+                        <input type="number" name="discount_value" id="m_val" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Min. Purchase (₹)</label>
+                        <input type="number" name="min_purchase" id="m_min" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Usage Limit</label>
+                        <input type="number" name="usage_limit" id="m_limit" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Max Discount (₹)</label>
+                        <input type="number" name="max_discount" id="m_max" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" name="start_date" id="m_start" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="date" name="end_date" id="m_end" class="form-control" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="primary-btn" style="width:100%; justify-content:center; margin-top:10px;">
+                    <i class="fa fa-save"></i> <span id="btnText">Save Offer</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('offerModal');
+        const form = document.getElementById('offerForm');
+
+        function openCreateModal() {
+            document.getElementById('modalTitle').innerText = "Create New Offer";
+            document.getElementById('btnText').innerText = "Create Offer";
+            form.action = "/admin_offers/create";
+            form.reset();
+            modal.style.display = 'flex';
+        }
+
+        // FIXED: Explicitly accepts all database columns as arguments
+        function openEditModal(id, title, desc, code, type, val, min, max, limit, start, end) {
+            document.getElementById('modalTitle').innerText = "Edit Offer Details";
+            document.getElementById('btnText').innerText = "Update Offer";
+            form.action = "/admin_offers/update";
+
+            document.getElementById('m_id').value = id;
+            document.getElementById('m_title').value = title;
+            document.getElementById('m_desc').value = desc;
+            document.getElementById('m_code').value = code;
+            document.getElementById('m_type').value = type;
+            document.getElementById('m_val').value = val;
+            document.getElementById('m_min').value = min;
+            document.getElementById('m_max').value = max;
+            document.getElementById('m_limit').value = limit;
+            document.getElementById('m_start').value = start;
+            document.getElementById('m_end').value = end;
+
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() { modal.style.display = 'none'; }
+
+        function copyCode(code) {
+            navigator.clipboard.writeText(code);
+            Swal.fire({ icon: 'success', title: 'Copied!', text: code, timer: 1000, showConfirmButton: false });
+        }
+
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Delete this offer?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ff2d8d',
+                confirmButtonText: 'Yes, Delete'
+            }).then((result) => {
+                if (result.isConfirmed) window.location.href = "/admin_offers/delete/" + id;
+            });
+        }
+
+        function confirmToggle(id) {
+            const tempForm = document.createElement('form');
+            tempForm.method = 'POST';
+            tempForm.action = '/admin_offers/toggle/' + id;
+            document.body.appendChild(tempForm);
+            tempForm.submit();
+        }
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            Swal.fire({ icon: 'success', title: 'Success', text: '{{ messages[0] }}', timer: 2500 });
+          {% endif %}
+        {% endwith %}
+
+        window.onclick = function(e) { if (e.target == modal) closeModal(); }
+    </script>
+</body>
+</html>

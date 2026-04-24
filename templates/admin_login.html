@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | GlamFleur Mainframe</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --glam-pink: #ff2d75;
+            --glam-purple: #8a2be2;
+            --dark-glass: rgba(15, 23, 42, 0.85);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: url('https://images.unsplash.com/photo-1596462502278-27bfad450216?q=80&w=2000') center/cover no-repeat;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Luxury Dark Overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(5, 8, 16, 0.95) 100%);
+            z-index: -1;
+        }
+
+        /* --- MAIN PORTAL CARD --- */
+        .portal-card {
+            background: var(--dark-glass);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            width: 100%;
+            max-width: 1200px;
+            min-height: 700px;
+            display: flex;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- LEFT: AUTHENTICATION --- */
+        .auth-panel {
+            flex: 1;
+            padding: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .brand-text {
+            font-size: 44px;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--glam-pink), var(--glam-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 45, 117, 0.3);
+            color: var(--glam-pink);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+
+        .custom-input-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+
+        .custom-input-box:focus-within {
+            border-color: var(--glam-pink);
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 0 20px rgba(255, 45, 117, 0.2);
+        }
+
+        .custom-input-box label {
+            display: block;
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .custom-input-box input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .action-btn {
+            width: 100%;
+            background: linear-gradient(45deg, var(--glam-pink), var(--glam-purple));
+            border: none;
+            border-radius: 15px;
+            padding: 18px;
+            color: white;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.4s;
+            margin-top: 20px;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 45, 117, 0.4);
+        }
+
+        /* --- RIGHT: DASHBOARD PREVIEW --- */
+        .dashboard-preview {
+            flex: 1.3;
+            background: url('https://images.unsplash.com/photo-1627384113743-6bd5a479fffd?q=80&w=2000') center/cover;
+            position: relative;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        /* Pop-up Terminal Effect */
+        .terminal-popup {
+            background: rgba(0, 0, 0, 0.8);
+            border-left: 4px solid var(--glam-pink);
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #fff;
+            font-size: 13px;
+            width: 350px;
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            animation: slideLeft 0.5s ease-out;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        @keyframes slideLeft { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 25px;
+            color: white;
+            margin-top: 15px;
+        }
+
+        .typing-text::after {
+            content: '|';
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+    </style>
+</head>
+<body>
+
+<div class="portal-card">
+    <div class="auth-panel">
+        <div class="status-badge">
+            <i class="fa fa-shield-check me-2"></i> SYSTEM ENCRYPTION: ACTIVE
+        </div>
+        <h1 class="brand-text">GlamFleur</h1>
+        <h3 class="text-white mb-4">Admin Mainframe</h3>
+
+        {% if message %}
+        <div class="alert alert-danger border-0 rounded-4 py-3 small mb-4" style="background: rgba(255, 45, 117, 0.1); color: #ff2d75;">
+            <i class="fa fa-exclamation-triangle me-2"></i> {{ message }}
+        </div>
+        {% endif %}
+
+        <form action="/admin_dashboard" method="post">
+            <div class="custom-input-box">
+                <label>ADMINISTRATOR ID</label>
+                <input type="text" name="txtAdminName" placeholder="Enter Username" required>
+            </div>
+
+            <div class="custom-input-box position-relative">
+                <label>SECURITY ACCESS KEY</label>
+                <input type="password" name="txtPassword" id="adminPass" placeholder="••••••••" required>
+                <i class="fa fa-eye-slash position-absolute end-0 bottom-0 mb-3 me-3 text-white-50 cursor-pointer"
+                   id="toggleKey" style="cursor: pointer;"></i>
+            </div>
+
+            <button type="submit" class="action-btn">
+                Authorize Access <i class="fa fa-arrow-right ms-2"></i>
+            </button>
+        </form>
+
+        <p class="text-center mt-5">
+            <a href="/" class="text-white-50 text-decoration-none small hover-pink">
+                <i class="fa fa-chevron-left me-2"></i> Exit Secure Mainframe
+            </a>
+        </p>
+    </div>
+
+    <div class="dashboard-preview">
+        <div class="terminal-popup">
+            <div class="text-pink small mb-2 fw-bold" style="color: var(--glam-pink)">[ SYSTEM LOGS ]</div>
+            <div id="terminal-feed" class="typing-text">Initializing security...</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="m-0 fw-bold">Store Metrics</h5>
+                <span class="badge bg-success">Live</span>
+            </div>
+            <div class="row text-center">
+                <div class="col-6 border-end border-white-50">
+                    <div class="h3 mb-0" id="live-sales">₹0</div>
+                    <div class="small opacity-75">Daily Sales</div>
+                </div>
+                <div class="col-6">
+                    <div class="h3 mb-0" id="live-clock">00:00</div>
+                    <div class="small opacity-75">Server Time</div>
+                </div>
+            </div>
+            <hr class="opacity-25">
+            <p class="small mb-0 opacity-50">Secure session validated by AES-256 Multi-layer protocols.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Live System Feed Pop-up Logic ---
+    const messages = [
+        "Initializing security protocols...",
+        "Checking database integrity... OK",
+        "Validating Admin credentials...",
+        "Firewall: Level 9 Active",
+        "Nykaa-API Sync: 100%",
+        "Mainframe health: Optimal"
+    ];
+    let msgIndex = 0;
+    function updateTerminal() {
+        document.getElementById('terminal-feed').innerText = messages[msgIndex];
+        msgIndex = (msgIndex + 1) % messages.length;
+    }
+    setInterval(updateTerminal, 3000);
+
+    // --- Live Clock & Sales Simulator ---
+    function updateStats() {
+        const now = new Date();
+        document.getElementById('live-clock').textContent = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+
+        // Simulating live sales count for effect
+        const baseSales = 45200;
+        const randomSales = baseSales + Math.floor(Math.random() * 500);
+        document.getElementById('live-sales').textContent = "₹" + randomSales.toLocaleString();
+    }
+    setInterval(updateStats, 1000);
+    updateStats();
+
+    // --- Access Key Toggle ---
+    const toggle = document.getElementById('toggleKey');
+    const passInput = document.getElementById('adminPass');
+    toggle.addEventListener('click', () => {
+        const isPass = passInput.type === 'password';
+        passInput.type = isPass ? 'text' : 'password';
+        toggle.classList.toggle('fa-eye');
+        toggle.classList.toggle('fa-eye-slash');
+    });
+</script>
+
+</body>
+</html>

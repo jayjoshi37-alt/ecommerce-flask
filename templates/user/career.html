@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers | Join GlamFleur</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600;800&display=swap');
+
+        :root { --glam-pink: #fc2779; }
+        body { font-family: 'Inter', sans-serif; color: #3f414d; }
+        .serif { font-family: 'Playfair Display', serif; }
+
+        .job-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(252, 39, 121, 0.1); }
+        .pink-gradient { background: linear-gradient(135deg, #fc2779 0%, #ff7eb3 100%); }
+
+        /* Floating Blobs */
+        .blob { position: absolute; filter: blur(60px); opacity: 0.4; z-index: -1; }
+
+        .logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+    </style>
+</head>
+<body class="bg-white overflow-x-hidden">
+
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md py-4 px-8 flex justify-between items-center border-b border-pink-50">
+         <div class="logo">GlamFleur</div>
+        <div class="hidden md:flex space-x-10 font-bold text-[10px] uppercase tracking-[0.2em]">
+            <a href="#" class="hover:text-[#fc2779] transition">Culture</a>
+            <a href="#" class="hover:text-[#fc2779] transition">Benefits</a>
+            <a href="#" class="hover:text-[#fc2779] transition">Openings</a>
+        </div>
+        <button class="bg-[#fc2779] text-white text-[10px] font-bold px-8 py-3 rounded-full uppercase tracking-widest shadow-lg hover:bg-black transition-all">
+            Join The Circle
+        </button>
+    </nav>
+
+    <section class="relative min-h-screen flex items-center justify-center pt-20">
+        <div class="blob w-96 h-96 bg-pink-200 top-0 -left-20 animate-pulse"></div>
+        <div class="blob w-96 h-96 bg-purple-100 bottom-0 -right-20"></div>
+
+        <div class="max-w-6xl mx-auto px-4 text-center" data-aos="zoom-out">
+            <h2 class="text-6xl md:text-8xl serif leading-tight mb-6">Bloom With <span class="italic text-[#fc2779]">GlamFleur</span></h2>
+            <p class="text-xl text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
+                We are looking for visionaries, artists, and innovators to help us redefine the landscape of luxury beauty in India.
+            </p>
+            <div class="mt-12">
+                <a href="#openings" class="pink-gradient text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs shadow-xl inline-block hover:scale-105 transition">
+                    View Open Positions
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-slate-900 text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
+            <div data-aos="fade-right">
+                <h3 class="text-4xl serif mb-8">Where Passion Meets <span class="text-[#fc2779]">Purpose</span></h3>
+                <div class="space-y-8">
+                    <div class="flex items-start">
+                        <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mr-6 text-[#fc2779] shrink-0"><i class="fa fa-magic"></i></div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-2">Creative Freedom</h4>
+                            <p class="text-gray-400 text-sm">We don't just follow trends; we set them. Every voice at GlamFleur has the power to inspire.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mr-6 text-[#fc2779] shrink-0"><i class="fa fa-chart-line"></i></div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-2">Hyper-Growth</h4>
+                            <p class="text-gray-400 text-sm">Grow with a brand that is scaling at 200% YOY. Your career trajectory is limitless here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=400" class="rounded-2xl transform translate-y-8">
+                <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=400" class="rounded-2xl">
+            </div>
+        </div>
+    </section>
+
+    <section id="openings" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                <div data-aos="fade-up">
+                    <h2 class="text-4xl serif mb-4">Open Roles</h2>
+                    <p class="text-gray-400">Find your place in our growing family.</p>
+                </div>
+                <div class="flex space-x-4 mt-8 md:mt-0" data-aos="fade-up">
+                    <button class="px-6 py-2 border rounded-full text-xs font-bold hover:bg-pink-50">Marketing</button>
+                    <button class="px-6 py-2 border rounded-full text-xs font-bold hover:bg-pink-50">Luxe Retail</button>
+                    <button class="px-6 py-2 border rounded-full text-xs font-bold bg-black text-white">All Roles</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="job-card p-8 border border-gray-100 rounded-3xl bg-white transition-all cursor-pointer" data-aos="fade-up">
+                    <span class="text-[10px] font-bold text-[#fc2779] uppercase tracking-widest bg-pink-50 px-3 py-1 rounded-full">Remote / Mumbai</span>
+                    <h4 class="text-xl font-bold mt-4">Senior Product Designer</h4>
+                    <p class="text-sm text-gray-500 mt-2 mb-6 leading-relaxed">Help us build the most beautiful beauty app in the world.</p>
+                    <hr class="mb-6">
+                    <div class="flex justify-between items-center text-xs font-bold">
+                        <span>Full Time</span>
+                        <span class="text-[#fc2779] underline">Apply Now <i class="fa fa-arrow-right ml-2"></i></span>
+                    </div>
+                </div>
+
+                <div class="job-card p-8 border border-gray-100 rounded-3xl bg-white transition-all cursor-pointer" data-aos="fade-up" data-aos-delay="100">
+                    <span class="text-[10px] font-bold text-blue-500 uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full">Delhi / On-Site</span>
+                    <h4 class="text-xl font-bold mt-4">Luxe Store Manager</h4>
+                    <p class="text-sm text-gray-500 mt-2 mb-6 leading-relaxed">Lead our flagship store at Infiniti Mall and deliver a 5-star experience.</p>
+                    <hr class="mb-6">
+                    <div class="flex justify-between items-center text-xs font-bold">
+                        <span>Full Time</span>
+                        <span class="text-[#fc2779] underline">Apply Now <i class="fa fa-arrow-right ml-2"></i></span>
+                    </div>
+                </div>
+
+                <div class="job-card p-8 border border-gray-100 rounded-3xl bg-white transition-all cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                    <span class="text-[10px] font-bold text-green-500 uppercase tracking-widest bg-green-50 px-3 py-1 rounded-full">Mumbai / Hybrid</span>
+                    <h4 class="text-xl font-bold mt-4">Influencer Lead</h4>
+                    <p class="text-sm text-gray-500 mt-2 mb-6 leading-relaxed">Scale our influencer program and manage top beauty creators.</p>
+                    <hr class="mb-6">
+                    <div class="flex justify-between items-center text-xs font-bold">
+                        <span>Contract</span>
+                        <span class="text-[#fc2779] underline">Apply Now <i class="fa fa-arrow-right ml-2"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-pink-50/50">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl serif mb-12">Can't find the right role?</h2>
+            <div class="bg-white p-10 rounded-[40px] shadow-2xl" data-aos="zoom-in">
+                <p class="mb-8 text-gray-500">Drop your CV in our database and we'll reach out when the magic happens.</p>
+                <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input type="text" placeholder="Full Name" class="p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-pink-200">
+                    <input type="email" placeholder="Email Address" class="p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-pink-200">
+                    <input type="text" placeholder="LinkedIn Profile URL" class="p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 focus:ring-pink-200 md:col-span-2">
+                    <div class="md:col-span-2 border-2 border-dashed border-gray-200 p-8 rounded-2xl hover:border-[#fc2779] transition-colors cursor-pointer group">
+                        <i class="fa fa-cloud-upload-alt text-3xl text-gray-300 group-hover:text-[#fc2779] mb-3"></i>
+                        <p class="text-sm font-bold text-gray-400">Drag & Drop Resume (PDF Only)</p>
+                    </div>
+                    <button class="md:col-span-2 pink-gradient py-4 rounded-2xl text-white font-bold uppercase tracking-widest text-xs shadow-lg">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+<footer class="bg-[#3f414d] text-white overflow-hidden relative md:min-h-[50vh] flex flex-col justify-between mt-20">
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 w-full">
+        <div class="grid md:grid-cols-12 gap-12 items-start">
+
+            <div class="md:col-span-7 space-y-10">
+                <div>
+                     <div class="logo">GlamFleur</div>
+                    <br>
+                    <br>
+                    <br>
+                    <p class="text-gray-400 max-w-lg text-xl font-light leading-relaxed" align="left">
+                        Celebrating the eternal elegance of beauty and flowers. We bridge the gap between Parisian luxury and modern Indian grace, curating experiences that linger in the soul.
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] text-white/50" align="left">Connect With Us</h5>
+                    <div class="flex space-x-8 text-3xl">
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-5 grid grid-cols-2 gap-8">
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Explore</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/aboutus" class="hover:text-[#fc2779] transition">Who are we?</a></li>
+                        <li><a href="/authenticity" class="hover:text-[#fc2779] transition">Authenticity</a></li>
+                        <li><a href="/career" class="hover:text-[#fc2779] transition">Career</a></li>
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Support</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/privacy_policy" class="hover:text-[#fc2779] transition">Shipping Policy</a></li>
+                        <li><a href="/return_policy" class="hover:text-[#fc2779] transition">Return Center</a></li>
+
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full">
+        <div class="max-w-7xl mx-auto px-4 border-t border-white/10 py-10 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold uppercase tracking-widest text-white/40">
+            <p>© 2026 GLAMFLEUR E-RETAIL LIMITED. ALL RIGHTS RESERVED.</p>
+            <div class="flex space-x-10 mt-6 md:mt-0">
+                <a href="/privacy_policy" class="hover:text-white transition">Privacy</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Terms</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Cookies</a>
+            </div>
+        </div>
+        <div class="h-2 bg-gradient-to-r from-[#fc2779] via-[#ff7eb3] to-[#fc2779]"></div>
+    </div>
+</footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>

@@ -1,0 +1,775 @@
+{% include 'admin/base_admin.html' %}
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --glam-pink: #ff007f;
+            --glam-purple: #8a2be2;
+            --navy-blue: #1e3a8a;
+            --dark-navy: #1e40af;
+            --glass: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Main Content Area - Compatible with existing sidebar CSS */
+        .main-content {
+            margin-left: 270px;
+            padding: 40px;
+            width: calc(100% - 270px);
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        /* Live Dashboard Header */
+        .sale-header {
+            background: linear-gradient(135deg, var(--navy-blue) 0%, var(--dark-navy) 50%, var(--glam-purple) 100%);
+            padding: 40px;
+            border-radius: 25px;
+            color: white;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 20px 40px rgba(30, 58, 138, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sale-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,0,127,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .sale-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            z-index: 1;
+        }
+
+        .sale-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+            margin: 5px 0 0 0;
+            z-index: 1;
+        }
+
+        /* Live Stats Cards */
+        .live-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--glam-pink), var(--glam-purple));
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--navy-blue);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Enhanced Sale Grid */
+        .sale-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* Sale Card */
+        .sale-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .sale-card:hover {
+            transform: translateY(-20px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(255, 0, 127, 0.25);
+        }
+
+        .card-img-container {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .card-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .sale-card:hover .card-img-container img {
+            transform: scale(1.1);
+        }
+
+        .badge-discount {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, var(--glam-pink), var(--glam-purple));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 15px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 5px 15px rgba(255,0,127,0.4);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .sale-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            color: var(--glam-purple);
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            margin-bottom: 8px;
+        }
+
+        .prod-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+            color: #1e293b;
+            line-height: 1.3;
+        }
+
+        .timer-box {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            padding: 12px 16px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #475569;
+            font-weight: 600;
+            border: 1px solid rgba(255,0,127,0.1);
+        }
+
+        .price-section {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--glam-pink);
+            margin: 15px 0;
+        }
+
+        .original-price {
+            font-size: 14px;
+            color: #94a3b8;
+            text-decoration: line-through;
+            margin-left: 12px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 2px dashed #e2e8f0;
+        }
+
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.2);
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+
+        .status-inactive {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Enhanced Add Button */
+        .btn-add-sale {
+            background: linear-gradient(135deg, var(--glam-pink), var(--glam-purple));
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(255, 0, 127, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-add-sale:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(255, 0, 127, 0.5);
+        }
+
+        /* Modal Styling - FIXED */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(15px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            border-radius: 25px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            animation: slideInUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal h2 {
+            color: var(--navy-blue);
+            margin: 0 0 30px 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #f1f5f9;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--glam-pink);
+            box-shadow: 0 0 0 3px rgba(255,0,127,0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row > div {
+            flex: 1;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-primary {
+            flex: 2;
+            background: linear-gradient(135deg, var(--glam-pink), var(--glam-purple));
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            background: #f1f5f9;
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255,0,127,0.4);
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+        .image-preview {
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 10px;
+            background: #f8fafc;
+            transition: all 0.3s ease;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-preview:hover {
+            border-color: var(--glam-pink);
+            background: rgba(255,0,127,0.05);
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+            color: #64748b;
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+         .logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+    </style>
+
+
+    <div class="main-content">
+        <!-- Live Dashboard Header -->
+        <header class="sale-header animate__animated animate__fadeInDown">
+            <div>
+                <h1>🚀 Flash Sale Control</h1>
+                <p>Manage your high-converting live campaigns & track performance</p>
+            </div>
+            <button class="btn-add-sale" onclick="openSaleModal()">
+                Create New Sale
+            </button>
+        </header>
+
+        <!-- Live Stats Cards -->
+        <div class="live-stats">
+            <div class="stat-card animate__animated animate__fadeInUp">
+                <div class="stat-number" style="color: #10b981;">{{ total_sales }}</div>
+                <div class="stat-label">Active Campaigns</div>
+            </div>
+            <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+                <div class="stat-number" style="color: var(--glam-pink);">₹{{ "%.0f"|format(total_value) }}</div>
+                <div class="stat-label">Total Sale Value</div>
+            </div>
+            <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+                <div class="stat-number" style="color: #f59e0b;">{{ "%.1f"|format(avg_discount) }}%</div>
+                <div class="stat-label">Avg Discount</div>
+            </div>
+        </div>
+
+        <!-- Sales Grid -->
+        {% if sales %}
+        <div class="sale-grid">
+            {% for sale in sales %}
+            <div class="sale-card animate__animated animate__zoomIn" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
+                <div class="card-img-container">
+                    <span class="badge-discount">-{{ sale[5] }}%</span>
+                    <img src="{{ url_for('static', filename='uploads/' + sale[9]) }}" alt="{{ sale[2] }}">
+                </div>
+                <div class="card-body">
+                    <div class="sale-title">{{ sale[1] }}</div>
+                    <div class="prod-name">{{ sale[2] }}</div>
+                    <div class="timer-box">
+                        <i class="far fa-clock"></i>
+                        <span>Ends: {{ sale[8] }}</span>
+                    </div>
+                    <div class="price-section">
+                        ₹{{ sale[6] }} <span class="original-price">₹{{ sale[4] }}</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="status-badge {{ 'status-active' if sale[10] == 'Active' else 'status-inactive' }}">
+                            ● {{ sale[10] }}
+                        </span>
+                        <div class="action-buttons">
+                            <button class="btn-action btn-edit" onclick="editSale('{{ sale[0] }}','{{ sale[1] }}','{{ sale[2] }}','{{ sale[3] }}','{{ sale[4] }}','{{ sale[5] }}','{{ sale[6] }}','{{ sale[7] }}','{{ sale[8] }}','{{ sale[9] }}','{{ sale[10] }}')" title="Edit Sale">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button class="btn-action btn-delete" onclick="deleteSale('{{ sale[0] }}')" title="Delete Sale">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state animate__animated animate__fadeIn">
+            <i class="fa fa-fire"></i>
+            <h3>No Flash Sales Yet</h3>
+            <p>Create your first high-converting sale campaign to get started!</p>
+            <button class="btn-add-sale" onclick="openSaleModal()" style="margin-top: 20px;">
+                <i class="fa fa-plus-circle"></i> Create First Sale
+            </button>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Sale Modal - FIXED -->
+    <div id="saleModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">🚀 Schedule New Sale</h2>
+            <form id="saleForm" action="/add_sale" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="sid" id="sid">
+                <input type="hidden" name="old_image" id="old_image">
+
+                <div class="form-group">
+                    <label>Campaign Name</label>
+                    <input type="text" name="sale_name" placeholder="e.g. Midnight Madness Sale" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" name="product_name" placeholder="Featured product name" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select name="category" required>
+                            <option value="Skincare">Skincare</option>
+                            <option value="Fragrance">Fragrance</option>
+                            <option value="Haircare">Haircare</option>
+                            <option value="Shimmer">Shimmer</option>
+                            <option value="Makeup">Makeup</option>
+                            <option value="Mom and Baby">Mom and Baby</option>
+                            <option value="NailPaints">NailPaints</option>
+                            <option value="Lipstick">Lipstick</option>
+                            <option value="LipCare">LipCare</option>
+                            <option value="Bath & Body">Bath & Body</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Offer %</label>
+                        <input type="number" name="offer_percentage" min="1" max="90" placeholder="25" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Original Price (₹)</label>
+                        <input type="number" name="original_price" min="10" step="0.01" placeholder="999" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Sale Price (₹)</label>
+                        <input type="number" name="sale_price" min="1" step="0.01" placeholder="799" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Live From</label>
+                        <input type="datetime-local" name="start_time">
+                    </div>
+                    <div class="form-group">
+                        <label>Ends At</label>
+                        <input type="datetime-local" name="end_time">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" required>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Product Sale Image</label>
+                    <input type="file" name="sale_image" accept="image/*" id="saleImageInput">
+                    <div class="image-preview" id="imagePreview">
+                        <i class="fa fa-image" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 10px;"></i>
+                        <p>Upload a high-quality product image (JPG/PNG)</p>
+                    </div>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn-primary">💾 Save Flash Sale</button>
+                    <button type="button" class="btn-secondary" onclick="closeSaleModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ✅ FIXED Modal Functions - NOW WORKS PERFECTLY
+        function openSaleModal() {
+            document.getElementById('saleForm').reset();
+            document.getElementById('sid').value = '';
+            document.getElementById('old_image').value = '';
+            document.getElementById('modalTitle').innerText = '🚀 Schedule New Sale';
+
+            // Reset image preview
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = `
+                <i class="fa fa-image" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 10px;"></i>
+                <p>Upload a high-quality product image (JPG/PNG)</p>
+            `;
+
+            // Show modal
+            document.getElementById('saleModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSaleModal() {
+            document.getElementById('saleModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // ✅ Image Preview - FIXED
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageInput = document.getElementById('saleImageInput');
+            const preview = document.getElementById('imagePreview');
+
+            imageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+
+        // ✅ Edit Sale Function - FIXED
+        function editSale(id, sname, pname, cat, op, per, sp, start, end, img, status) {
+            document.getElementById('sid').value = id;
+            document.getElementById('old_image').value = img;
+            document.getElementById('modalTitle').innerText = '✏️ Edit Flash Sale';
+
+            // Populate form fields
+            const form = document.getElementById('saleForm');
+            form.elements['sale_name'].value = sname;
+            form.elements['product_name'].value = pname;
+            form.elements['category'].value = cat;
+            form.elements['original_price'].value = op;
+            form.elements['offer_percentage'].value = per;
+            form.elements['sale_price'].value = sp;
+
+            // Format datetime-local
+            if (start) {
+                const startDate = new Date(start);
+                form.elements['start_time'].value = startDate.toISOString().slice(0, 16);
+            }
+            if (end) {
+                const endDate = new Date(end);
+                form.elements['end_time'].value = endDate.toISOString().slice(0, 16);
+            }
+
+            form.elements['status'].value = status;
+
+            // Show current image preview
+            const preview = document.getElementById('imagePreview');
+            if (img) {
+                preview.innerHTML = `
+                    <img src="/static/uploads/${img}" alt="Current" style="max-width: 100%; max-height: 200px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <p style="font-size: 12px; color: #64748b; margin-top: 10px;">Current image - upload new to replace</p>
+                `;
+            }
+
+            document.getElementById('saleModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // ✅ Delete Sale
+        function deleteSale(id) {
+            Swal.fire({
+                title: 'End this Sale?',
+                text: "This will permanently remove the sale from your campaigns.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ff007f',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: '<i class="fa fa-trash"></i> Yes, delete it!',
+                cancelButtonText: '<i class="fa fa-times"></i> Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `/delete_sale/${id}`;
+                }
+            });
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('saleModal');
+            if (event.target === modal) {
+                closeSaleModal();
+            }
+        }
+    </script>
+</body>
+</html>

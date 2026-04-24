@@ -1,0 +1,164 @@
+{% include 'admin/base_admin.html' %}
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root { --accent: #ff007f; --navy: #1d2b64; }
+        body { background: #f8f9fc; font-family: 'Inter', sans-serif; display: flex; margin: 0; }
+        .sidebar { width: 230px; position: fixed; height: 100vh; background: var(--navy); z-index: 100; }
+        .main-content-fixed { flex: 1; margin-left: 230px; padding: 30px; }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 12px; border-bottom: 4px solid var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-card small { color: #858796; text-transform: uppercase; font-size: 11px; font-weight: 700; }
+        .stat-card h2 { margin: 5px 0 0; color: var(--navy); }
+
+        /* Chart & List Grid */
+        .dashboard-row { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 30px; }
+        .panel { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+
+        /* Wildcard Search Bar */
+        .wildcard-box {
+            background: white; padding: 10px 20px; border-radius: 30px; display: flex;
+            align-items: center; border: 1px solid #e3e6f0; margin-bottom: 20px;
+        }
+        .wildcard-box input { border: none; outline: none; padding: 5px 15px; width: 100%; font-size: 14px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th { text-align: left; padding: 12px; border-bottom: 2px solid #e3e6f0; color: #4e73df; font-size: 13px; }
+        td { padding: 12px; border-bottom: 1px solid #e3e6f0; font-size: 14px; }
+        .status { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .status-success { background: #1cc88a; color: white; }
+        .logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+.status-pending{
+background:#f6c23e;
+color:white;
+}
+
+    </style>
+</head>
+
+
+    <div class="main-content-fixed">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h1 style="color: var(--navy); margin: 0;">Revenue Performance</h1>
+            <form method="get">
+                <select name="period" onchange="this.form.submit()" style="padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    <option value="7" {{ 'selected' if period=='7' }}>Last 7 Days</option>
+                    <option value="30" {{ 'selected' if period=='30' }}>Last Month</option>
+                    <option value="365" {{ 'selected' if period=='365' }}>Full Year</option>
+                </select>
+            </form>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card"><small>Revenue</small><h2>₹{{ revenue }}</h2></div>
+            <div class="stat-card"><small>Orders</small><h2>{{ total_orders }}</h2></div>
+            <div class="stat-card"><small>Customers</small><h2>{{ total_customers }}</h2></div>
+            <div class="stat-card"><small>Avg Order</small><h2>₹{{ "%.2f"|format(avg_order) }}</h2></div>
+        </div>
+
+        <div class="dashboard-row">
+            <div class="panel">
+                <h3>Revenue Trends</h3>
+                <canvas id="salesChart" height="150"></canvas>
+            </div>
+            <div class="panel">
+                <h3>Top Products</h3>
+                {% for p in top_products %}
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                    <span style="font-weight: 600;">{{ p.product_name }}</span>
+                    <span style="color: var(--accent);">{{ p.units_sold }} Sold</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="wildcard-box">
+                <i class="fa fa-search" style="color: #ccc;"></i>
+                <input type="text" id="salesSearch" onkeyup="filterSales()" placeholder="Wildcard Search: Order #, Customer, or Status...">
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+
+                        <th>Email</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="salesTable">
+{% for o in recent_orders %}
+<tr class="sale-row">
+    <td><b>#{{ o.order_number }}</b></td>
+
+
+
+    <td>{{ o.customer_email }}</td>
+
+    <td>₹{{ o.amount }}</td>
+
+
+       <td>
+{% if o.status and o.status.lower() == 'paid' %}
+    <span class="status status-success">Paid</span>
+{% else %}
+    <span class="status status-pending">Pending</span>
+{% endif %}
+</td>
+
+
+    <td>{{ o.order_date.strftime('%Y-%m-%d') }}</td>
+</tr>
+{% endfor %}
+</tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Inside your <script> tag
+const labels = {{ chart_labels | tojson }};
+const values = {{ chart_values | tojson }};
+        // Wildcard Filter Function
+        function filterSales() {
+            let val = document.getElementById("salesSearch").value.toLowerCase();
+            let rows = document.querySelectorAll(".sale-row");
+            rows.forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(val) ? "" : "none";
+            });
+        }
+
+        // Animated Chart.js Logic
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ chart_labels | tojson }},
+                datasets: [{
+                    label: 'Revenue (₹)',
+                    data: {{ chart_values | tojson }},
+                    borderColor: '#ff007f',
+                    backgroundColor: 'rgba(255, 0, 127, 0.05)',
+                    fill: true,
+                    tension: 0.3,
+                    borderWidth: 3
+                }]
+            },
+            options: { plugins: { legend: { display: false } } }
+        });
+    </script>
+</body>
+</html>

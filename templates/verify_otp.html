@@ -1,0 +1,78 @@
+{% extends 'user_login.html' %}
+
+{% block content %}
+<section class="auth-page">
+
+<div class="auth-card-premium">
+
+<h2 class="auth-title">Login Verification 🔐</h2>
+<p class="auth-subtitle">Enter OTP sent to your email</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<p style="color:red;">{{ message }}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<form method="POST" id="otpForm">
+
+<div style="display:flex; gap:10px; justify-content:center;">
+<input type="text" maxlength="1" class="otp-box" required>
+<input type="text" maxlength="1" class="otp-box" required>
+<input type="text" maxlength="1" class="otp-box" required>
+<input type="text" maxlength="1" class="otp-box" required>
+<input type="text" maxlength="1" class="otp-box" required>
+<input type="text" maxlength="1" class="otp-box" required>
+</div>
+
+<input type="hidden" name="otp" id="finalOtp">
+
+<button class="btn-auth">Verify Login</button>
+
+</form>
+
+</div>
+</section>
+
+<script>
+const inputs = document.querySelectorAll('.otp-box');
+const finalOtp = document.getElementById('finalOtp');
+
+inputs.forEach((input, index) => {
+
+input.addEventListener('input', () => {
+if(input.value.length === 1 && index < inputs.length - 1){
+inputs[index+1].focus();
+}
+});
+
+input.addEventListener('keydown', (e)=>{
+if(e.key === "Backspace" && !input.value && index>0){
+inputs[index-1].focus();
+}
+});
+
+});
+
+document.getElementById('otpForm').addEventListener('submit', ()=>{
+let otp=''
+inputs.forEach(i=> otp+=i.value)
+finalOtp.value = otp
+})
+</script>
+
+<style>
+.otp-box{
+width:45px;
+height:50px;
+text-align:center;
+border-radius:10px;
+background:#0f172a;
+color:white;
+border:1px solid #333;
+}
+</style>
+
+{% endblock %}

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlamFleur | Ultimate Luxury Experience</title>
+     <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --glam-pink: #fc2779;
+            --glam-gold: #d4af37;
+            --soft-pink: #fff0f5;
+            --dark-text: #1a1a1a;
+            --glass: rgba(255, 255, 255, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: #fff; color: var(--dark-text); overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* --- Animated Background Elements --- */
+        .bg-blob {
+            position: fixed; width: 500px; height: 500px; background: radial-gradient(circle, var(--soft-pink) 0%, rgba(255,255,255,0) 70%);
+            z-index: -1; filter: blur(50px); animation: float 20s infinite alternate;
+        }
+        @keyframes float { from { transform: translate(-10%, -10%); } to { transform: translate(20%, 20%); } }
+
+        /* --- Header & Navigation --- */
+        header { text-align: center; padding: 60px 20px 30px; position: relative; }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--glam-pink); letter-spacing: 8px; text-transform: uppercase; }
+        header p { font-size: 0.9rem; letter-spacing: 4px; color: var(--glam-gold); font-weight: 600; margin-top: 10px; }
+
+        .nav-wrapper { position: sticky; top: 0; background: var(--glass); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .sub-nav { display: flex; justify-content: center; gap: 50px; padding: 20px 0; }
+        .sub-nav a {
+            text-decoration: none; color: #444; font-weight: 600; font-size: 0.8rem;
+            text-transform: uppercase; cursor: pointer; transition: 0.4s; position: relative;
+        }
+        .sub-nav a.active { color: var(--glam-pink); }
+        .sub-nav a::after { content: ''; position: absolute; bottom: -5px; left: 50%; width: 0; height: 2px; background: var(--glam-pink); transition: 0.3s; transform: translateX(-50%); }
+        .sub-nav a:hover::after, .sub-nav a.active::after { width: 100%; }
+
+        /* --- Page State Handling --- */
+        .page-content { display: none; animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; padding-bottom: 80px; }
+        .page-content.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- E-GIFT CARD CONTENT --- */
+        .hero-banner {
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=1600&q=80');
+            height: 400px; background-size: cover; background-position: center; margin: 20px 40px; border-radius: 24px;
+            display: flex; align-items: center; justify-content: center; color: white; text-align: center;
+        }
+        .hero-text h2 { font-family: 'Playfair Display'; font-size: 3.5rem; }
+
+        .container { max-width: 1250px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; padding: 40px 20px; }
+
+        .gift-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.5s; position: relative; }
+        .gift-card:hover { transform: translateY(-15px) scale(1.02); box-shadow: 0 20px 40px rgba(252, 39, 121, 0.15); }
+
+        .image-viewport { height: 220px; overflow: hidden; }
+        .card-image { height: 100%; width: 100%; background-size: cover; background-position: center; transition: 1.5s ease; }
+        .gift-card:hover .card-image { transform: scale(1.1); }
+
+        .card-content { padding: 30px; }
+        .card-tag { background: var(--soft-pink); color: var(--glam-pink); font-size: 0.7rem; padding: 5px 15px; border-radius: 50px; font-weight: 700; margin-bottom: 15px; display: inline-block; }
+        .send-btn {
+            background: var(--dark-text); color: white; border: none; padding: 15px; width: 100%; font-weight: 600;
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
+            border-radius: 12px; margin-top: 20px;
+        }
+        .send-btn:hover { background: var(--glam-pink); }
+
+        /* --- CORPORATE PAGE ENHANCEMENTS --- */
+        .corporate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1100px; margin: 0 auto; padding: 60px 20px; }
+        .corp-feature { padding: 40px; background: var(--soft-pink); border-radius: 24px; transition: 0.3s; }
+        .corp-feature:hover { background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .corp-feature i { font-size: 2.5rem; color: var(--glam-pink); margin-bottom: 20px; }
+
+        /* --- HOW TO USE --- */
+        .how-to-visual { display: flex; align-items: center; justify-content: center; gap: 60px; padding: 60px; flex-wrap: wrap; }
+        .step-circle { width: 250px; height: 250px; border: 2px dashed var(--glam-gold); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; transition: 0.5s; }
+        .step-circle:hover { border-style: solid; background: var(--soft-pink); transform: rotate(5deg); }
+        .step-circle span { font-size: 2rem; font-family: 'Playfair Display'; color: var(--glam-pink); margin-bottom: 10px; }
+
+        /* --- TRUST & FOOTER --- */
+        .trust-bar { background: var(--dark-text); color: white; padding: 80px 20px; display: flex; justify-content: space-around; text-align: center; }
+        .trust-item h4 { color: var(--glam-gold); margin: 15px 0 5px; letter-spacing: 2px; }
+        .trust-item i { font-size: 3rem; color: white; opacity: 0.8; }
+
+        .newsletter-bar { background: var(--soft-pink); padding: 80px 20px; text-align: center; }
+        .newsletter-bar h3 { font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 20px; }
+        .newsletter-bar input { padding: 20px; width: 400px; border: none; border-radius: 50px; margin-right: 10px; font-size: 1rem; }
+        .newsletter-bar button { padding: 20px 40px; background: var(--glam-pink); color: white; border: none; border-radius: 50px; cursor: pointer; font-weight: 700; transition: 0.3s; }
+        .newsletter-bar button:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(252, 39, 121, 0.3); }
+
+        /* --- Floating UI --- */
+        .concierge {
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: var(--glam-pink);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); cursor: pointer; z-index: 2000; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(252, 39, 121, 0.4); } 70% { box-shadow: 0 0 0 20px rgba(252, 39, 121, 0); } 100% { box-shadow: 0 0 0 0 rgba(252, 39, 121, 0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-blob"></div>
+
+    <header>
+        <h1>GLAMFLEUR</h1>
+        <p>THE ART OF LUXURY GIFTING</p>
+    </header>
+
+    <div class="nav-wrapper">
+        <div class="sub-nav">
+            <a onclick="showPage('egift')" id="link-egift" class="active">E-Gift Card</a>
+            <a onclick="showPage('corporate')" id="link-corporate">The Corporate Suite</a>
+            <a onclick="showPage('howtouse')" id="link-howtouse">User Experience</a>
+            <a onclick="showPage('terms')" id="link-terms">Terms of Luxury</a>
+        </div>
+    </div>
+
+    <div id="egift" class="page-content active">
+        <div class="hero-banner">
+            <div class="hero-text">
+                <h2>Give the Gift of Choice</h2>
+                <p>Exclusive designs for life's most beautiful moments.</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="gift-card">
+                <div class="image-viewport"><div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1549490349-8643362247b5?w=600');"></div></div>
+                <div class="card-content">
+                    <span class="card-tag">ANNIVERSARY</span>
+                    <h3>The Golden Bloom</h3>
+                    <p style="font-size: 0.85rem; color: #666; margin: 15px 0;">Eternal flowers and luxury skincare for that special milestone.</p>
+                    <button class="send-btn">PURCHASE GIFT <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="gift-card">
+                <div class="image-viewport"><div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?w=600');"></div></div>
+                <div class="card-content">
+                    <span class="card-tag">CELEBRATION</span>
+                    <h3>Midnight Velvet</h3>
+                    <p style="font-size: 0.85rem; color: #666; margin: 15px 0;">A sophisticated choice for birthdays and achievements.</p>
+                    <button class="send-btn">PURCHASE GIFT <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="gift-card">
+                <div class="image-viewport"><div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1513201099705-a9746e1e201f?w=600');"></div></div>
+                <div class="card-content">
+                    <span class="card-tag">LOVE</span>
+                    <h3>Parisian Rose</h3>
+                    <p style="font-size: 0.85rem; color: #666; margin: 15px 0;">Pure romance delivered in a digital envelope of elegance.</p>
+                    <button class="send-btn">PURCHASE GIFT <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="corporate" class="page-content">
+        <div class="corporate-grid">
+            <div class="corp-feature">
+                <i class="fas fa-gem"></i>
+                <h3>Executive Tier</h3>
+                <p>Curated luxury sets for your most valued board members and partners.</p>
+            </div>
+            <div class="corp-feature">
+                <i class="fas fa-users"></i>
+                <h3>Employee Rewards</h3>
+                <p>Automated gifting cycles for birthdays, anniversaries, and performance.</p>
+            </div>
+            <div class="corp-feature">
+                <i class="fas fa-gift"></i>
+                <h3>Bulk Customization</h3>
+                <p>Add your corporate identity and personal messages to every digital card.</p>
+            </div>
+            <div class="corp-feature" style="background: var(--glam-pink); color: white;">
+                <i class="fas fa-phone-alt" style="color: white;"></i>
+                <h3>Concierge Access</h3>
+                <p>Speak to our dedicated luxury corporate planners today.</p>
+                <button class="send-btn" style="background: white; color: var(--glam-pink);">BOOK A CALL</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="howtouse" class="page-content">
+        <h2 style="text-align: center; margin-top: 50px; font-family: 'Playfair Display'; font-size: 3rem;">How it Works</h2>
+        <div class="how-to-visual">
+            <div class="step-circle">
+                <span>01</span>
+                <p>Select a designer card template</p>
+            </div>
+            <div class="step-circle">
+                <span>02</span>
+                <p>Add a personalized video or text message</p>
+            </div>
+            <div class="step-circle">
+                <span>03</span>
+                <p>Recipient receives via instant SMS or Email</p>
+            </div>
+            <div class="step-circle">
+                <span>04</span>
+                <p>Redeemable on any GlamFleur product</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="terms" class="page-content">
+        <div style="max-width: 800px; margin: 50px auto; padding: 40px; border: 1px solid #eee; border-radius: 20px;">
+            <h2 style="font-family: 'Playfair Display'; margin-bottom: 30px;">The GlamFleur Guarantee</h2>
+            <p style="margin-bottom: 20px; color: #555;">All gift cards represent a commitment to excellence. Our terms ensure your luxury experience is protected and seamless.</p>
+            <ul style="list-style: none; color: #555;">
+                <li style="margin-bottom: 15px;"><i class="fas fa-check-circle" style="color: var(--glam-pink); margin-right: 10px;"></i> Valid for 24 months from the date of issue.</li>
+                <li style="margin-bottom: 15px;"><i class="fas fa-check-circle" style="color: var(--glam-pink); margin-right: 10px;"></i> Can be used in conjunction with seasonal sales.</li>
+                <li style="margin-bottom: 15px;"><i class="fas fa-check-circle" style="color: var(--glam-pink); margin-right: 10px;"></i> Transferable to other accounts upon verification.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="trust-bar">
+        <div class="trust-item">
+            <i class="fas fa-shield-alt"></i>
+            <h4>SECURE</h4>
+            <p>Vault-Level Encryption</p>
+        </div>
+        <div class="trust-item">
+            <i class="fas fa-infinity"></i>
+            <h4>ETERNAL</h4>
+            <p>2-Year Card Validity</p>
+        </div>
+        <div class="trust-item">
+            <i class="fas fa-globe"></i>
+            <h4>GLOBAL</h4>
+            <p>Redeem Worldwide</p>
+        </div>
+    </div>
+
+    <div class="newsletter-bar">
+        <h3>Join the Elite Circle</h3>
+        <p style="margin-bottom: 30px; color: #666;">Be the first to know about new designer card releases and luxury drops.</p>
+        <div style="display: flex; justify-content: center;">
+            <input type="email" placeholder="Your Luxury Email">
+            <button>JOIN NOW</button>
+        </div>
+    </div>
+
+
+
+    <div class="concierge">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+
+<footer class="bg-[#3f414d] text-white overflow-hidden relative md:min-h-[50vh] flex flex-col justify-between mt-20">
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 w-full">
+        <div class="grid md:grid-cols-12 gap-12 items-start">
+
+            <div class="md:col-span-7 space-y-10">
+                <div>
+                    <h1 class="text-6xl font-black italic uppercase tracking-tighter mb-8 text-[#fc2779]">GlamFleur</h1>
+                    <p class="text-gray-400 max-w-lg text-xl font-light leading-relaxed">
+                        Celebrating the eternal elegance of beauty and flowers. We bridge the gap between Parisian luxury and modern Indian grace, curating experiences that linger in the soul.
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] text-white/50">Connect With Us</h5>
+                    <div class="flex space-x-8 text-3xl">
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-5 grid grid-cols-2 gap-8">
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Explore</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/aboutus" class="hover:text-[#fc2779] transition">Who are we?</a></li>
+                        <li><a href="/authenticity" class="hover:text-[#fc2779] transition">Authenticity</a></li>
+                        <li><a href="/career" class="hover:text-[#fc2779] transition">Career</a></li>
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Support</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/privacy_policy" class="hover:text-[#fc2779] transition">Shipping Policy</a></li>
+                        <li><a href="/return_policy" class="hover:text-[#fc2779] transition">Return Center</a></li>
+
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full">
+        <div class="max-w-7xl mx-auto px-4 border-t border-white/10 py-10 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold uppercase tracking-widest text-white/40">
+            <p>© 2026 GLAMFLEUR E-RETAIL LIMITED. ALL RIGHTS RESERVED.</p>
+            <div class="flex space-x-10 mt-6 md:mt-0">
+                <a href="/privacy_policy" class="hover:text-white transition">Privacy</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Terms</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Cookies</a>
+            </div>
+        </div>
+        <div class="h-2 bg-gradient-to-r from-[#fc2779] via-[#ff7eb3] to-[#fc2779]"></div>
+    </div>
+</footer>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+
+            document.querySelectorAll('.sub-nav a').forEach(link => link.classList.remove('active'));
+            document.getElementById('link-' + pageId).classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>

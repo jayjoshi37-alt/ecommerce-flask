@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Returns & Cancellations | GlamFleur</title>
+     <link rel="stylesheet" href="/static/style.css">
+     <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600;700&display=swap');
+
+        :root { --glam-pink: #fc2779; }
+        body { font-family: 'Inter', sans-serif; color: #3f414d; scroll-behavior: smooth; }
+        .serif { font-family: 'Playfair Display', serif; }
+
+        .policy-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .policy-card:hover { transform: scale(1.02); }
+
+        .step-number {
+            background: linear-gradient(135deg, #fc2779 0%, #ff7eb3 100%);
+            box-shadow: 0 10px 20px rgba(252, 39, 121, 0.3);
+        }
+
+        /* Glassmorphism background for section */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(252, 39, 121, 0.1);
+        }
+
+        .logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-pink-100 py-4 px-8 flex justify-between items-center">
+         <div class="logo">GlamFleur</div>
+        <div class="hidden md:flex space-x-8 text-[10px] font-bold uppercase tracking-widest">
+            <a href="#cancellation" class="hover:text-[#fc2779]">Cancellations</a>
+            <a href="#returns" class="hover:text-[#fc2779]">Returns</a>
+            <a href="#refunds" class="hover:text-[#fc2779]">Refunds</a>
+        </div>
+        <a href="/helpcenter">
+        <button class="bg-black text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#fc2779] transition-all">
+            Help Center
+        </button></a>
+    </nav>
+
+    <section class="py-20 bg-white text-center px-4 overflow-hidden">
+        <div data-aos="zoom-out">
+            <h2 class="text-5xl md:text-7xl serif mb-6">Effortless <span class="italic text-[#fc2779]">Returns</span></h2>
+            <p class="text-gray-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+                Your peace of mind is our priority. If it's not perfect, we'll make it right.
+            </p>
+        </div>
+    </section>
+
+    <section id="cancellation" class="max-w-6xl mx-auto px-4 py-16">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <span class="text-[#fc2779] font-bold tracking-widest text-xs uppercase">Policy 01</span>
+                <h3 class="text-4xl serif mt-2 mb-6">Cancellation Before Shipment</h3>
+                <p class="text-gray-500 leading-loose mb-8">
+                    Changed your mind? You can cancel orders before they leave our warehouse. Simply visit 'My Orders' or contact our concierge.
+                </p>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-[#fc2779]"><i class="fa fa-clock"></i></div>
+                        <span class="font-semibold text-sm">24-48 Hours Processing for Refunds</span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-[#fc2779]"><i class="fa fa-ban"></i></div>
+                        <span class="font-semibold text-sm">No charges for pre-shipment cancellations</span>
+                    </div>
+                </div>
+            </div>
+            <div class="relative" data-aos="fade-left">
+                <div class="absolute -inset-4 bg-pink-100 rounded-[2rem] -rotate-3"></div>
+                <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=800" class="relative rounded-[2rem] shadow-xl">
+            </div>
+        </div>
+    </section>
+
+    <section id="returns" class="bg-[#3f414d] py-24 text-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-4xl serif mb-4">Our 15-Day Return Process</h2>
+                <p class="text-gray-400">Simple, transparent, and digital.</p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8 relative">
+                <div class="text-center relative z-10" data-aos="fade-up" data-aos-delay="100">
+                    <div class="step-number w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center text-2xl font-bold">1</div>
+                    <h4 class="font-bold mb-3">Request</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Go to 'Account' and select 'Return' for your items.</p>
+                </div>
+                <div class="text-center relative z-10" data-aos="fade-up" data-aos-delay="200">
+                    <div class="step-number w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center text-2xl font-bold">2</div>
+                    <h4 class="font-bold mb-3">Approval</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Our team reviews and approves within 24 hours.</p>
+                </div>
+                <div class="text-center relative z-10" data-aos="fade-up" data-aos-delay="300">
+                    <div class="step-number w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center text-2xl font-bold">3</div>
+                    <h4 class="font-bold mb-3">Pick-up</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Securely pack items in original packaging.</p>
+                </div>
+                <div class="text-center relative z-10" data-aos="fade-up" data-aos-delay="400">
+                    <div class="step-number w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center text-2xl font-bold">4</div>
+                    <h4 class="font-bold mb-3">Refund</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Amount credited back to your account in 5-7 days.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="refunds" class="py-24 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl serif text-center mb-16" data-aos="fade-up">Refund Methods</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="policy-card p-10 rounded-3xl bg-pink-50 border border-pink-100" data-aos="fade-up">
+                    <i class="fa fa-credit-card text-3xl text-[#fc2779] mb-6"></i>
+                    <h4 class="font-bold text-xl mb-4">Cards / Net Banking</h4>
+                    <p class="text-sm text-gray-500 leading-relaxed">Refunds are initiated back to the original source within 5 business days after product pickup.</p>
+                </div>
+                <div class="policy-card p-10 rounded-3xl bg-slate-900 text-white" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fa fa-wallet text-3xl text-[#fc2779] mb-6"></i>
+                    <h4 class="font-bold text-xl mb-4">Cash on Delivery</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed">For COD orders, we transfer refunds to your bank account via secure NEFT transfer.</p>
+                </div>
+                <div class="policy-card p-10 rounded-3xl bg-pink-50 border border-pink-100" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fa fa-ticket-alt text-3xl text-[#fc2779] mb-6"></i>
+                    <h4 class="font-bold text-xl mb-4">Glam Coupons</h4>
+                    <h5 class="text-xs font-bold text-[#fc2779] uppercase mb-2">Instant Option</h5>
+                    <p class="text-sm text-gray-500 leading-relaxed">Choose instant GlamFleur coupons for immediate shopping on your next purchase.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-4">
+        <div class="max-w-4xl mx-auto glass-panel p-12 rounded-[3rem]" data-aos="zoom-in">
+            <h3 class="text-2xl font-bold mb-8 flex items-center">
+                <i class="fa fa-exclamation-circle text-[#fc2779] mr-4"></i> Important to Note
+            </h3>
+            <ul class="space-y-6 text-gray-600 text-sm">
+                <li class="flex items-start">
+                    <i class="fa fa-check text-[#fc2779] mt-1 mr-4"></i>
+                    <span>Items must be returned with original brand tags, packaging, and freebies.</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fa fa-check text-[#fc2779] mt-1 mr-4"></i>
+                    <span>Personal care and customized products (e.g., lipsticks, masks) are non-returnable due to hygiene.</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fa fa-check text-[#fc2779] mt-1 mr-4"></i>
+                    <span>If you receive a damaged product, please notify us within 24 hours of delivery.</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+
+<footer class="bg-[#3f414d] text-white overflow-hidden relative md:min-h-[50vh] flex flex-col justify-between mt-20">
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 w-full">
+        <div class="grid md:grid-cols-12 gap-12 items-start">
+
+            <div class="md:col-span-7 space-y-10">
+                <div>
+                     <div class="logo">GlamFleur</div>
+                    <br>
+                    <br>
+                    <br>
+                    <p class="text-gray-400 max-w-lg text-xl font-light leading-relaxed" align="left">
+                        Celebrating the eternal elegance of beauty and flowers. We bridge the gap between Parisian luxury and modern Indian grace, curating experiences that linger in the soul.
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] text-white/50" align="left">Connect With Us</h5>
+                    <div class="flex space-x-8 text-3xl">
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-5 grid grid-cols-2 gap-8">
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Explore</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/aboutus" class="hover:text-[#fc2779] transition">Who are we?</a></li>
+                        <li><a href="/authenticity" class="hover:text-[#fc2779] transition">Authenticity</a></li>
+                        <li><a href="/career" class="hover:text-[#fc2779] transition">Career</a></li>
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Support</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/privacy_policy" class="hover:text-[#fc2779] transition">Shipping Policy</a></li>
+                        <li><a href="/return_policy" class="hover:text-[#fc2779] transition">Return Center</a></li>
+
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full">
+        <div class="max-w-7xl mx-auto px-4 border-t border-white/10 py-10 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold uppercase tracking-widest text-white/40">
+            <p>© 2026 GLAMFLEUR E-RETAIL LIMITED. ALL RIGHTS RESERVED.</p>
+            <div class="flex space-x-10 mt-6 md:mt-0">
+                <a href="/privacy_policy" class="hover:text-white transition">Privacy</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Terms</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Cookies</a>
+            </div>
+        </div>
+        <div class="h-2 bg-gradient-to-r from-[#fc2779] via-[#ff7eb3] to-[#fc2779]"></div>
+    </div>
+</footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+    </script>
+</body>
+</html>

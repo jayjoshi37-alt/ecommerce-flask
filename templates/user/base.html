@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlamFleur | Beauty Store</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* --- CORE LAYOUT ENGINE --- */
+        :root {
+            --nykaa-pink: #e91e63;
+            --sidebar-width: 280px;
+            --shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* The container that holds Sidebar + Main Content side-by-side */
+        .main-layout {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+            align-items: stretch; /* Ensures sidebar and content have equal height */
+        }
+
+        /* Sidebar Styling */
+        .user-sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            padding: 25px;
+            flex-shrink: 0; /* Prevents sidebar from squishing */
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        /* This targets the <main class="content-area"> found in your other pages */
+        .content-area {
+            flex-grow: 1;
+            width: calc(100% - var(--sidebar-width));
+            padding: 30px;
+            background-color: #f8fafc;
+        }
+
+        /* Avatar & Profile Components */
+        .user-profile-mini, .avatar-large {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--nykaa-pink);
+            color: white;
+            font-weight: bold;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .user-profile-mini img, .avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gold-badge {
+            background: #fff5f7;
+            color: var(--nykaa-pink);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid #fce4ec;
+        }
+
+        /* Header Fixes */
+        .nykaa-header {
+            z-index: 1000;
+            position: relative;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* --- ACTIVE NAV LINK STYLING --- */
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    text-decoration: none;
+    color: black; /* Default Gray */
+    font-weight: 500;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    margin-bottom: 5px;
+}
+
+.nav-link i {
+    width: 20px;
+    text-align: center;
+}
+
+/* When the link is hovered */
+.nav-link:hover {
+    background: #fff5f7;
+    color: var(--nykaa-pink);
+}
+
+/* THE SELECTED STATE */
+.nav-link.active {
+    background: var(--nykaa-pink); /* Pink Background */
+    color: white !important;       /* White Text */
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+}
+
+.nav-link.active i {
+    color: white;
+}
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <div class="promo-bar">
+        <span>✨ Welcome Back! Enjoy exclusive deals</span>
+        <div class="promo-links">
+            <a href="https://play.google.com/store/games?device=windows">Download App</a> | <a href="/helpcenter">Help Center</a>
+        </div>
+    </div>
+
+   <header class="nykaa-header" style="display: flex; align-items: center; padding: 15px 40px; justify-content: space-between; background: white; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000;">
+    <div class="logo" style="font-size: 28px; font-weight: 800; color: var(--nykaa-pink); letter-spacing: -1px;">GlamFleur</div>
+
+    <div class="search-wrapper" style="position: relative; flex-grow: 1; max-width: 600px; margin: 0 40px;">
+        <i class="fa fa-search" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+        <input type="text" id="universalSearchInput"
+               placeholder="Search brands, products or 'under 500'..."
+               style="width: 100%; padding: 14px 100px 14px 50px; border-radius: 50px; border: 1px solid #e2e8f0; background: #f8fafc; outline: none; font-size: 14px; transition: all 0.3s;"
+               onkeyup="if(event.key === 'Enter') performSmartSearch()">
+
+        <button onclick="performSmartSearch()"
+                style="position: absolute; right: 6px; top: 6px; bottom: 6px; background: var(--nykaa-pink); color: white; border: none; border-radius: 50px; padding: 0 25px; font-weight: 600; cursor: pointer; transition: 0.2s;">
+            Search
+        </button>
+    </div>
+
+    <div class="header-actions" style="display: flex; gap: 25px; align-items: center;">
+        <a href="/notifications" style="color: #64748b; font-size: 20px;"><i class="fa-regular fa-bell"></i></a>
+        <a href="/wishlist" style="color: #64748b; font-size: 20px;"><i class="fa-regular fa-heart"></i></a>
+        <a href="/cart" style="color: #64748b; font-size: 20px; position: relative;">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span id="cart-count" style="position: absolute; top: -8px; right: -10px; background: var(--nykaa-pink); color: white; font-size: 10px; padding: 2px 6px; border-radius: 50%; border: 2px solid white;">{{ cart_count or 0 }}</span>
+        </a>
+        <a href="/profile">
+            <div class="user-profile-mini" style="width: 40px; height: 40px; border: 2px solid #fce4ec;">
+                {% if user_data and user_data.profile_file %}
+                    <img src="{{ url_for('get_profile_image', email=username) }}" style="width:100%; height:100%; object-fit:cover;">
+                {% else %}
+                    <span>{{ fullname[0]|upper }}</span>
+                {% endif %}
+            </div>
+        </a>
+    </div>
+</header>
+
+
+
+
+    <div class="main-layout">
+
+        <aside class="user-sidebar">
+            <div class="profile-card" style="margin-bottom: 30px; text-align: center;">
+              <div class="avatar-large" style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: white; border: 3px solid #fce4ec;">
+    {% if user_data and user_data.profile_file %}
+       <img src="{{ url_for('get_profile_image', email=username) }}?t={{ range(1,1000000)|random }}"
+     style="width:100%; height:100%; object-fit:cover;">
+    {% else %}
+        <span style="font-size: 32px; color: var(--nykaa-pink); font-weight: bold;">{{ fullname[0]|upper }}</span>
+    {% endif %}
+</div>
+                <div class="profile-text">
+                    <h4 style="margin: 0; color: #1e293b; font-size: 18px;">{{ fullname }}</h4>
+                    <p style="margin: 5px 0 10px; font-size: 12px; color: #64748b;">{{ username }}</p>
+                    <span class="gold-badge">Gold Member</span>
+                </div>
+            </div>
+
+            <nav class="side-nav">
+                <a href="/user_dashboard" class="nav-link"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="/track_order" class="nav-link"><i class="fa-solid fa-box"></i> My Orders</a>
+                <a href="/wishlist" class="nav-link"><i class="fa-solid fa-heart"></i> Wishlist</a>
+                <a href="/offers" class="nav-link"><i class="fa-solid fa-tags"></i> Offers & Deals</a>
+                <a href="/addresses" class="nav-link"><i class="fa-solid fa-location-dot"></i> Addresses</a>
+                <a href="/payments" class="nav-link"><i class="fa-solid fa-credit-card"></i> Payments</a>
+                <a href="/notifications" class="nav-link"><i class="fa-solid fa-bell"></i> Notifications</a>
+                <a href="/profile" class="nav-link"><i class="fa-solid fa-user"></i> My Profile</a>
+                <a href="/settings" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+                <div class="nav-divider" style="height: 1px; background: #e2e8f0; margin: 15px 0;"></div>
+                <a href="/user_logout" class="nav-link logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+            </nav>
+        </aside>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the current page URL path (e.g., "/track_order")
+        const currentPath = window.location.pathname;
+
+        // Select all navigation links
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach(link => {
+            // Check if the link's href matches the current URL path
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+
+            // Optional: Handle clicks immediately if staying on the same page (AJAX/SPA style)
+            link.addEventListener('click', function() {
+                navLinks.forEach(item => item.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    });
+
+  function performSmartSearch() {
+    const query = document.getElementById('universalSearchInput').value.trim();
+    // 1. Identify where the results should go
+    let resultsContainer = document.querySelector('.product-grid');
+
+    // 2. If we are on a page without a grid (like Profile), target the main area
+    if (!resultsContainer) {
+        resultsContainer = document.querySelector('.content-area');
+    }
+
+    if (!query) {
+        window.location.href = "/user_dashboard"; // Go home if search is cleared
+        return;
+    }
+
+    // 3. Show Loading State
+    resultsContainer.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; padding: 100px 0; width: 100%;">
+            <div class="spinner" style="width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--nykaa-pink); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+            <p style="margin-top: 20px; color: #64748b; font-size: 16px;">Searching for "${query}"...</p>
+        </div>`;
+
+    fetch(`/advanced_search?q=${encodeURIComponent(query)}`)
+    .then(res => res.json())
+    .then(data => {
+        // Clear loading spinner
+        resultsContainer.innerHTML = "";
+
+        if (!data.results || data.results.length === 0) {
+            resultsContainer.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 80px 0; width: 100%;">
+                    <i class="fa-solid fa-face-frown" style="font-size: 50px; color: #cbd5e1; margin-bottom: 20px;"></i>
+                    <h3>No matches found for "${query}"</h3>
+                    <p>Try searching for "Loreal under 1000" or "Best Rated"</p>
+                </div>`;
+            return;
+        }
+
+        // 4. Create a grid if it doesn't exist (important for non-dashboard pages)
+        if (!resultsContainer.classList.contains('product-grid')) {
+            resultsContainer.style.display = 'grid';
+            resultsContainer.style.gridTemplateColumns = 'repeat(auto-fill, minmax(230px, 1fr))';
+            resultsContainer.style.gap = '25px';
+        }
+
+        data.results.forEach(p => {
+            const imgPath = p.file ? `/static/uploads/${p.file}` : '/static/images/default.jpg';
+            const stars = "⭐".repeat(Math.min(5, Math.max(1, Math.round(p.avg_rating))));
+
+            // Logic to handle if column is 'price' or 'amount'
+            const displayPrice = p.price || p.amount || "0";
+
+            resultsContainer.innerHTML += `
+            <div class="product-item" style="background: white; border-radius: 12px; padding: 15px; border: 1px solid #f1f5f9; box-shadow: var(--shadow); position: relative; animation: fadeIn 0.5s ease;">
+                <div class="image-box" style="height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                    <img src="${imgPath}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                    <button class="fav-btn" style="position: absolute; top: 10px; right: 10px; border: none; background: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <i class="fa-regular fa-heart" style="color: #cbd5e1;"></i>
+                    </button>
+                </div>
+                <div style="margin-top: 12px;">
+                    <span style="font-size: 10px; color: var(--nykaa-pink); font-weight: 800; text-transform: uppercase;">${p.brand_name || 'Premium'}</span>
+                    <h4 style="margin: 5px 0; font-size: 14px; color: #1e293b; height: 35px; overflow: hidden;">${p.product_name}</h4>
+                    <div style="font-size: 11px; color: #fbbf24; margin-bottom: 8px;">${stars} <span style="color: #94a3b8;">(${p.review_count})</span></div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 800; font-size: 16px;">₹${displayPrice}</span>
+                        <button onclick="addToCart('${p.id}')" style="background: var(--nykaa-pink); color: white; border: none; padding: 6px 15px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer;">Add</button>
+                    </div>
+                </div>
+            </div>`;
+        });
+    })
+    .catch(error => {
+        console.error("Search Error:", error);
+        resultsContainer.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red;">Search failed. Please check your connection.</p>`;
+    });
+}
+
+</script>
+
+<style>
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.product-item:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+#universalSearchInput:focus { border-color: var(--nykaa-pink); box-shadow: 0 0 0 4px #fff1f2; background: white; }
+</style>
+
+
+
+
+</script>

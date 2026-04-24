@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | GlamFleur Luxury</title>
+     <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root { --glam-pink: #fc2779; --glam-dark: #3f414d; }
+        body { font-family: 'Inter', sans-serif; color: #3f414d; scroll-behavior: smooth; background-color: #fff; }
+        .serif { font-family: 'Playfair Display', serif; }
+
+        /* Luxury Header Styles */
+        .nav-link { position: relative; transition: all 0.3s ease; }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0;
+            height: 2px; background: var(--glam-pink); transition: 0.3s;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        /* Policy Card Glow */
+        .policy-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            border: 1px solid rgba(252, 39, 121, 0.05);
+        }
+        .policy-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(252, 39, 121, 0.08);
+            border-color: rgba(252, 39, 121, 0.2);
+        }
+
+        /* Side Nav Glassmorphism */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(252, 39, 121, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #fdf2f8; }
+        ::-webkit-scrollbar-thumb { background: var(--glam-pink); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-black text-white text-[10px] py-2 text-center font-bold tracking-[0.2em] uppercase">
+        Beauty Bonanza: Get Your Amazing Deals!
+    </div>
+
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-8">
+            <h1 class="text-3xl font-black italic text-[#fc2779] uppercase tracking-tighter">GlamFleur</h1>
+            <div class="hidden lg:flex space-x-6 text-[11px] font-bold uppercase tracking-widest text-gray-600">
+                <a href="#" class="nav-link">Categories</a>
+                <a href="#" class="nav-link">Brands</a>
+                <a href="#" class="nav-link">Luxe</a>
+                <a href="#" class="nav-link">Beauty Advice</a>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-6">
+            <div class="relative hidden md:block">
+                <input type="text" placeholder="Search for products..." class="bg-gray-100 border-none rounded-md px-4 py-2 text-xs w-64 focus:ring-2 focus:ring-pink-200 outline-none">
+                <i class="fa fa-search absolute right-3 top-2.5 text-gray-400 text-xs"></i>
+            </div>
+            <div class="flex items-center space-x-4 text-sm text-gray-700">
+                <a href="#" class="flex items-center font-semibold hover:text-[#fc2779]">
+                    <i class="fa fa-user-circle mr-2 text-lg"></i> Account
+                </a>
+                <a href="#" class="hover:text-[#fc2779] text-xl relative">
+                    <i class="fa fa-shopping-bag"></i>
+                    <span class="absolute -top-1 -right-1 bg-[#fc2779] text-white text-[8px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative bg-[#fff5f8] pt-24 pb-32 overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-[#fc2779]/5 rounded-bl-[200px] -z-0"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="max-w-3xl" data-aos="fade-right">
+                <span class="text-[#fc2779] font-black tracking-[0.3em] text-xs uppercase">Legal Framework</span>
+                <h2 class="text-6xl md:text-8xl serif mt-4 mb-8 leading-tight">Terms of <br><span class="italic text-[#fc2779]">Engagement</span></h2>
+                <p class="text-gray-500 text-lg font-light leading-relaxed mb-8">
+                    By choosing GlamFleur, you are entering a world of authentic luxury and premium service. These terms ensure a safe, transparent, and beautiful shopping journey for you.
+                </p>
+                <div class="flex items-center text-xs font-bold text-gray-400 uppercase tracking-widest">
+                    <span class="w-12 h-[1px] bg-gray-300 mr-4"></span> Revised March 2026
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 -mt-16 flex flex-col md:flex-row gap-16 pb-32">
+
+        <aside class="md:w-1/4">
+            <div class="sticky top-32 glass-nav p-8 rounded-[2rem] shadow-sm">
+                <h4 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-8">Index</h4>
+                <nav class="space-y-6">
+                    <a href="#platform" class="group flex items-center text-xs font-bold uppercase tracking-wider text-[#fc2779]">
+                        <span class="w-8 h-8 rounded-full border border-pink-200 flex items-center justify-center mr-4 group-hover:bg-[#fc2779] group-hover:text-white transition-all">01</span>
+                        Platform Use
+                    </a>
+                    <a href="#privacy" class="group flex items-center text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-[#fc2779]">
+                        <span class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center mr-4 group-hover:bg-[#fc2779] group-hover:text-white transition-all">02</span>
+                        Privacy
+                    </a>
+                    <a href="#account" class="group flex items-center text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-[#fc2779]">
+                        <span class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center mr-4 group-hover:bg-[#fc2779] group-hover:text-white transition-all">03</span>
+                        User Account
+                    </a>
+                    <a href="#ip" class="group flex items-center text-xs font-bold uppercase tracking-wider text-gray-400 hover:text-[#fc2779]">
+                        <span class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center mr-4 group-hover:bg-[#fc2779] group-hover:text-white transition-all">04</span>
+                        Copyright
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <section class="md:w-3/4 space-y-12">
+
+            <div id="platform" class="policy-card p-12 rounded-[2.5rem]" data-aos="fade-up">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-3xl serif">1. Use of Platform</h3>
+                    <i class="fa fa-globe text-pink-100 text-4xl"></i>
+                </div>
+                <div class="text-gray-500 text-sm leading-loose space-y-6">
+                    <p>Welcome to <strong>www.glamfleur.com</strong>. Your access and use of the platform constitutes your unconditional agreement to all terms listed herein.</p>
+                    <p>The platform is designed exclusively for personal, non-commercial use. Users are prohibited from using automated scripts or scrapers to extract product data.</p>
+                </div>
+            </div>
+
+            <div id="account" class="policy-card p-12 rounded-[2.5rem] bg-slate-900 text-white" data-aos="fade-up">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-3xl serif">2. Account Responsibility</h3>
+                    <i class="fa fa-shield-alt text-[#fc2779] text-4xl"></i>
+                </div>
+                <p class="text-gray-400 text-sm leading-loose mb-8">
+                    You are the sole custodian of your GlamFleur account credentials. Any activity occurring under your account is your legal responsibility.
+                </p>
+                <div class="p-6 bg-white/5 border border-white/10 rounded-2xl italic text-xs">
+                    "GlamFleur reserves the right to terminate accounts that exhibit fraudulent or suspicious purchasing patterns."
+                </div>
+            </div>
+
+            <div id="privacy" class="policy-card p-12 rounded-[2.5rem]" data-aos="fade-up">
+                <h3 class="text-3xl serif mb-8">3. Privacy & Data</h3>
+                <p class="text-gray-500 text-sm leading-loose mb-6">
+                    We process your information in accordance with our <strong>Global Privacy Standard</strong>. We never sell your personal beauty data to third-party advertisers.
+                </p>
+                <ul class="grid grid-cols-2 gap-4">
+                    <li class="flex items-center text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                        <i class="fa fa-check text-[#fc2779] mr-2"></i> Encrypted Data
+                    </li>
+                    <li class="flex items-center text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                        <i class="fa fa-check text-[#fc2779] mr-2"></i> GDPR Compliant
+                    </li>
+                </ul>
+            </div>
+
+            <div id="ip" class="policy-card p-12 rounded-[2.5rem]" data-aos="fade-up">
+                <h3 class="text-3xl serif mb-8">4. Intellectual Property</h3>
+                <p class="text-gray-500 text-sm leading-loose">
+                    All content, including product photography, logos, and UI code, is the property of <strong>GlamFleur E-Retail Limited</strong>. Unauthorized reproduction is a violation of international copyright laws.
+                </p>
+            </div>
+
+        </section>
+    </main>
+
+
+<footer class="bg-[#3f414d] text-white overflow-hidden relative md:min-h-[50vh] flex flex-col justify-between mt-20">
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 w-full">
+        <div class="grid md:grid-cols-12 gap-12 items-start">
+
+            <div class="md:col-span-7 space-y-10">
+                <div>
+                    <h1 class="text-6xl font-black italic uppercase tracking-tighter mb-8 text-[#fc2779]">GlamFleur</h1>
+                    <p class="text-gray-400 max-w-lg text-xl font-light leading-relaxed">
+                        Celebrating the eternal elegance of beauty and flowers. We bridge the gap between Parisian luxury and modern Indian grace, curating experiences that linger in the soul.
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] text-white/50">Connect With Us</h5>
+                    <div class="flex space-x-8 text-3xl">
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-5 grid grid-cols-2 gap-8">
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Explore</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/aboutus" class="hover:text-[#fc2779] transition">Who are we?</a></li>
+                        <li><a href="/authenticity" class="hover:text-[#fc2779] transition">Authenticity</a></li>
+                        <li><a href="/career" class="hover:text-[#fc2779] transition">Career</a></li>
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Support</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/privacy_policy" class="hover:text-[#fc2779] transition">Shipping Policy</a></li>
+                        <li><a href="/return_policy" class="hover:text-[#fc2779] transition">Return Center</a></li>
+
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full">
+        <div class="max-w-7xl mx-auto px-4 border-t border-white/10 py-10 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold uppercase tracking-widest text-white/40">
+            <p>© 2026 GLAMFLEUR E-RETAIL LIMITED. ALL RIGHTS RESERVED.</p>
+            <div class="flex space-x-10 mt-6 md:mt-0">
+                <a href="/privacy_policy" class="hover:text-white transition">Privacy</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Terms</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Cookies</a>
+            </div>
+        </div>
+        <div class="h-2 bg-gradient-to-r from-[#fc2779] via-[#ff7eb3] to-[#fc2779]"></div>
+    </div>
+</footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1200, once: true, easing: 'ease-out-back' });
+    </script>
+</body>
+</html>

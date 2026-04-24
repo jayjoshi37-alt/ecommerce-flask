@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice_{{ order.order_no }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(90deg, #ff2d75, #8a2be2);
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 40px 0;
+        }
+
+        /* Update this in your existing CSS */
+.invoice-wrapper {
+    max-width: 850px;
+    margin: auto;
+    background: white;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative;
+    box-sizing: border-box; /* Ensures padding doesn't push width out */
+}
+
+        /* Header */
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid #f1f1f1;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+
+        .brand-logo {
+            font-size: 32px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .invoice-details {
+            text-align: right;
+        }
+
+        .invoice-details h2 {
+            margin: 0;
+            color: var(--text-dark);
+            letter-spacing: 1px;
+        }
+
+        /* Table Style */
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+
+        .invoice-table th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        .invoice-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .product-info img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #eee;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        /* Summary */
+        .invoice-summary {
+            margin-left: auto;
+            width: 300px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid #ff2d75;
+            margin-top: 10px;
+            padding-top: 15px;
+            font-size: 20px;
+            font-weight: 800;
+            color: #ff2d75;
+        }
+
+        /* Action Buttons */
+        .no-print {
+            max-width: 850px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-download {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Print Media Query */
+
+@media print {
+    @page {
+        size: auto;
+        margin: 10mm; /* Minimal margin for PDF generation */
+    }
+        body {
+        background: white;
+        padding: 0;
+        margin: 0;
+    }
+        .no-print {
+        display: none !important;
+    }
+
+    .invoice-wrapper {
+        box-shadow: none !important;
+        border: none !important;
+        width: 100% !important; /* Force full width on paper */
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 20px !important; /* Reduce padding for print to fit content */
+        transform: scale(0.98); /* Slight scale down to prevent edge cutting */
+        transform-origin: top left;
+    }
+        /* Prevent large images or tables from breaking the layout */
+    .invoice-table {
+        page-break-inside: auto;
+        width: 100% !important;
+    }
+
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <div class="no-print">
+        <a href="/track_order" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Back to Orders</a>
+        <button class="btn-download" onclick="window.print()">
+            <i class="fa-solid fa-file-pdf"></i> Download / Print PDF
+        </button>
+    </div>
+
+    <div class="invoice-wrapper">
+        <div class="invoice-header">
+            <div>
+                <div class="brand-logo">GlamFleur</div>
+                <p style="color: var(--text-light); margin-top: 5px;">
+                    123 Beauty Lane, Mumbai, India<br>
+                    support@glamfleur.com
+                </p>
+            </div>
+            <div class="invoice-details">
+                <h2>INVOICE</h2>
+                <p style="color: var(--text-light);">
+                    Order ID: <strong>#{{ order.order_no }}</strong><br>
+                    Date: {{ order.date }}<br>
+                    Status: <span style="color: #27ae60;">{{ order.status }}</span>
+                </p>
+            </div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h4 style="margin-bottom: 5px;">Bill To:</h4>
+            <p style="color: var(--text-light); margin: 0;">{{ order.customer }}</p>
+        </div>
+<div style="margin-bottom: 20px;">
+    <h4 style="margin-bottom: 5px;">GST Details:</h4>
+    <p style="color: var(--text-light); margin:0;">
+        GSTIN: 27ABCDE1234F1Z5<br>
+
+        State: {{ address.state if address else 'Maharashtra' }}<br>
+
+
+    </p>
+</div>
+
+
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>Product Details</th>
+                    <th>Price</th>
+                    <th style="text-align: center;">Qty</th>
+                    <th style="text-align: right;">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>
+                        <div class="product-info">
+                            <img src="{{ url_for('static', filename='uploads/' + (item.file if item.file else 'default.jpg')) }}" alt="product">
+                            <div>
+                                <p class="product-name">{{ item.product_name }}</p>
+                                <small style="color: gray;">Category: {{ item.category_name }}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>₹ {{ item.amount }}</td>
+                    <td style="text-align: center;">1</td>
+                    <td style="text-align: right; font-weight: 600;">₹ {{ item.amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+      <div class="invoice-summary">
+    <div class="summary-row">
+        <span>Subtotal</span>
+        <span>₹ {{ "%.2f"|format(subtotal) }}</span>
+    </div>
+
+    <div class="summary-row">
+        <span>CGST (9%)</span>
+        <span>₹ {{ "%.2f"|format(cgst) }}</span>
+    </div>
+
+    <div class="summary-row">
+        <span>SGST (9%)</span>
+        <span>₹ {{ "%.2f"|format(sgst) }}</span>
+    </div>
+
+    <div class="summary-row">
+        <span>Shipping</span>
+        <span style="color: green;">FREE</span>
+    </div>
+
+    <div class="summary-row total">
+        <span>Grand Total</span>
+        <span>₹ {{ "%.2f"|format(total) }}</span>
+    </div>
+</div>
+        <div style="margin-top: 50px; text-align: center; border-top: 1px solid #eee; padding-top: 20px;">
+            <p style="color: var(--text-light); font-size: 14px;">
+                Thank you for choosing <strong>GlamFleur</strong>! ✨<br>
+                For any queries, contact us at support@glamfleur.com
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

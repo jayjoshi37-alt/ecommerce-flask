@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlamFleur | Store Locator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; color: #3f414d; }
+        .glam-pink { color: #fc2779; }
+        .bg-glam-pink { background-color: #fc2779; }
+        .store-list-container::-webkit-scrollbar { width: 4px; }
+        .store-list-container::-webkit-scrollbar-thumb { background: #fc2779; border-radius: 10px; }
+
+        /* Animations */
+        .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body>
+
+    <div class="bg-pink-100 text-center py-2 text-[11px] font-bold tracking-widest uppercase">
+        Beauty Bonanza Get Your Amazing Deals!
+    </div>
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-10">
+                <h1 class="text-3xl font-black glam-pink italic uppercase tracking-tighter">GlamFleur</h1>
+                <div class="hidden lg:flex space-x-6 text-sm font-bold text-gray-700">
+                    <a href="#" class="hover:text-pink-500">Categories</a>
+                    <a href="#" class="hover:text-pink-500">Brands</a>
+                    <a href="#" class="hover:text-pink-500">Luxe</a>
+                    <a href="#" class="hover:text-pink-500">Beauty Advice</a>
+                </div>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="relative hidden md:block">
+                    <input type="text" placeholder="Search for products..." class="bg-gray-100 rounded py-2 px-10 text-sm w-72 focus:outline-none border border-transparent focus:border-pink-300">
+                    <i class="fa fa-search absolute left-3 top-2.5 text-gray-400"></i>
+                </div>
+                <div class="flex items-center space-x-4 font-bold text-sm text-gray-700">
+                    <a href="/userlogin">
+                    <button><i class="fa fa-user-circle mr-2 text-lg"></i> Account</button></a>
+                    <a href="/userlogin">
+                        <button><i class="fa fa-shopping-bag text-lg"></i></button></a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6">
+        <div class="text-[11px] text-gray-400 mb-6 uppercase font-bold tracking-wider">Home > store & events</div>
+
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div class="py-6 border-b text-center">
+                <h2 class="text-2xl font-bold text-slate-800">Find A GlamFleur Store Near You</h2>
+            </div>
+
+            <div class="flex flex-col lg:flex-row h-[650px]">
+                <div class="w-full lg:w-1/3 flex flex-col border-r border-gray-200">
+                    <div class="p-4 bg-gray-50 flex space-x-2">
+                        <div class="relative flex-1">
+                            <i class="fa fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" placeholder="Search City" class="w-full pl-9 pr-4 py-2 border rounded text-sm focus:ring-1 focus:ring-pink-500 outline-none">
+                        </div>
+                        <button class="px-4 py-2 border rounded bg-white font-bold text-sm flex items-center">
+                            <i class="fa fa-filter mr-2 text-gray-400"></i> Brand
+                        </button>
+                    </div>
+
+                    <div class="store-list-container overflow-y-auto flex-1">
+                        <div class="p-6 border-b hover:bg-gray-50 cursor-pointer transition-colors border-l-4 border-l-transparent hover:border-l-pink-500">
+                            <h3 class="font-bold text-lg text-slate-800">GlamFleur Luxe - Infiniti Mall</h3>
+                            <p class="text-[11px] text-green-600 font-bold mt-1 uppercase">Open : 11:00 AM - 09:30 PM</p>
+                            <p class="text-sm text-gray-500 mt-2 leading-relaxed">
+                                Ground Floor, Unit No 14, New Link Road, Oshiwara, Andheri West, Mumbai - 400053
+                            </p>
+                            <button class="w-full mt-4 py-2.5 border border-pink-500 text-pink-500 font-bold rounded text-xs tracking-widest uppercase hover:bg-pink-50">
+                                Get Directions <i class="fa fa-chevron-right ml-1 text-[10px]"></i>
+                            </button>
+                            <p class="text-pink-500 text-[11px] mt-3 font-bold underline cursor-pointer">Store Details</p>
+                        </div>
+
+                        <div class="p-6 border-b bg-pink-50/30 border-l-4 border-l-pink-500">
+                            <h3 class="font-bold text-lg text-slate-800">GlamFleur On Trend - Seawoods</h3>
+                            <p class="text-[11px] text-green-600 font-bold mt-1 uppercase">Open : 11:00 AM - 09:30 PM</p>
+                            <p class="text-sm text-gray-500 mt-2 leading-relaxed">
+                                Upper Ground floor, Plot No. R-1, Sector 40, Navi Mumbai - 400706
+                            </p>
+                            <button class="w-full mt-4 py-2.5 border border-pink-500 text-pink-500 font-bold rounded text-xs tracking-widest uppercase hover:bg-pink-50">
+                                Get Directions <i class="fa fa-chevron-right ml-1 text-[10px]"></i>
+                            </button>
+                            <p class="text-pink-500 text-[11px] mt-3 font-bold underline cursor-pointer">Store Details</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-2/3 bg-slate-100 relative">
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        frameborder="0"
+                        scrolling="no"
+                        marginheight="0"
+                        marginwidth="0"
+                        src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Mumbai+Infiniti+Mall&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+                    </iframe>
+                    <div class="absolute top-4 right-4 flex flex-col space-y-2">
+                        <button class="bg-white p-2.5 shadow-md rounded-md hover:bg-gray-50"><i class="fa fa-expand text-gray-600"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+<footer class="bg-[#3f414d] text-white overflow-hidden relative md:min-h-[50vh] flex flex-col justify-between mt-20">
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 w-full">
+        <div class="grid md:grid-cols-12 gap-12 items-start">
+
+            <div class="md:col-span-7 space-y-10">
+                <div>
+                    <h1 class="text-6xl font-black italic uppercase tracking-tighter mb-8 text-[#fc2779]">GlamFleur</h1>
+                    <p class="text-gray-400 max-w-lg text-xl font-light leading-relaxed">
+                        Celebrating the eternal elegance of beauty and flowers. We bridge the gap between Parisian luxury and modern Indian grace, curating experiences that linger in the soul.
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] text-white/50">Connect With Us</h5>
+                    <div class="flex space-x-8 text-3xl">
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-5 grid grid-cols-2 gap-8">
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Explore</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/aboutus" class="hover:text-[#fc2779] transition">Who are we?</a></li>
+                        <li><a href="/authenticity" class="hover:text-[#fc2779] transition">Authenticity</a></li>
+                        <li><a href="/career" class="hover:text-[#fc2779] transition">Career</a></li>
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Support</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/privacy_policy" class="hover:text-[#fc2779] transition">Shipping Policy</a></li>
+                        <li><a href="/return_policy" class="hover:text-[#fc2779] transition">Return Center</a></li>
+
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full">
+        <div class="max-w-7xl mx-auto px-4 border-t border-white/10 py-10 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold uppercase tracking-widest text-white/40">
+            <p>© 2026 GLAMFLEUR E-RETAIL LIMITED. ALL RIGHTS RESERVED.</p>
+            <div class="flex space-x-10 mt-6 md:mt-0">
+                <a href="/privacy_policy" class="hover:text-white transition">Privacy</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Terms</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Cookies</a>
+            </div>
+        </div>
+        <div class="h-2 bg-gradient-to-r from-[#fc2779] via-[#ff7eb3] to-[#fc2779]"></div>
+    </div>
+</footer>
+
+</body>
+</html>

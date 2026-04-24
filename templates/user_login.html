@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>User Login | GlamFleur</title>
+
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
+<style>
+
+:root {
+
+--glam-pink: #ff2d75;
+
+--glam-purple: #8a2be2;
+
+--glass-bg: rgba(255, 255, 255, 0.7);
+
+}
+
+
+
+body {
+
+font-family: 'Outfit', sans-serif;
+
+background: #0f172a; /* Dark sleek background to make the card pop */
+
+overflow: hidden;
+
+height: 100vh;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+margin: 0;
+
+}
+
+
+
+/* Animated Background Bubbles */
+
+.bubble {
+
+position: absolute;
+
+border-radius: 50%;
+
+background: linear-gradient(45deg, var(--glam-pink), var(--glam-purple));
+
+filter: blur(80px);
+
+z-index: 0;
+
+opacity: 0.4;
+
+animation: move 20s infinite alternate;
+
+}
+
+
+
+@keyframes move {
+
+from { transform: translate(0, 0); }
+
+to { transform: translate(200px, 100px); }
+
+}
+
+
+
+.login-card {
+
+background: var(--glass-bg);
+
+backdrop-filter: blur(20px);
+
+-webkit-backdrop-filter: blur(20px);
+
+border: 1px solid rgba(255, 255, 255, 0.3);
+
+border-radius: 40px;
+
+box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+
+max-width: 1100px;
+
+width: 95%;
+
+display: flex;
+
+overflow: hidden;
+
+min-height: 650px;
+
+z-index: 1;
+
+animation: cardEntrance 1s ease-out;
+
+}
+
+
+
+@keyframes cardEntrance {
+
+from { opacity: 0; transform: translateY(30px); }
+
+to { opacity: 1; transform: translateY(0); }
+
+}
+
+
+
+/* --- LEFT COLUMN: THE FORM --- */
+
+.login-left {
+
+flex: 1;
+
+padding: 60px;
+
+display: flex;
+
+flex-direction: column;
+
+justify-content: center;
+
+background: rgba(255, 252, 242, 0.4);
+
+}
+
+
+
+.brand-logo {
+
+font-size: 38px;
+
+font-weight: 800;
+
+background: linear-gradient(90deg, var(--glam-pink), var(--glam-purple));
+
+-webkit-background-clip: text;
+
+-webkit-text-fill-color: transparent;
+
+margin-bottom: 5px;
+
+}
+
+
+
+.subtitle { color: #475569; font-size: 16px; margin-bottom: 40px; }
+
+
+
+.form-group {
+
+opacity: 0;
+
+animation: fadeInRight 0.5s ease forwards;
+
+}
+
+
+
+@keyframes fadeInRight {
+
+from { opacity: 0; transform: translateX(-20px); }
+
+to { opacity: 1; transform: translateX(0); }
+
+}
+
+
+
+.input-box {
+
+width: 100%;
+
+background: rgba(255, 255, 255, 0.9);
+
+border: 1px solid rgba(0,0,0,0.05);
+
+border-radius: 20px;
+
+padding: 15px 25px;
+
+margin-bottom: 20px;
+
+outline: none;
+
+transition: 0.4s;
+
+box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+
+}
+
+
+
+.input-box:focus {
+
+border-color: var(--glam-pink);
+
+box-shadow: 0 0 0 5px rgba(255, 45, 117, 0.1);
+
+transform: scale(1.02);
+
+}
+
+
+
+.primary-btn {
+
+width: 100%;
+
+background: linear-gradient(90deg, var(--glam-pink), var(--glam-purple));
+
+color: white;
+
+border: none;
+
+border-radius: 20px;
+
+padding: 16px;
+
+font-weight: 700;
+
+letter-spacing: 1px;
+
+transition: 0.4s;
+
+text-transform: uppercase;
+
+}
+
+
+
+.primary-btn:hover {
+
+box-shadow: 0 15px 30px rgba(255, 45, 117, 0.4);
+
+transform: translateY(-3px);
+
+filter: brightness(1.1);
+
+}
+
+
+
+/* --- RIGHT COLUMN: BEAUTY PRODUCTS CAROUSEL --- */
+
+.login-right {
+
+flex: 1.2;
+
+position: relative;
+
+display: none;
+
+background: #000;
+
+}
+
+
+
+@media (min-width: 992px) { .login-right { display: block; } }
+
+
+
+/* Product Image Carousel Styling */
+
+.carousel-item img {
+
+height: 650px;
+
+object-fit: cover;
+
+filter: brightness(0.7);
+
+}
+
+
+
+.carousel-overlay {
+
+position: absolute;
+
+bottom: 0; left: 0; right: 0; top: 0;
+
+background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+
+display: flex;
+
+flex-direction: column;
+
+justify-content: flex-end;
+
+padding: 50px;
+
+color: white;
+
+z-index: 2;
+
+}
+
+
+
+.glass-widget {
+
+background: rgba(255, 255, 255, 0.15);
+
+backdrop-filter: blur(10px);
+
+border: 1px solid rgba(255,255,255,0.2);
+
+border-radius: 25px;
+
+padding: 20px;
+
+margin-bottom: 20px;
+
+animation: float 5s infinite ease-in-out;
+
+}
+
+
+
+@keyframes float {
+
+0%, 100% { transform: translateY(0); }
+
+50% { transform: translateY(-10px); }
+
+}
+
+
+
+.close-btn {
+
+position: absolute;
+
+top: 30px;
+
+right: 30px;
+
+background: white;
+
+width: 40px;
+
+height: 40px;
+
+border-radius: 50%;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+text-decoration: none;
+
+z-index: 100;
+
+transition: 0.3s;
+
+}
+
+.close-btn:hover { transform: rotate(90deg) scale(1.1); }
+
+
+
+</style>
+
+</head>
+
+<body>
+
+
+
+<div class="bubble" style="width: 400px; height: 400px; top: -100px; left: -100px;"></div>
+
+<div class="bubble" style="width: 300px; height: 300px; bottom: -50px; right: -50px; background: var(--glam-purple);"></div>
+
+
+
+<div class="login-card">
+
+
+
+<div class="login-left">
+
+<div class="brand-logo">GlamFleur</div>
+
+<h3 class="subtitle">Experience the art of beauty.</h3>
+
+{% block content %}
+
+<form method="POST" action="{{ url_for('user_login') }}">
+
+<div class="form-group" style="animation-delay: 0.2s">
+
+<input type="text" name="txtUsername" class="input-box" placeholder="Email or Username" required>
+
+</div>
+
+
+
+<div class="form-group" style="animation-delay: 0.3s">
+
+<input type="password" name="txtPassword" class="input-box" placeholder="Password" required>
+<div class="auth-footer">
+<a href="{{ url_for('forgot_password') }}">
+Forgot Password?
+</a>
+</div>
+
+<div class="text-end" style="margin-top: -15px; margin-bottom: 20px; padding-right: 10px;">
+
+
+
+</div>
+
+</div>
+
+
+
+<div class="form-group" style="animation-delay: 0.4s">
+
+<button type="submit" class="primary-btn">Sign In</button>
+
+</div>
+
+
+
+{% if message %}
+
+<div class="mt-3 text-center animate__animated animate__shakeX" style="color: var(--glam-pink); font-weight: 600;">
+
+<i class="fa fa-exclamation-triangle"></i> {{ message }}
+
+</div>
+
+{% endif %}
+
+</form>
+
+{% endblock %}
+
+<div class="text-center my-4 text-muted small" style="opacity: 0.7;">— OR CONTINUE WITH —</div>
+
+
+
+<div class="d-flex gap-3 form-group" style="animation-delay: 0.5s">
+
+<button class="social-btn flex-fill input-box mb-0 d-flex align-items-center justify-content-center gap-2">
+
+<img src="https://www.google.com/favicon.ico" width="16"> Google
+
+</button>
+
+<button class="social-btn flex-fill input-box mb-0 d-flex align-items-center justify-content-center gap-2">
+
+<i class="fab fa-facebook text-primary"></i> Facebook
+
+</button>
+
+</div>
+
+
+
+<p class="text-center mt-5 form-group" style="animation-delay: 0.6s">
+
+<span class="text-muted">New to the family?</span>
+
+<a href="/registration" style="color: var(--glam-pink); text-decoration: none; font-weight: 700;">Join Now</a>
+
+</p>
+
+</div>
+
+
+
+<div class="login-right">
+
+<a href="/" class="close-btn"><i class="fa fa-times text-dark"></i></a>
+
+
+
+<div id="beautyCarousel" class="carousel slide carousel-fade h-100" data-bs-ride="carousel">
+
+<div class="carousel-inner h-100">
+
+
+
+<div class="carousel-item active h-100">
+
+<img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?q=80&w=2070&auto=format&fit=crop"
+
+class="d-block w-100"
+
+alt="Luxury Skincare Serum">
+
+</div>
+
+
+
+
+
+
+
+<div class="carousel-item h-100">
+
+<img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=2070&auto=format&fit=crop"
+
+class="d-block w-100"
+
+alt="Organic Skin Care">
+
+</div>
+
+
+
+<div class="carousel-item h-100">
+
+<img src="/static/images/istockphoto-2216819954-612x612.jpg"
+
+class="d-block w-100"
+
+alt="Luxury Beauty Products">
+
+</div>
+
+
+
+</div>
+
+</div>
+
+
+
+<div class="carousel-overlay">
+
+<div class="glass-widget">
+
+<div id="live-clock">--:--:--</div>
+
+<div id="live-date">...</div>
+
+</div>
+
+<h2 class="fw-bold">Beauty in Every Detail</h2>
+
+<p class="opacity-75">Join thousands of beauty enthusiasts today and get exclusive access to new arrivals.</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+function updateClock() {
+
+const now = new Date();
+
+const time = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+const date = now.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+
+
+
+document.getElementById('live-clock').textContent = time;
+
+document.getElementById('live-date').textContent = date;
+
+}
+
+setInterval(updateClock, 1000);
+
+updateClock();
+
+</script>
+
+{% block scripts %}{% endblock %}
+
+</body>
+
+</html>

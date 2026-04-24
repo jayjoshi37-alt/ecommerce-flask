@@ -1,0 +1,251 @@
+{% include 'user/base.html' %}
+    <style>
+        /* Specific Styles for Payment Dashboard */
+        .payment-banner {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .security-note {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 15px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            color: #166534;
+            font-size: 14px;
+        }
+
+        .payment-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .p-stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .p-stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .method-card {
+            border-radius: 20px;
+            padding: 25px;
+            color: white;
+            position: relative;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-hdfc { background: linear-gradient(135deg, #1e40af, #3b82f6); }
+        .card-gpay { background: linear-gradient(135deg, #059669, #10b981); }
+        .card-sbi { background: linear-gradient(135deg, #4338ca, #6366f1); }
+        .card-wallet { background: linear-gradient(135deg, #db2777, #f472b6); }
+
+        .card-number {
+            font-size: 20px;
+            letter-spacing: 3px;
+            margin: 20px 0;
+        }
+
+        .method-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 0 0 20px 20px;
+            margin: 0 -25px -25px -25px;
+            color: #333;
+        }
+
+        .bank-offers-section {
+            background: #fff1f2;
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px dashed #fb7185;
+        }
+
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .offer-item {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 4px solid #e11d48;
+        }
+
+        .action-link { color: #e11d48; font-weight: 600; cursor: pointer; font-size: 14px; }
+
+        .proceed-btn {
+            width: 100%;
+            background: var(--primary-pink);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+        }
+        .proceed-btn:hover {
+            background: var(--hover-pink);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+        }
+
+    </style>
+
+    <main class="content-area">
+        <div class="payment-banner">
+            <div>
+                <h2 style="margin:0"><i class="fa-solid fa-credit-card"></i> Payment Methods 💳</h2>
+                <p style="margin:5px 0 0; opacity:0.8">Manage your payment options securely</p>
+            </div>
+                   <form method="POST" action="/create_razorpay_order">
+    <button type="submit" class="proceed-btn">
+         + add payment <i class="fa-solid fa-arrow-right"></i>
+    </button>
+</form>
+        </div>
+
+        <div class="security-note">
+            <i class="fa-solid fa-shield-check" style="font-size: 20px;"></i>
+            <span><strong>Your payments are secure.</strong> All payment information is encrypted and securely stored. We never share your card details.</span>
+        </div>
+
+        <div class="payment-stats">
+            <div class="p-stat-card">
+                <div class="p-stat-icon" style="background:#e0f2fe; color:#0369a1;"><i class="fa-solid fa-credit-card"></i></div>
+                <div><strong>2</strong><br><span style="font-size:12px; color:gray">Cards</span></div>
+            </div>
+            <div class="p-stat-card">
+                <div class="p-stat-icon" style="background:#dcfce7; color:#15803d;"><i class="fa-solid fa-mobile-screen"></i></div>
+                <div><strong>1</strong><br><span style="font-size:12px; color:gray">UPI</span></div>
+            </div>
+            <div class="p-stat-card">
+                <div class="p-stat-icon" style="background:#f3e8ff; color:#7e22ce;"><i class="fa-solid fa-wallet"></i></div>
+                <div><strong>1</strong><br><span style="font-size:12px; color:gray">Wallets</span></div>
+            </div>
+            <div class="p-stat-card">
+                <div class="p-stat-icon" style="background:#fff7ed; color:#c2410c;"><i class="fa-solid fa-star"></i></div>
+                <div><strong>4</strong><br><span style="font-size:12px; color:gray">Total</span></div>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom:20px;">Saved Payment Methods</h3>
+        <div class="payment-grid">
+            <div class="method-card card-hdfc">
+                <div style="display:flex; justify-content:space-between;">
+                    <strong>HDFC Credit Card</strong>
+                    <span style="background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:4px; font-size:10px;">DEFAULT</span>
+                </div>
+                <div class="card-number">**** **** **** 8524</div>
+                <div class="method-footer">
+                    <span class="action-link">Set as Default</span>
+                    <i class="fa-regular fa-trash-can" style="cursor:pointer; color:#ef4444"></i>
+                </div>
+            </div>
+
+            <div class="method-card card-gpay">
+                <div style="display:flex; justify-content:space-between;">
+                    <strong>Google Pay</strong>
+                    <i class="fa-brands fa-google-pay" style="font-size:24px"></i>
+                </div>
+                <div class="card-number" style="letter-spacing:1px; font-size:16px;">{{ username }}@oksbi</div>
+                <div class="method-footer">
+                    <span class="action-link">Set as Default</span>
+                    <i class="fa-regular fa-trash-can" style="cursor:pointer; color:#ef4444"></i>
+                </div>
+            </div>
+
+            <div class="method-card card-sbi">
+                <div><strong>SBI Debit Card</strong></div>
+                <div class="card-number">**** **** **** 1234</div>
+                <div class="method-footer">
+                    <span class="action-link">Set as Default</span>
+                    <i class="fa-regular fa-trash-can" style="cursor:pointer; color:#ef4444"></i>
+                </div>
+            </div>
+
+            <div class="method-card card-wallet">
+                <div style="display:flex; justify-content:space-between;">
+                    <strong>Paytm Wallet</strong>
+                    <span>Balance: ₹1,250</span>
+                </div>
+                <div class="card-number" style="font-size:16px; letter-spacing:1px;">Linked: +91 98765 43210</div>
+                <div class="method-footer">
+                    <span class="action-link">Set as Default</span>
+                    <i class="fa-regular fa-trash-can" style="cursor:pointer; color:#ef4444"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bank-offers-section">
+            <h4 style="margin:0; color:#e11d48;"><i class="fa-solid fa-sack-dollar"></i> Bank Offers</h4>
+            <p style="font-size:13px; color:#666; margin:5px 0 15px 0;">Get extra discounts with select payment methods</p>
+            <div class="offers-grid">
+                <div class="offer-item">
+                    <strong>10% Cashback</strong>
+                    <p style="font-size:12px; color:#666; margin:5px 0 0 0;">On HDFC Credit Cards</p>
+                </div>
+                <div class="offer-item">
+                    <strong>₹200 Off</strong>
+                    <p style="font-size:12px; color:#666; margin:5px 0 0 0;">Using UPI Payment</p>
+                </div>
+                <div class="offer-item">
+                    <strong>5% Instant Discount</strong>
+                    <p style="font-size:12px; color:#666; margin:5px 0 0 0;">On SBI Debit Cards</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

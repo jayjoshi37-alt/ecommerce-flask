@@ -1,0 +1,250 @@
+{% include 'admin/base_admin.html' %}
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        /* ISOLATED DASHBOARD CSS */
+        :root { --pink: #ff2d8d; --bg: #f4f6f9; --dark: #111827; }
+
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); display: flex; }
+
+        /* Sidebar - Fixed to left */
+        .dash-sidebar { width: 240px; background: var(--dark); height: 100vh; position: fixed; color: white; padding: 20px 0; }
+        .dash-sidebar h2 { color: var(--pink); text-align: center; margin-bottom: 30px; font-size: 24px; }
+        .dash-sidebar a { display: block; padding: 12px 25px; color: #9ca3af; text-decoration: none; transition: 0.3s; }
+        .dash-sidebar a:hover, .dash-sidebar a.active { background: #1f2937; color: white; border-right: 4px solid var(--pink); }
+ .sidebar {
+            width: 230px;
+            position: fixed;
+            height: 100vh;
+            background: #1d2b64;
+            z-index: 100;
+        }
+
+
+        /* Main Content wrapper to prevent merging under sidebar */
+        .main-content-fixed {
+            flex: 1;
+            margin-left: 230px; /* Matches sidebar width */
+            padding: 30px;
+            min-width: 0;
+        }
+
+        /* Main Content Area */
+        .dash-container { flex: 1; margin-left: 240px; padding: 30px; min-height: 100vh; }
+
+        /* Top Bar */
+        .dash-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .search-box { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 10px 15px; width: 350px; }
+        .search-box input { border: none; outline: none; width: 100%; font-size: 14px; }
+
+        /* KPI Cards Section */
+        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .kpi-card { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #f3f4f6; }
+        .kpi-card h4 { margin: 0; font-size: 14px; color: #6b7280; font-weight: 500; }
+        .kpi-card h2 { margin: 10px 0; font-size: 26px; color: var(--dark); }
+        .kpi-card .pct { font-size: 12px; font-weight: 600; }
+        .kpi-card.c1 .pct { color: #db2777; } .kpi-card.c2 .pct { color: #16a34a; }
+.logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+        /* Charts Section */
+        .chart-section { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 30px; }
+        .chart-box { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .chart-box h3 { margin-top: 0; font-size: 16px; color: var(--dark); margin-bottom: 20px; }
+
+        /* Table Card */
+        .table-card { background: white; border-radius: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f9fafb; color: #6b7280; text-align: left; padding: 15px; font-size: 13px; text-transform: uppercase; }
+        td { padding: 15px; border-bottom: 1px solid #f3f4f6; font-size: 14px; color: #374151; }
+
+        /* Badges & Status */
+        .badge { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+        .badge.vip { background: #fce7f3; color: #db2777; }
+        .badge.regular { background: #ede9fe; color: #7c3aed; }
+        .badge.new { background: #dcfce7; color: #16a34a; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; background: #22c55e; }
+
+        /* Modal - Isolated Fixed */
+        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
+        .modal-content { background: white; width: 450px; margin: 100px auto; border-radius: 24px; padding: 30px; position: relative; }
+        .modal-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+        .m-avatar { width: 60px; height: 60px; border-radius: 50%; background: #fce7f3; color: var(--pink); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; }
+        .m-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .m-info { background: #f9fafb; padding: 12px; border-radius: 12px; border: 1px solid #eee; }
+        .m-info label { display: block; font-size: 10px; color: #9ca3af; text-transform: uppercase; margin-bottom: 4px; }
+        .m-info span { font-weight: 600; color: var(--dark); font-size: 14px; }
+        .close-btn { position: absolute; right: 25px; top: 20px; font-size: 24px; cursor: pointer; color: #6b7280; }
+    </style>
+
+
+    <div class="dash-container">
+        <div class="dash-top">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by name, email or phone...">
+            </div>
+            <div>
+                <button style="padding: 10px 20px; border: 1px solid #ddd; background: white; border-radius: 8px; cursor: pointer;">📥 Export CSV</button>
+            </div>
+        </div>
+
+        <h1 style="font-size: 28px; margin-bottom: 5px;">Customer Management</h1>
+        <p style="color: #6b7280; margin-bottom: 30px;">Overview of customer database and segments</p>
+
+        <div class="kpi-grid">
+            <div class="kpi-card c1">
+                <h4>Total Customers</h4>
+                <h2>{{ total_customers }}</h2>
+                <span class="pct">+12.5% this month</span>
+            </div>
+            <div class="kpi-card c2">
+                <h4>Active Customers</h4>
+                <h2>{{ active_customers }}</h2>
+                <span class="pct">{{ active_pct }}% of total</span>
+            </div>
+            <div class="kpi-card">
+                <h4>Total Revenue</h4>
+                <h2>₹{{ total_revenue }}</h2>
+                <span style="font-size: 12px; color: #9ca3af;">From all customers</span>
+            </div>
+            <div class="kpi-card">
+                <h4>Avg. Lifetime Value</h4>
+                <h2>₹{{ avg_ltv }}</h2>
+                <span style="font-size: 12px; color: #9ca3af;">Per customer</span>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <div class="chart-box">
+                <h3>Customer Growth Trend</h3>
+                <canvas id="growthChart" height="100"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>Segments</h3>
+                <canvas id="segmentChart"></canvas>
+            </div>
+        </div>
+
+
+
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Contact</th>
+                        <th>Location</th>
+
+                        <th>Orders</th>
+                        <th>Total Spent</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="customerTableBody">
+                    {% for c in customers %}
+                    <tr>
+                        <td><strong>{{ c.fullname }}</strong></td>
+                        <td>{{ c.email }}</td>
+                        <td>{{ c.location }}</td>
+
+                        <td>{{ c.orders }}</td>
+                        <td>₹{{ c.total_spent }}</td>
+                        <td><span class="status-dot"></span>Active</td>
+                        <td>
+                            <button onclick="openModal('{{ c.fullname }}','{{ c.email }}','{{ c.phone }}','{{ c.location }}','{{ c.segment }}','{{ c.orders }}','{{ c.total_spent }}')"
+                                    style="background: none; border: none; cursor: pointer; font-size: 18px;">👁️</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="customerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="modal-header">
+                <div class="m-avatar" id="mAvatar"></div>
+                <div>
+                    <h2 id="mName" style="margin: 0; font-size: 22px;"></h2>
+                    <span id="mBadge" class="badge"></span>
+                </div>
+            </div>
+            <div class="m-grid">
+                <div class="m-info"><label>Email</label><span id="mEmail"></span></div>
+                <div class="m-info"><label>Phone</label><span id="mPhone"></span></div>
+                <div class="m-info"><label>Total Orders</label><span id="mOrders"></span></div>
+                <div class="m-info"><label>Total Spent</label>₹<span id="mSpent"></span></div>
+                <div class="m-info" style="grid-column: span 2;"><label>Location</label><span id="mLocation"></span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Line Chart
+        new Chart(document.getElementById('growthChart'), {
+            type: 'line',
+            data: {
+                labels: ["Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb"],
+                datasets: [{
+                    data: {{ growth | tojson }},
+                    borderColor: "#ff2d8d",
+                    backgroundColor: "rgba(255, 45, 141, 0.1)",
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+        });
+
+        // Doughnut Chart
+        new Chart(document.getElementById('segmentChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ["VIP", "Regular", "New"],
+                datasets: [{
+                    data: [{{ vip }}, {{ regular }}, {{ new }}],
+                    backgroundColor: ["#ff2d8d", "#8b5cf6", "#22c55e"]
+                }]
+            }
+        });
+
+        // Modal Logic
+        function openModal(n, e, p, l, s, o, t) {
+            document.getElementById('customerModal').style.display = 'block';
+            document.getElementById('mName').innerText = n;
+            document.getElementById('mEmail').innerText = e;
+            document.getElementById('mPhone').innerText = p;
+            document.getElementById('mLocation').innerText = l;
+            document.getElementById('mOrders').innerText = o;
+            document.getElementById('mSpent').innerText = t;
+
+            const badge = document.getElementById('mBadge');
+            badge.innerText = s;
+            badge.className = 'badge ' + s.toLowerCase();
+            document.getElementById('mAvatar').innerText = n.split(' ').map(x => x[0]).join('');
+        }
+
+        function closeModal() { document.getElementById('customerModal').style.display = 'none'; }
+
+        // Search
+        document.getElementById("searchInput").addEventListener("keyup", function() {
+            let val = this.value.toLowerCase();
+            document.querySelectorAll("#customerTableBody tr").forEach(row => {
+                row.style.display = row.innerText.toLowerCase().includes(val) ? "" : "none";
+            });
+        });
+    </script>
+</body>
+</html>

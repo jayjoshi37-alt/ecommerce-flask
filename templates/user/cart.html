@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlamFleur | My Bag</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-pink: #e91e63;
+            --hover-pink: #d81b60;
+            --soft-bg: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); margin: 0; padding: 0; color: var(--text-dark); }
+        a { text-decoration: none; color: inherit; }
+
+        .promo-bar { background: var(--text-dark); color: white; padding: 8px 20px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .promo-links a { color: #cbd5e1; margin-left: 10px; transition: 0.3s; }
+        .promo-links a:hover { color: white; }
+
+        .nykaa-header { background: white; padding: 15px 40px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 0 var(--border-color); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 24px; font-weight: 800; background: linear-gradient(45deg, var(--primary-pink), #c2185b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; }
+        .search-wrapper { flex: 1; max-width: 500px; margin: 0 40px; position: relative; }
+        .search-wrapper input { width: 100%; padding: 12px 20px 12px 45px; border-radius: 8px; border: 1px solid var(--border-color); background: #f1f5f9; outline: none; transition: 0.3s; }
+        .search-wrapper input:focus { background: white; border-color: var(--primary-pink); }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+        .header-actions { display: flex; align-items: center; gap: 20px; font-size: 18px; color: var(--text-dark); }
+        .header-actions a:hover { color: var(--primary-pink); }
+        .cart-icon { position: relative; }
+        .cart-badge { position: absolute; top: -8px; right: -8px; background: var(--primary-pink); color: white; font-size: 10px; font-weight: bold; padding: 2px 6px; border-radius: 10px; border: 2px solid white; }
+        .user-profile-mini { width: 35px; height: 35px; background: var(--primary-pink); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; }
+
+        .user-content { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .cart-header { margin-bottom: 25px; }
+        .cart-header h2 { font-size: 28px; font-weight: 700; margin: 0; }
+        .cart-header span { color: var(--text-muted); font-size: 16px; font-weight: 400; }
+
+        .cart-layout { display: grid; grid-template-columns: 1fr 380px; gap: 30px; align-items: start; }
+        .cart-items-section { display: flex; flex-direction: column; gap: 20px; }
+
+        .cart-item-card { background: white; border-radius: 16px; padding: 20px; display: flex; gap: 20px; border: 1px solid var(--border-color); position: relative; transition: transform 0.2s, box-shadow 0.2s; }
+        .cart-item-card:hover { box-shadow: var(--shadow); border-color: #cbd5e1; }
+        .cart-img-box { width: 100px; height: 100px; flex-shrink: 0; background: #f8fafc; border-radius: 12px; padding: 5px; display: flex; align-items: center; justify-content: center; }
+        .cart-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+        .item-details { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .item-brand { color: var(--text-muted); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 5px 0; }
+        .item-title { font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: var(--text-dark); line-height: 1.4; }
+        .item-price { font-size: 18px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px; }
+        .qty-wrapper { display: flex; align-items: center; gap: 15px; }
+        .qty-selector { display: flex; align-items: center; gap: 5px; background: #f1f5f9; padding: 4px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .qty-btn { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: white; border-radius: 6px; color: var(--text-dark); font-size: 14px; font-weight: bold; box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: 0.2s; }
+        .qty-btn:hover { background: var(--primary-pink); color: white; }
+        .qty-val { font-size: 14px; font-weight: 600; min-width: 20px; text-align: center; }
+        .remove-item { position: absolute; top: 20px; right: 20px; color: #94a3b8; background: transparent; border: none; cursor: pointer; transition: 0.2s; font-size: 16px; }
+        .remove-item:hover { color: #ef4444; transform: scale(1.1); }
+
+        /* Summary Card */
+        .summary-card { background: white; border-radius: 20px; padding: 30px; border: 1px solid var(--border-color); position: sticky; top: 110px; box-shadow: var(--shadow); }
+        .summary-title { font-size: 18px; font-weight: 700; margin: 0 0 20px 0; padding-bottom: 15px; border-bottom: 1px dashed var(--border-color); }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 15px; color: var(--text-muted); }
+        .summary-row span:last-child { color: var(--text-dark); font-weight: 600; }
+        .discount-text { color: #16a34a !important; }
+        .gst-text { color: #f59e0b !important; }
+        .total-row { border-top: 2px dashed var(--border-color); padding-top: 20px; margin-top: 20px; font-size: 20px; font-weight: 800; color: var(--text-dark); align-items: center; }
+
+        /* Payment Options */
+        .payment-options { margin: 20px 0 0 0; border-top: 1px dashed var(--border-color); padding-top: 18px; }
+        .payment-options h4 { font-size: 14px; font-weight: 700; color: var(--text-muted); margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        .payment-radio-group { display: flex; flex-direction: column; gap: 10px; }
+        .payment-radio-label {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 15px; border-radius: 10px; border: 2px solid var(--border-color);
+            cursor: pointer; transition: 0.2s; font-size: 14px; font-weight: 600;
+        }
+        .payment-radio-label:hover { border-color: var(--primary-pink); background: #fff0f6; }
+        .payment-radio-label input[type="radio"] { accent-color: var(--primary-pink); width: 16px; height: 16px; }
+        .payment-radio-label.selected { border-color: var(--primary-pink); background: #fff0f6; }
+        .pay-icon { font-size: 18px; width: 22px; text-align: center; }
+
+        .proceed-btn { width: 100%; background: var(--primary-pink); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 16px; margin-top: 18px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px rgba(233,30,99,0.3); }
+        .proceed-btn:hover { background: var(--hover-pink); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(233,30,99,0.4); }
+        .proceed-btn:disabled { background: #cbd5e1; box-shadow: none; cursor: not-allowed; transform: none; }
+
+        .secure-badge { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; color: var(--text-muted); margin-top: 20px; background: #f8fafc; padding: 10px; border-radius: 8px; }
+
+        /* COD MODAL */
+        .cod-modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; }
+        .cod-modal-box { background: white; border-radius: 24px; width: 580px; max-width: 95vw; max-height: 90vh; overflow-y: auto; padding: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+        .cod-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+        .cod-modal-header h3 { margin: 0; font-size: 20px; font-weight: 800; }
+        .close-modal-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-muted); transition: 0.2s; }
+        .close-modal-btn:hover { color: #ef4444; }
+
+        /* Saved Addresses in modal */
+        .saved-addr-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .saved-addr-card { border: 2px solid var(--border-color); border-radius: 14px; padding: 15px; cursor: pointer; transition: 0.2s; position: relative; }
+        .saved-addr-card:hover { border-color: var(--primary-pink); background: #fff0f6; }
+        .saved-addr-card.selected-addr { border-color: var(--primary-pink); background: #fff0f6; }
+        .saved-addr-card input[type="radio"] { position: absolute; top: 18px; right: 15px; accent-color: var(--primary-pink); width: 17px; height: 17px; }
+        .addr-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+        .addr-line { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+        .addr-phone { font-size: 13px; margin-top: 6px; color: var(--text-dark); }
+        .default-pill { background: #dcfce7; color: #16a34a; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-left: 8px; }
+
+        /* Add new address toggle */
+        .add-new-addr-toggle { display: flex; align-items: center; gap: 10px; padding: 12px 15px; border: 2px dashed var(--border-color); border-radius: 12px; cursor: pointer; color: var(--primary-pink); font-weight: 700; font-size: 14px; transition: 0.2s; margin-bottom: 15px; }
+        .add-new-addr-toggle:hover { background: #fff0f6; border-color: var(--primary-pink); }
+
+        /* New address form */
+        .new-addr-form { display: none; background: #f8fafc; border-radius: 14px; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 15px; }
+        .new-addr-form.show { display: block; }
+        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-grp { margin-bottom: 12px; }
+        .form-grp label { display: block; font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 5px; }
+        .form-grp input, .form-grp select { width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 9px; font-size: 14px; background: white; box-sizing: border-box; outline: none; transition: 0.2s; font-family: 'Inter', sans-serif; }
+        .form-grp input:focus, .form-grp select:focus { border-color: var(--primary-pink); box-shadow: 0 0 0 3px rgba(233,30,99,0.1); }
+
+        .save-addr-btn { background: var(--primary-pink); color: white; border: none; padding: 11px 22px; border-radius: 9px; font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .save-addr-btn:hover { background: var(--hover-pink); }
+
+        .cod-place-btn { width: 100%; background: var(--primary-pink); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 16px; margin-top: 15px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px rgba(233,30,99,0.3); }
+        .cod-place-btn:hover { background: var(--hover-pink); }
+        .cod-place-btn:disabled { background: #cbd5e1; cursor: not-allowed; box-shadow: none; }
+
+        .section-divider { text-align: center; color: var(--text-muted); font-size: 13px; margin: 16px 0; position: relative; }
+        .section-divider::before, .section-divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: var(--border-color); }
+        .section-divider::before { left: 0; }
+        .section-divider::after { right: 0; }
+
+        @media (max-width: 900px) {
+            .cart-layout { grid-template-columns: 1fr; }
+            .summary-card { position: static; margin-top: 20px; }
+            .nykaa-header { padding: 15px 20px; }
+            .search-wrapper { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="promo-bar">
+        <span>✨ <b>Welcome Back!</b> Free shipping on orders above ₹999</span>
+        <div class="promo-links">
+            <a href="https://play.google.com/store/games?device=windows">Download App</a> | <a href="/helpcenter">Help Center</a>
+        </div>
+    </div>
+
+    <header class="nykaa-header">
+        <div class="logo">GlamFleur</div>
+        <div class="search-wrapper">
+            <i class="fa fa-search search-icon"></i>
+            <input type="text" placeholder="Search for products, brands, offers...">
+        </div>
+        <div class="header-actions">
+            <a href="/user_dashboard" class="nav-link"><i class="fa-solid fa-house"></i></a>
+            <a href="/notifications" class="header-icon-link"><i class="fa-regular fa-bell"></i></a>
+            <a href="/wishlist" class="header-icon-link"><i class="fa-regular fa-heart"></i></a>
+            <a href="/cart" class="header-icon-link cart-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span class="cart-badge">{{ cart_items|length }}</span>
+            </a>
+            <a href="/profile">
+                <div class="user-profile-mini" style="width:35px;height:35px;border-radius:50%;overflow:hidden;background:#f1f5f9;display:flex;align-items:center;justify-content:center;">
+                    {% if user_data and user_data.profile_file %}
+                        <img src="{{ url_for('get_profile_image', email=username) }}?t={{ range(1,1000000)|random }}" style="width:100%;height:100%;object-fit:cover;">
+                    {% else %}
+                        <span style="font-size:14px;color:var(--primary-pink);font-weight:bold;">{{ fullname[0]|upper }}</span>
+                    {% endif %}
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <main class="user-content">
+
+        <div class="cart-header">
+            <h2>My Bag <span>({{ cart_items|length }} Items)</span></h2>
+        </div>
+
+        <div class="cart-layout">
+
+            <div class="cart-items-section">
+                {% for item in cart_items %}
+                <div class="cart-item-card">
+                    <div class="cart-img-box">
+                        <img src="{{ url_for('static', filename='uploads/' + (item.image if item.image else 'default.jpg')) }}" alt="{{ item.product_name }}">
+                    </div>
+                    <div class="item-details">
+                        <p class="item-brand">{{ item.brand }}</p>
+                        <h4 class="item-title">{{ item.product_name }}</h4>
+                        <div class="item-price">₹{{ item.price }}</div>
+                        <div class="qty-wrapper">
+                            <div class="qty-selector">
+                                <a href="{{ url_for('update_cart', id=item.id, delta=-1) }}" class="qty-btn" title="Decrease"><i class="fa-solid fa-minus"></i></a>
+                                <span class="qty-val">{{ item.quantity }}</span>
+                                <a href="{{ url_for('update_cart', id=item.id, delta=1) }}" class="qty-btn" title="Increase"><i class="fa-solid fa-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="/delete_cart_item/{{ item.id }}" class="remove-item" title="Remove Item"><i class="fa-regular fa-trash-can"></i></a>
+                </div>
+                {% endfor %}
+
+                <!-- LIVE OFFERS SECTION -->
+                <div style="margin-top:30px;background:white;padding:20px;border-radius:16px;border:1px solid var(--border-color);">
+                    <h3 style="margin-bottom:15px;">Available Offers</h3>
+                    {% if live_offers %}
+                        {% for offer in live_offers %}
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px dashed #eee;">
+                            <div>
+                                <strong>{{ offer.title }}</strong><br>
+                                <small style="color:gray;">
+                                    {% if offer.discount_type == 'percentage' %}{{ offer.discount_value }}% OFF{% else %}₹{{ offer.discount_value }} OFF{% endif %}
+                                    {% if offer.min_purchase %}| Min Purchase ₹{{ offer.min_purchase }}{% endif %}
+                                </small>
+                            </div>
+                            {% if applied_offer and applied_offer['id'] == offer.id %}
+                                <span style="color:green;font-weight:bold;">Applied</span>
+                            {% else %}
+                                <form method="POST" action="/cart" style="margin:0;">
+                                    <input type="hidden" name="apply_offer" value="true">
+                                    <input type="hidden" name="offer_id" value="{{ offer.id }}">
+                                    <button type="submit" style="background:var(--primary-pink);color:white;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;">Apply</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p style="color:gray;">No offers available right now.</p>
+                    {% endif %}
+                </div>
+
+                {% if cart_items|length == 0 %}
+                <div style="text-align:center;padding:50px;background:white;border-radius:16px;">
+                    <i class="fa-solid fa-bag-shopping" style="font-size:40px;color:#cbd5e1;margin-bottom:15px;"></i>
+                    <p style="color:var(--text-muted);">Your bag is currently empty.</p>
+                    <a href="/user_dashboard" style="color:var(--primary-pink);font-weight:bold;">Continue Shopping</a>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- SUMMARY CARD -->
+            <div class="summary-card">
+                <h3 class="summary-title">Price Details</h3>
+
+                <div class="summary-row">
+                    <span>Bag Total</span>
+                    <span>₹{{ total }}</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Shipping Charges</span>
+                    <span class="discount-text">{{ 'FREE' if shipping == 0 else '₹' ~ shipping }}</span>
+                </div>
+
+                {% if discount > 0 %}
+                <div class="summary-row">
+                    <span class="discount-text">Discount{% if applied_offer %} ({{ applied_offer['title'] }}){% endif %}</span>
+                    <span class="discount-text">- ₹{{ "%.2f"|format(discount) }}</span>
+                </div>
+                {% endif %}
+
+                <!-- GST / TAX (18% on subtotal after discount) -->
+                <div class="summary-row">
+                    <span style="color:#f59e0b;font-weight:600;">
+                        <i class="fa-solid fa-receipt" style="font-size:12px;margin-right:4px;"></i>
+                        GST &amp; Taxes (18%)
+                    </span>
+                    <span class="gst-text">+ ₹{{ "%.2f"|format(gst_amount) }}</span>
+                </div>
+
+                <div class="summary-row total-row">
+                    <span>Total Amount</span>
+                    <span>₹{{ "%.2f"|format(final_amount) }}</span>
+                </div>
+
+                <!-- PAYMENT METHOD SELECTION -->
+                <div class="payment-options">
+                    <h4>Select Payment Method</h4>
+                    <div class="payment-radio-group">
+                        <label class="payment-radio-label" id="label-upi">
+                            <input type="radio" name="payment_method" value="upi" onchange="onPaymentChange(this)">
+                            <span class="pay-icon">📱</span> UPI Payment
+                        </label>
+                        <label class="payment-radio-label" id="label-wallet">
+                            <input type="radio" name="payment_method" value="wallet" onchange="onPaymentChange(this)">
+                            <span class="pay-icon">👛</span> Wallet / Netbanking
+                        </label>
+                        <label class="payment-radio-label" id="label-cod">
+                            <input type="radio" name="payment_method" value="cod" onchange="onPaymentChange(this)">
+                            <span class="pay-icon">💵</span> Cash on Delivery
+                        </label>
+                    </div>
+                </div>
+
+                <button class="proceed-btn" id="proceedBtn" onclick="handleProceed()" disabled>
+                    Proceed to Checkout <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+                <div class="secure-badge">
+                    <i class="fa-solid fa-shield-halved"></i> 100% Safe &amp; Secure Payments
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ========== COD ADDRESS MODAL ========== -->
+    <div class="cod-modal-overlay" id="codModal">
+        <div class="cod-modal-box">
+            <div class="cod-modal-header">
+                <h3><i class="fa-solid fa-location-dot" style="color:var(--primary-pink);"></i> Select Delivery Address</h3>
+                <button class="close-modal-btn" onclick="closeCodModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Hidden form that submits to place_cod_order -->
+            <form id="codOrderForm" method="POST" action="/place_cod_order">
+                <input type="hidden" name="selected_address_id" id="selectedAddressId" value="">
+
+                {% if addresses %}
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Choose a saved address or add a new one below.</p>
+                <div class="saved-addr-list">
+                    {% for addr in addresses %}
+                    <div class="saved-addr-card {% if addr.is_default %}selected-addr{% endif %}" id="addrCard{{ addr.id }}" onclick="selectAddress({{ addr.id }})">
+                        <input type="radio" name="address_radio" value="{{ addr.id }}" {% if addr.is_default %}checked{% endif %}>
+                        <div class="addr-name">
+                            {{ addr.full_name }}
+                            {% if addr.is_default %}<span class="default-pill">Default</span>{% endif %}
+                            <span style="background:#f1f5f9;color:#64748b;font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;margin-left:6px;">{{ addr.address_type }}</span>
+                        </div>
+                        <div class="addr-line">
+                            {{ addr.address_line1 }}{% if addr.address_line2 %}, {{ addr.address_line2 }}{% endif %}<br>
+                            {{ addr.city }}, {{ addr.state }} - {{ addr.pincode }}
+                        </div>
+                        <div class="addr-phone"><i class="fa-solid fa-phone" style="font-size:11px;margin-right:4px;"></i>{{ addr.phone_number }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="section-divider">or</div>
+                {% endif %}
+
+                <!-- Add New Address Toggle -->
+                <div class="add-new-addr-toggle" onclick="toggleNewAddrForm()">
+                    <i class="fa-solid fa-plus"></i> Add New Address
+                </div>
+
+                <!-- New Address Form (inside COD form) -->
+                <div class="new-addr-form" id="newAddrForm">
+                    <div class="form-grid-2">
+                        <div class="form-grp">
+                            <label>Full Name *</label>
+                            <input type="text" name="full_name" id="new_full_name" placeholder="Your full name">
+                        </div>
+                        <div class="form-grp">
+                            <label>Phone Number *</label>
+                            <input type="text" name="phone_number" id="new_phone" placeholder="10-digit number">
+                        </div>
+                    </div>
+                    <div class="form-grp">
+                        <label>Address Line 1 *</label>
+                        <input type="text" name="address_line1" id="new_l1" placeholder="House no., Street, Area">
+                    </div>
+                    <div class="form-grp">
+                        <label>Address Line 2</label>
+                        <input type="text" name="address_line2" id="new_l2" placeholder="Landmark (optional)">
+                    </div>
+                    <div class="form-grid-2">
+                        <div class="form-grp">
+                            <label>City *</label>
+                            <input type="text" name="city" id="new_city" placeholder="City">
+                        </div>
+                        <div class="form-grp">
+                            <label>State *</label>
+                            <input type="text" name="state" id="new_state" placeholder="State">
+                        </div>
+                    </div>
+                    <div class="form-grid-2">
+                        <div class="form-grp">
+                            <label>Pincode *</label>
+                            <input type="text" name="pincode" id="new_pin" placeholder="6-digit PIN">
+                        </div>
+                        <div class="form-grp">
+                            <label>Address Type *</label>
+                            <select name="address_type" id="new_type">
+                                <option value="Home">🏠 Home</option>
+                                <option value="Work">💼 Work</option>
+                                <option value="Other">📍 Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p style="font-size:12px;color:var(--text-muted);margin:0 0 10px 0;"><i class="fa-solid fa-info-circle"></i> This address will also be saved to your address book.</p>
+                </div>
+
+                <button type="submit" class="cod-place-btn" id="codPlaceBtn" onclick="return validateCodOrder()">
+                    <i class="fa-solid fa-bag-shopping"></i> Place Order (Cash on Delivery)
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="cart-toast" style="visibility:hidden;min-width:250px;background-color:#333;color:#fff;text-align:center;border-radius:8px;padding:16px;position:fixed;z-index:1000;bottom:30px;left:50%;transform:translateX(-50%);opacity:0;transition:opacity 0.5s;">
+        <span></span>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+        // ---- Pre-select default address on page load ----
+        {% if addresses %}
+        {% for addr in addresses %}
+        {% if addr.is_default %}
+        document.addEventListener("DOMContentLoaded", function() {
+            selectAddress({{ addr.id }});
+        });
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+        // ---- Payment Method Change ----
+        function onPaymentChange(radio) {
+            // Remove selected class from all labels
+            document.querySelectorAll('.payment-radio-label').forEach(l => l.classList.remove('selected'));
+            // Add to parent label
+            radio.closest('.payment-radio-label').classList.add('selected');
+            // Enable proceed button
+            document.getElementById('proceedBtn').disabled = false;
+        }
+
+        // ---- Handle Proceed Button ----
+        function handleProceed() {
+            const method = document.querySelector('input[name="payment_method"]:checked');
+            if (!method) { showToast("Please select a payment method"); return; }
+
+            if (method.value === "cod") {
+                openCodModal();
+            } else {
+                // UPI or Wallet → Razorpay
+                startRazorpay();
+            }
+        }
+
+        // ---- COD Modal ----
+        function openCodModal() {
+            document.getElementById('codModal').style.display = 'flex';
+        }
+        function closeCodModal() {
+            document.getElementById('codModal').style.display = 'none';
+        }
+
+        // ---- Select Saved Address ----
+        function selectAddress(addrId) {
+            // Deselect all cards
+            document.querySelectorAll('.saved-addr-card').forEach(c => c.classList.remove('selected-addr'));
+            // Select clicked
+            const card = document.getElementById('addrCard' + addrId);
+            if (card) {
+                card.classList.add('selected-addr');
+                card.querySelector('input[type="radio"]').checked = true;
+            }
+            document.getElementById('selectedAddressId').value = addrId;
+            // Hide new address form since user chose saved address
+            document.getElementById('newAddrForm').classList.remove('show');
+        }
+
+        // ---- Toggle New Address Form ----
+        function toggleNewAddrForm() {
+            const form = document.getElementById('newAddrForm');
+            form.classList.toggle('show');
+            if (form.classList.contains('show')) {
+                // Deselect all saved addresses
+                document.querySelectorAll('.saved-addr-card').forEach(c => c.classList.remove('selected-addr'));
+                document.querySelectorAll('.saved-addr-card input[type="radio"]').forEach(r => r.checked = false);
+                document.getElementById('selectedAddressId').value = '';
+            }
+        }
+
+        // ---- Validate COD Order ----
+        function validateCodOrder() {
+            const savedAddrId = document.getElementById('selectedAddressId').value;
+            const newFormVisible = document.getElementById('newAddrForm').classList.contains('show');
+
+            if (!savedAddrId && !newFormVisible) {
+                showToast("Please select or add a delivery address");
+                return false;
+            }
+
+            if (newFormVisible && !savedAddrId) {
+                // Validate new address fields
+                const requiredFields = ['new_full_name', 'new_phone', 'new_l1', 'new_city', 'new_state', 'new_pin'];
+                for (let fid of requiredFields) {
+                    const el = document.getElementById(fid);
+                    if (!el.value.trim()) {
+                        showToast("Please fill all required address fields");
+                        el.focus();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        // ---- Razorpay ----
+        function startRazorpay() {
+            fetch('/create_razorpay_order', { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+                var options = {
+                    "key": data.key,
+                    "amount": data.amount,
+                    "currency": "INR",
+                    "name": "GlamFleur",
+                    "description": "Beauty Purchase",
+                    "order_id": data.order_id,
+                    "handler": function(response) {
+                        fetch("/verify_payment", {
+                            method: "POST",
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: new URLSearchParams({
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_signature: response.razorpay_signature
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(result => {
+                            if (result.status === "success") {
+                                window.location.href = "/track_order";
+                            } else {
+                                alert("Payment Failed. Please try again.");
+                            }
+                        });
+                    },
+                    "theme": { "color": "#e91e63" }
+                };
+                var rzp = new Razorpay(options);
+                rzp.open();
+            })
+            .catch(() => showToast("Something went wrong. Please try again."));
+        }
+
+        // ---- Apply Offer (AJAX) ----
+        function applyOffer(offerId) {
+            fetch("/cart", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "apply_offer=true&offer_id=" + offerId
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    showToast(data.message);
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    showToast("Invalid Offer");
+                }
+            })
+            .catch(() => showToast("Something went wrong!"));
+        }
+
+        // ---- Toast ----
+        function showToast(message) {
+            let toast = document.getElementById('cart-toast');
+            toast.querySelector('span').innerText = message;
+            toast.style.visibility = "visible";
+            toast.style.opacity = "1";
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                setTimeout(() => { toast.style.visibility = "hidden"; }, 500);
+            }, 3000);
+        }
+    </script>
+
+</body>
+</html>

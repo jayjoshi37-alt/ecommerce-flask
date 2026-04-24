@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Register | GlamFleur</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --glam-pink: #ff2d75;
+            --glam-purple: #8a2be2;
+            --bg-dark: #090e1a;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 45, 117, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(138, 43, 226, 0.15) 0px, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Unique Floating Dashboard Widgets */
+        .stat-widget {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 15px 25px;
+            color: white;
+            z-index: 0;
+            animation: float 8s infinite ease-in-out;
+            display: none;
+        }
+
+        @media (min-width: 1200px) { .stat-widget { display: block; } }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        /* Central Registration Hub */
+        .reg-hub {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 40px;
+            padding: 50px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+            z-index: 2;
+            position: relative;
+            animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .brand-logo {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--glam-pink), var(--glam-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .subtitle { text-align: center; color: #64748b; margin-bottom: 35px; font-weight: 400; }
+
+        .form-floating > .form-control {
+            border: none;
+            border-bottom: 2px solid #e2e8f0;
+            border-radius: 0;
+            background: transparent;
+            padding-left: 0;
+            font-weight: 500;
+        }
+
+        .form-floating > .form-control:focus {
+            box-shadow: none;
+            border-color: var(--glam-pink);
+        }
+
+        .primary-btn {
+            width: 100%;
+            background: linear-gradient(90deg, var(--glam-pink), var(--glam-purple));
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 16px;
+            font-weight: 700;
+            margin-top: 25px;
+            text-transform: uppercase;
+            transition: 0.4s;
+        }
+
+        .primary-btn:hover {
+            letter-spacing: 2px;
+            filter: brightness(1.1);
+            box-shadow: 0 15px 30px rgba(255, 45, 117, 0.3);
+        }
+
+        .divider-container {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: #cbd5e1;
+        }
+        .divider-line { flex: 1; height: 1px; background: #e2e8f0; }
+
+        #match-message { font-size: 13px; font-weight: 600; display: block; margin-top: 5px; height: 20px; }
+
+        /* Floating Widget Positions */
+        .w1 { top: 15%; left: 10%; animation-delay: 0s; }
+        .w2 { top: 20%; right: 12%; animation-delay: 1s; }
+        .w3 { bottom: 15%; left: 15%; animation-delay: 2s; }
+        .w4 { bottom: 20%; right: 8%; animation-delay: 3s; }
+
+    </style>
+</head>
+<body>
+
+    <div class="stat-widget w1">
+        <i class="fa fa-gem me-2" style="color: #ffd700;"></i>
+        <span>Luxe Member Access</span>
+    </div>
+    <div class="stat-widget w2">
+        <div class="small opacity-75">New Arrivals</div>
+        <div class="fw-bold">+240 Items</div>
+    </div>
+    <div class="stat-widget w3">
+        <i class="fa fa-heart text-danger me-2"></i>
+        <span>Beauty Community</span>
+    </div>
+    <div class="stat-widget w4">
+        <div id="live-time" class="fw-bold">00:00:00</div>
+        <div class="small opacity-75">Server Status: Active</div>
+    </div>
+
+    <div class="reg-hub">
+        <div class="brand-logo">GlamFleur</div>
+        <p class="subtitle">Create your unique beauty profile</p>
+
+        <form action="/save" method="post" id="regForm">
+            <div class="form-floating mb-3">
+                <input type="text" name="txtfullname" class="form-control" id="fName" placeholder="Full Name" required>
+                <label for="fName">Full Name</label>
+            </div>
+
+            <div class="row g-2">
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input type="email" name="txtemail" class="form-control" id="email" placeholder="Email" required>
+                        <label for="email">Email Address</label>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" name="txtusername" class="form-control" id="user" placeholder="Username" required>
+                        <label for="user">Username</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="password" name="txtpassword" class="form-control" id="pass" placeholder="Password" required>
+                <label for="pass">Create Password</label>
+            </div>
+
+            <div class="form-floating">
+                <input type="password" name="txtconfirm" class="form-control" id="confirm_pass" placeholder="Confirm" required onkeyup="checkPassword()">
+                <label for="confirm_pass">Confirm Password</label>
+            </div>
+            <span id="match-message"></span>
+
+            <button type="submit" class="primary-btn" id="submitBtn">Initialize Account</button>
+        </form>
+
+        <div class="divider-container">
+            <div class="divider-line"></div>
+            <div class="mx-3 small fw-bold">OR JOIN VIA</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <div class="d-flex gap-3">
+            <button class="btn btn-light flex-fill py-3 border rounded-4 fw-bold shadow-sm">
+                <img src="https://www.google.com/favicon.ico" width="18" class="me-2"> Google
+            </button>
+            <button class="btn btn-light flex-fill py-3 border rounded-4 fw-bold shadow-sm">
+                <i class="fab fa-facebook text-primary me-2"></i> Facebook
+            </button>
+        </div>
+
+        <div class="text-center mt-4">
+            <span class="text-muted">Part of the club?</span>
+            <a href="/userlogin" style="color: var(--glam-pink); text-decoration: none; font-weight: 700;" class="ms-1">Sign In</a>
+        </div>
+    </div>
+
+    <script>
+        // Password Match Verification
+        function checkPassword() {
+            const password = document.getElementById('pass').value;
+            const confirm = document.getElementById('confirm_pass').value;
+            const message = document.getElementById('match-message');
+            const btn = document.getElementById('submitBtn');
+
+            if (confirm === "") {
+                message.innerHTML = "";
+            } else if (password === confirm) {
+                message.style.color = "#10b981";
+                message.innerHTML = "✓ Passwords are synchronized";
+                btn.disabled = false;
+            } else {
+                message.style.color = "#ef4444";
+                message.innerHTML = "✗ Passwords do not match";
+                btn.disabled = true;
+            }
+        }
+
+        // Live Clock for Widget
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('live-time').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>

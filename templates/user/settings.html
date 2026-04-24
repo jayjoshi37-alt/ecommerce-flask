@@ -1,0 +1,128 @@
+{% include 'user/base.html' %}
+
+
+<main class="user-content">
+    <div class="settings-header-banner">
+        <div class="settings-title-area">
+            <i class="fa-solid fa-gear settings-main-icon"></i>
+            <div>
+                <h2>Settings ⚙️</h2>
+                <p>Manage your account preferences</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-card">
+        <div class="card-header">
+            <div class="header-icon bg-light-blue"><i class="fa-solid fa-bell"></i></div>
+            <div>
+                <h4>Notification Settings</h4>
+                <p>Manage how you receive notifications</p>
+            </div>
+        </div>
+        <div class="settings-list">
+            {% for item, desc in [('Email Notifications', 'Receive notifications via email'),
+                                 ('Push Notifications', 'Receive push notifications on your device'),
+                                 ('Order Updates', 'Get notified about order status changes'),
+                                 ('Promotional Emails', 'Receive offers and promotional content'),
+                                 ('Newsletter Subscription', 'Subscribe to our weekly newsletter')] %}
+            <div class="setting-item">
+                <div class="setting-text">
+                    <strong>{{ item }}</strong>
+                    <p>{{ desc }}</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" onchange="showToast('{{ item }} updated')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="settings-card">
+        <div class="card-header">
+            <div class="header-icon bg-light-purple"><i class="fa-solid fa-shield-halved"></i></div>
+            <div>
+                <h4>Security & Privacy</h4>
+                <p>Keep your account secure</p>
+            </div>
+        </div>
+        <div class="settings-list">
+            <div class="setting-item">
+                <div class="setting-text">
+                    <strong>Two-Factor Authentication</strong>
+                    <p>Add an extra layer of security</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" onchange="showToast('2FA settings changed')">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <button class="action-row-btn" onclick="openPasswordModal()">
+                <i class="fa-solid fa-lock"></i> Change Password
+            </button>
+        </div>
+    </div>
+
+    <div class="settings-card">
+        <div class="card-header">
+            <div class="header-icon bg-light-green"><i class="fa-solid fa-palette"></i></div>
+            <div>
+                <h4>Preferences</h4>
+                <p>Customize your experience</p>
+            </div>
+        </div>
+        <div class="settings-list">
+            <div class="pref-group">
+                <label>Language</label>
+                <select class="pref-select"><option>English</option></select>
+            </div>
+            <div class="pref-group">
+                <label>Currency</label>
+                <select class="pref-select"><option>₹ INR - Indian Rupee</option></select>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-actions-grid">
+        <div class="action-card">
+            <div class="card-header"><i class="fa-solid fa-circle-question color-orange"></i> Help & Support</div>
+            <p>Get help with your account or orders</p>
+            <a href="/helpcenter" > <button class="outline-btn">Contact Support</button></a>
+        </div>
+        <div class="action-card">
+            <div class="card-header"><i class="fa-solid fa-arrow-right-from-bracket color-red"></i> Sign Out</div>
+            <p>Sign out from your account on this device</p>
+            <a href="/user_logout" class="solid-red-btn">Sign Out</a>
+        </div>
+    </div>
+
+    <div class="danger-zone-card">
+        <h4>Danger Zone</h4>
+        <div class="setting-item">
+            <div class="setting-text">
+                <strong>Delete Account</strong>
+                <p>Permanently delete your account and all data</p>
+            </div>
+            <button class="delete-btn">Delete</button>
+        </div>
+    </div>
+
+    <div id="settingsToast" class="settings-toast">
+        <i class="fa-solid fa-circle-check"></i> <span id="toastMsg">Settings updated</span>
+    </div>
+</main>
+
+<script>
+    function showToast(message) {
+        const toast = document.getElementById('settingsToast');
+        const toastMsg = document.getElementById('toastMsg');
+        toastMsg.innerText = message;
+        toast.style.display = 'flex';
+        setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+</script>
+
+</body>
+</html>

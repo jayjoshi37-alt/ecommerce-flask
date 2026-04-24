@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | GlamFleur Premium</title>
+     <link rel="stylesheet" href="/static/style.css">
+     <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;600;800&display=swap');
+
+        :root { --glam-pink: #fc2779; --glam-dark: #3f414d; }
+        body { font-family: 'Inter', sans-serif; color: var(--glam-dark); overflow-x: hidden; }
+        .serif { font-family: 'Playfair Display', serif; }
+
+        /* Glassmorphism Effect */
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+
+        /* Floating Animation */
+        .floating { animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Luxury Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #fc2779, #ff7eb3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Parallax Image Wrapper */
+        .parallax-wrap { overflow: hidden; position: relative; border-radius: 1rem; }
+        .parallax-wrap img { transition: transform 0.8s cubic-bezier(0,0,0.2,1); }
+        .parallax-wrap:hover img { transform: scale(1.15); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--glam-pink); border-radius: 10px; }
+
+        .logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+        .logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+    </style>
+</head>
+<body class="bg-white">
+
+    <nav class="glass fixed w-full z-50 py-4 px-8 flex justify-between items-center border-b border-pink-50">
+         <div class="logo">GlamFleur</div>
+        <div class="hidden md:flex space-x-10 font-bold text-xs uppercase tracking-widest">
+            <a href="#" class="hover:text-[#fc2779] transition">The Story</a>
+            <a href="#" class="hover:text-[#fc2779] transition">Philosophy</a>
+            <a href="#" class="hover:text-[#fc2779] transition">Team</a>
+            <a href="#" class="hover:text-[#fc2779] transition">Press</a>
+        </div>
+        <a href="/">
+        <button class="bg-[#fc2779] text-white text-xs font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-pink-200 transition-all transform hover:scale-105 uppercase tracking-widest">
+            Shop Collection
+        </button></a>
+    </nav>
+
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="absolute top-20 -left-20 w-72 h-72 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 floating"></div>
+        <div class="absolute bottom-20 -right-20 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 floating" style="animation-delay: 2s;"></div>
+
+        <div class="max-w-5xl mx-auto px-4 text-center z-10" data-aos="zoom-out-up">
+            <span class="text-sm font-bold tracking-[0.3em] text-[#fc2779] uppercase mb-4 block">Est. 2026</span>
+            <h2 class="text-6xl md:text-8xl serif mb-8 leading-tight">Crafting <span class="italic text-gradient">Eternal</span> Beauty</h2>
+            <p class="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed font-light">
+                Where the timeless elegance of Parisian florals meets the vibrant pulse of modern Indian beauty.
+            </p>
+            <div class="mt-12 flex justify-center gap-6">
+                <a href="#story" class="w-12 h-12 flex items-center justify-center rounded-full border border-pink-200 text-[#fc2779] animate-bounce">
+                    <i class="fa fa-arrow-down"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white py-10">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center" data-aos="fade-up">
+                <div>
+                    <h3 class="text-4xl font-extrabold text-[#fc2779] mb-2">500k+</h3>
+                    <p class="text-xs uppercase tracking-widest font-bold text-gray-400">Happy Hearts</p>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-extrabold text-[#fc2779] mb-2">150+</h3>
+                    <p class="text-xs uppercase tracking-widest font-bold text-gray-400">Luxury Brands</p>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-extrabold text-[#fc2779] mb-2">24/7</h3>
+                    <p class="text-xs uppercase tracking-widest font-bold text-gray-400">Concierge Support</p>
+                </div>
+                <div>
+                    <h3 class="text-4xl font-extrabold text-[#fc2779] mb-2">98%</h3>
+                    <p class="text-xs uppercase tracking-widest font-bold text-gray-400">Eco-Sustainability</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="story" class="py-24 px-4 overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+            <div class="lg:w-1/2 relative" data-aos="fade-right">
+                <div class="parallax-wrap shadow-2xl">
+                    <img src="https://plus.unsplash.com/premium_photo-1772553897499-d1cac3ec50fe?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzV8fGJlYXV0eSUyMHByb2R1Y3QlMjBzaG9wJTIwaW1hZ2VzfGVufDB8fDB8fHww" alt="Floral Shop" class="w-full h-[600px] object-cover">
+                </div>
+                <div class="absolute -bottom-10 -right-10 hidden lg:block w-64 h-64 border-[15px] border-white shadow-xl rounded-lg overflow-hidden" data-aos="zoom-in" data-aos-delay="400">
+                    <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=400" alt="Detail" class="w-full h-full object-cover">
+                </div>
+            </div>
+            <div class="lg:w-1/2" data-aos="fade-left">
+                <h3 class="text-4xl serif mb-6 leading-snug">A Journey Rooted in <span class="text-[#fc2779]">Passion</span></h3>
+                <div class="space-y-6 text-gray-500 leading-loose text-lg font-light">
+                    <p>What started as a boutique floral studio in the heart of Mumbai has blossomed into India's most prestigious luxury beauty portal. Our founder, Elena Rose, believed that every woman deserves to be surrounded by things that last—just like our signature preserved roses.</p>
+                    <p class="border-l-4 border-[#fc2779] pl-6 italic">"Beauty isn't a moment; it's a legacy. We don't just sell products; we curate experiences that linger in the soul."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="h-[500px] bg-fixed bg-cover bg-center flex items-center justify-center relative" style="background-image: url('https://images.unsplash.com/photo-1516192511150-1d1e925c5d07?auto=format&fit=crop&w=1920');">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="relative text-center text-white" data-aos="zoom-in">
+            <button class="w-20 h-20 bg-white text-[#fc2779] rounded-full flex items-center justify-center text-2xl shadow-2xl hover:scale-110 transition"><i class="fa fa-play ml-1"></i></button>
+            <h4 class="mt-6 text-2xl font-bold uppercase tracking-[0.5em]">The Film 2026</h4>
+        </div>
+    </section>
+
+    <section class="py-24 bg-pink-50/50">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl serif text-center mb-16">The GlamFleur Philosophy</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div class="bg-white p-12 rounded-3xl shadow-sm hover:shadow-xl transition-all" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-pink-100 text-[#fc2779] rounded-2xl flex items-center justify-center text-2xl mb-8"><i class="fa fa-spa"></i></div>
+                    <h5 class="text-xl font-bold mb-4">Conscious Beauty</h5>
+                    <p class="text-gray-500 leading-relaxed">Sustainable sourcing and vegan-friendly formulas across our entire Luxe collection.</p>
+                </div>
+                <div class="bg-white p-12 rounded-3xl shadow-sm hover:shadow-xl transition-all" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-pink-100 text-[#fc2779] rounded-2xl flex items-center justify-center text-2xl mb-8"><i class="fa fa-crown"></i></div>
+                    <h5 class="text-xl font-bold mb-4">Elite Curation</h5>
+                    <p class="text-gray-500 leading-relaxed">Every brand we host undergoes a rigorous 50-point authenticity and quality check.</p>
+                </div>
+                <div class="bg-white p-12 rounded-3xl shadow-sm hover:shadow-xl transition-all" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-pink-100 text-[#fc2779] rounded-2xl flex items-center justify-center text-2xl mb-8"><i class="fa fa-globe"></i></div>
+                    <h5 class="text-xl font-bold mb-4">Global Reach</h5>
+                    <p class="text-gray-500 leading-relaxed">Bringing the best of Paris, Seoul, and New York directly to your vanity.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-4xl serif mb-16">Meet the Visionaries</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+                <div class="group" data-aos="fade-up">
+                    <div class="relative overflow-hidden rounded-2xl mb-6">
+                        <img src="https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=600" class="w-full h-96 object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#fc2779]/80 to-transparent opacity-0 group-hover:opacity-100 transition-all flex items-end p-8">
+                            <div class="flex space-x-4 text-white text-xl">
+                                <i class="fab fa-linkedin-in cursor-pointer"></i>
+                                <i class="fab fa-twitter cursor-pointer"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="text-2xl font-bold">Elena Rose</h4>
+                    <p class="text-[#fc2779] font-bold uppercase tracking-widest text-xs mt-2">Founder & Chairperson</p>
+                </div>
+                <div class="group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="relative overflow-hidden rounded-2xl mb-6">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600" class="w-full h-96 object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#fc2779]/80 to-transparent opacity-0 group-hover:opacity-100 transition-all flex items-end p-8">
+                            <div class="flex space-x-4 text-white text-xl">
+                                <i class="fab fa-linkedin-in cursor-pointer"></i>
+                                <i class="fab fa-twitter cursor-pointer"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="text-2xl font-bold">Marcus Thorne</h4>
+                    <p class="text-[#fc2779] font-bold uppercase tracking-widest text-xs mt-2">Managing Director</p>
+                </div>
+                <div class="group" data-aos="fade-up" data-aos-delay="400">
+                    <div class="relative overflow-hidden rounded-2xl mb-6">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600" class="w-full h-96 object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#fc2779]/80 to-transparent opacity-0 group-hover:opacity-100 transition-all flex items-end p-8">
+                            <div class="flex space-x-4 text-white text-xl">
+                                <i class="fab fa-linkedin-in cursor-pointer"></i>
+                                <i class="fab fa-twitter cursor-pointer"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="text-2xl font-bold">Sarah Jenkins</h4>
+                    <p class="text-[#fc2779] font-bold uppercase tracking-widest text-xs mt-2">Chief Operating Officer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<footer class="bg-[#3f414d] text-white overflow-hidden relative md:min-h-[50vh] flex flex-col justify-between mt-20">
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 w-full">
+        <div class="grid md:grid-cols-12 gap-12 items-start">
+
+            <div class="md:col-span-7 space-y-10">
+                <div>
+                     <div class="logo">GlamFleur</div>
+                        <br>
+                    <br>
+                    <br>
+                    <p class="text-gray-400 max-w-lg text-xl font-light leading-relaxed" align="left">
+                        Celebrating the eternal elegance of beauty and flowers. We bridge the gap between Parisian luxury and modern Indian grace, curating experiences that linger in the soul.
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] text-white/50" align="left">Connect With Us</h5>
+                    <div class="flex space-x-8 text-3xl">
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-5 grid grid-cols-2 gap-8">
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Explore</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/aboutus" class="hover:text-[#fc2779] transition">Who are we?</a></li>
+                        <li><a href="/authenticity" class="hover:text-[#fc2779] transition">Authenticity</a></li>
+                        <li><a href="/career" class="hover:text-[#fc2779] transition">Career</a></li>
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Support</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/privacy_policy" class="hover:text-[#fc2779] transition">Shipping Policy</a></li>
+                        <li><a href="/return_policy" class="hover:text-[#fc2779] transition">Return Center</a></li>
+
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full">
+        <div class="max-w-7xl mx-auto px-4 border-t border-white/10 py-10 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold uppercase tracking-widest text-white/40">
+            <p>© 2026 GLAMFLEUR E-RETAIL LIMITED. ALL RIGHTS RESERVED.</p>
+            <div class="flex space-x-10 mt-6 md:mt-0">
+                <a href="/privacy_policy" class="hover:text-white transition">Privacy</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Terms</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Cookies</a>
+            </div>
+        </div>
+        <div class="h-2 bg-gradient-to-r from-[#fc2779] via-[#ff7eb3] to-[#fc2779]"></div>
+    </div>
+</footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            easing: 'ease-in-out',
+        });
+    </script>
+</body>
+</html>

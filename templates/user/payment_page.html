@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Processing Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+<script>
+function startRazorpay() {
+    fetch('/create_razorpay_order', { method: 'POST' })
+    .then(res => res.json())
+    .then(data => {
+
+        var options = {
+            "key": data.key,
+            "amount": data.amount,
+            "currency": "INR",
+            "name": "GlamFleur",
+            "description": "Beauty Purchase",
+            "order_id": data.order_id,
+
+            "handler": function(response) {
+
+                fetch("/verify_payment", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams({
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_signature: response.razorpay_signature
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        window.location.href = "/track_order";
+                    } else {
+                        alert("Payment failed");
+                    }
+                });
+
+            },
+
+            "theme": { "color": "#e91e63" }
+        };
+
+        var rzp = new Razorpay(options);
+        rzp.open();
+    });
+}
+</script>
+
+</body>
+</html>

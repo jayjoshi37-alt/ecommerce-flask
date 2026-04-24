@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>GlamFleur</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+<style>
+    *{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: 'Poppins', sans-serif;
+}
+
+body{
+background:#fff;
+scroll-behavior:smooth;
+}
+
+/* TOP BAR */
+.promo-bar{
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+color:white;
+padding:10px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-weight:600;
+animation:slideDown 0.8s ease;
+}
+
+@keyframes slideDown{
+from{transform:translateY(-100%);}
+to{transform:translateY(0);}
+}
+
+.promo-links a{
+color:white;
+text-decoration:none;
+margin-left:10px;
+}
+
+/* HEADER */
+.nykaa-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:white;
+box-shadow:0 4px 20px rgba(0,0,0,0.05);
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* PRODUCT CARDS */
+.product-card{
+background:white;
+border-radius:20px;
+padding:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+transition:0.4s;
+text-align:center;
+position:relative;
+overflow:hidden;
+}
+
+.product-card:hover{
+transform:translateY(-10px);
+box-shadow:0 15px 35px rgba(0,0,0,0.15);
+}
+
+.product-card img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:15px;
+transition:0.4s;
+}
+
+.product-card:hover img{
+transform:scale(1.05);
+}
+
+/* BUTTON ANIMATION */
+button{
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:25px;
+cursor:pointer;
+transition:0.3s;
+position:relative;
+overflow:hidden;
+}
+
+button:hover{
+transform:scale(1.07);
+}
+
+button:active{
+transform:scale(0.95);
+}
+
+/* Ripple Effect */
+button::after{
+content:"";
+position:absolute;
+width:0;
+height:0;
+background:rgba(255,255,255,0.5);
+border-radius:50%;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+transition:0.5s;
+}
+
+button:active::after{
+width:200px;
+height:200px;
+}
+
+/* CATEGORY BAR */
+.category-bar{
+display:flex;
+justify-content:center;
+gap:20px;
+padding:10px;
+background:#fff0f6;
+}
+
+.category-bar a{
+text-decoration:none;
+color:#333;
+font-weight:500;
+transition:0.3s;
+}
+
+.category-bar a:hover{
+color:#ff2d75;
+}
+
+/* SEARCH */
+.header-actions input{
+padding:8px 15px;
+border-radius:25px;
+border:1px solid #ddd;
+outline:none;
+transition:0.3s;
+}
+
+.header-actions input:focus{
+border-color:#ff2d75;
+}
+
+/* FOOTER */
+.main-footer{
+background:#111;
+color:white;
+padding:;
+}
+
+.footer-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.footer-col a{
+display:block;
+color:#ccc;
+text-decoration:none;
+margin:5px 0;
+transition:0.3s;
+}
+
+.footer-col a:hover{
+color:#ff2d75;
+}
+/* MODAL STYLE */
+/* ================= MODAL OVERLAY ================= */
+/* ===================== PREMIUM MODAL OVERLAY ===================== */
+/* ===================== PREMIUM MODAL OVERLAY ===================== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 5000;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(10px);
+    animation: fadeInModal 0.4s ease;
+}
+
+@keyframes fadeInModal {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+
+/* ===================== MODAL CONTAINER ===================== */
+.modal-content {
+    width: 95%;
+    max-width: 1350px;
+    height: 92vh;
+    margin: 25px auto;
+    border-radius: 35px;
+    padding: 40px;
+    overflow-y: auto;
+    background: linear-gradient(135deg,#ffffff,#ffeaf4);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.3);
+    position: relative;
+    animation: zoomIn 0.4s ease;
+}
+
+@keyframes zoomIn {
+    from {transform: scale(0.85); opacity:0;}
+    to {transform: scale(1); opacity:1;}
+}
+
+/* ===================== MODAL TITLE ===================== */
+.modal-content h2 {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(90deg,#ff2d75,#8a2be2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ===================== CLOSE BUTTON ===================== */
+.close-btn {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    font-size: 30px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.close-btn:hover {
+    color:#ff2d75;
+    transform: rotate(180deg) scale(1.2);
+}
+
+/* ===================== FILTER BAR ===================== */
+.filter-section {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    background: white;
+    padding: 18px 25px;
+    border-radius: 20px;
+    margin: 25px 0;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.filter-section label {
+    font-weight: 600;
+}
+
+.filter-section select {
+    padding: 10px 18px;
+    border-radius: 25px;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: 0.3s;
+}
+
+.filter-section select:focus {
+    border-color: #ff2d75;
+    box-shadow: 0 0 10px rgba(255,45,117,0.3);
+}
+
+/* ===================== PRODUCT GRID ===================== */
+#modalProductGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 35px;
+}
+
+/* ===================== PRODUCT CARD ===================== */
+.modal-product-card {
+    background: white;
+    border-radius: 30px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 20px 35px rgba(0,0,0,0.08);
+    transition: 0.4s ease;
+    position: relative;
+}
+
+.modal-product-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 30px 50px rgba(0,0,0,0.18);
+}
+
+/* IMAGE */
+.modal-product-card img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 25px;
+    transition: 0.4s;
+}
+
+.modal-product-card:hover img {
+    transform: scale(1.07);
+}
+
+/* PRODUCT NAME */
+.modal-product-card h4 {
+    margin-top: 12px;
+    font-weight: 600;
+}
+
+/* PRICE */
+.modal-product-card .price {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 8px 0;
+    color: #ff2d75;
+}
+
+/* BADGE */
+.badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: linear-gradient(90deg,#ff2d75,#8a2be2);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ADD BUTTON */
+.modal-product-card button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+</style>
+</head>
+<body>
+
+<div class="promo-bar">
+    BEAUTY BONANZA ✨ Get Your Amazing Deals!
+    <span class="promo-links">
+        <a href="https://play.google.com/store/games?device=windows">Get App</a> |
+        <a href="/store_&_event">Store & Events</a> |
+        <a href="/gift_cart">Gift Card</a> |
+        <a href="/helpcenter">Help</a>
+    </span>
+</div>
+
+<header class="nykaa-header">
+
+    <div class="logo">GlamFleur</div>
+
+    <nav class="main-nav">
+
+    <div class="nav-item">
+        <input type="checkbox" id="cat-toggle">
+        <label for="cat-toggle">Categories ▾</label>
+        <div class="dropdown">
+            <a href="#">Makeup</a>
+            <a href="#">Skin</a>
+            <a href="#">Hair</a>
+            <a href="#">Bath & Body</a>
+            <a href="#">Fragrance</a>
+        </div>
+    </div>
+
+    <div class="nav-item">
+        <input type="checkbox" id="brand-toggle">
+        <label for="brand-toggle">Brands ▾</label>
+        <div class="dropdown">
+            <a href="#">L'Oreal</a>
+            <a href="#">Lakme</a>
+            <a href="#">Maybelline</a>
+            <a href="#">Plum</a>
+            <a href="#">Mamaearth</a>
+        </div>
+    </div>
+
+    <div class="nav-item">
+        <input type="checkbox" id="luxe-toggle">
+        <label for="luxe-toggle">Luxe ▾</label>
+        <div class="dropdown">
+            <a href="#">MAC</a>
+            <a href="#">Estee Lauder</a>
+            <a href="#">Huda Beauty</a>
+            <a href="#">Clinique</a>
+        </div>
+    </div>
+
+    <div class="nav-item">
+        <input type="checkbox" id="service-toggle">
+        <label for="service-toggle">Services ▾</label>
+        <div class="dropdown">
+            <a href="#">Makeover</a>
+            <a href="#">Skin Consultation</a>
+            <a href="#">Hair Spa</a>
+            <a href="#">Bridal Care</a>
+        </div>
+    </div>
+
+    <div class="nav-item">
+        <input type="checkbox" id="advice-toggle">
+        <label for="advice-toggle">Beauty Advice ▾</label>
+        <div class="dropdown">
+            <a href="#">Skincare Tips</a>
+            <a href="#">Makeup Tutorials</a>
+            <a href="#">Hair Care</a>
+            <a href="#">Wellness</a>
+        </div>
+    </div>
+
+</nav>
+
+   <div class="header-actions">
+    <div style="position:relative;">
+        <input type="text" id="searchInput" placeholder="Search on GlamFleur 🔍" autocomplete="off">
+        <div id="searchResults" style="position:absolute; top:40px; left:0; width:100%; background:white; box-shadow:0 10px 25px rgba(0,0,0,0.15); border-radius:10px; display:none; max-height:300px; overflow-y:auto; z-index:2000;"></div>
+    </div>
+
+   <div id="auth-buttons">
+    {% if user_logged_in %}
+        <a href="/wishlist" class="signin-btn">❤️ Wishlist</a>
+        <a href="/logout" class="signin-btn" style="background:#333;">Logout</a>
+    {% else %}
+        <a href="/userlogin" class="signin-btn">Signin</a>
+        <a href="/admin_login" class="signin-btn">🤵‍♀️</a>
+    {% endif %}
+</div>
+    </div>
+
+
+</div>
+        <a href="/cart" class="icon" style="position:relative;">
+        👜
+        <span id="cartCount"
+          style="position:absolute; top:-8px; right:-10px;
+                 background:#ff2d75; color:white;
+                 font-size:12px; padding:3px 7px;
+                 border-radius:50%;">
+        {{ cart_count if cart_count else 0 }}
+        </span>
+</a>
+    </div>
+
+</header>
+
+<div class="category-bar">
+    {% for cat in categories %}
+        <a href="javascript:void(0)"
+           onclick="openCategoryModal('{{ cat|trim }}')">
+           {{ cat }}
+        </a>
+    {% endfor %}
+
+    <a href="javascript:void(0)" onclick="openSaleModal()">SALE 🔥</a>
+<div id="saleModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeSaleModal()">&times;</span>
+        <h2>🔥 Sale Products</h2>
+
+        <div class="product-grid">
+            {% for s in sale_products %}
+            <div class="product-card">
+                <div class="badge">SAVE {{ s.offer_percentage }}%</div>
+
+                <img src="{{ url_for('static', filename='uploads/' + s.image_url) }}">
+
+                <h4>{{ s.sale_name }}</h4>
+
+                <p>
+                    <span style="text-decoration:line-through;">
+                        ₹ {{ s.original_price }}
+                    </span>
+                </p>
+
+                <p>₹ {{ s.sale_price }}</p>
+            <button class="primary" type="button"
+        onclick="addToCart({{ s.id }})">
+    Add to Bag 👜
+</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+<section class="hero-section">
+    <h2>✨ WEDDING BEAUTY, INCOMING ✨</h2>
+
+    <div class="hero-cards">
+
+        <div class="hero-card">
+            <img src="/static/images/image16.webp">
+            <div class="hero-text">
+                <h3>Prep. Tint. Set.</h3>
+                <p>New Launch • Skincare infused</p>
+            </div>
+        </div>
+
+        <div class="hero-card">
+            <img src="/static/images/image1.webp">
+            <div class="hero-text">
+                <h3>Long Weekend Sale</h3>
+                <p>Flat 35% OFF • Valentine Special</p>
+            </div>
+        </div>
+
+        <div class="hero-card">
+            <img src="/static/images/image17.webp">
+            <div class="hero-text">
+                <h3>Limited Edition</h3>
+                <p>Couture Beauty Collection</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="banner">
+    <div class="banner-text">
+        <h2>Winter Beauty Essentials</h2>
+
+        <p>Up to 50% off</p>
+        <button>Shop Now</button>
+
+    </div>
+</section>
+
+<section class="products">
+    <div class="section-header">
+        <h2>All Products</h2>
+        <button onclick="openProductModal()">View All</button>
+    </div>
+
+    <div class="product-grid">
+      {% for p in homepage_products %}
+<div class="product-card">
+    <img src="{{ url_for('static', filename='uploads/' + p.file) }}">
+    <h4>{{ p.product_name }}</h4>
+    <p>{{ p.description }}</p>
+    <p>₹ {{ p.price }}</p>
+    <button onclick="addToCart({{ p.id }})">
+    Add to Bag 👜
+</button>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="banner">
+    <div class="banner-text" align="center">
+        <h2>20% off on L'OREAL PARIS</h2>
+            Buy one get one Free!
+        <p> Get up to 6 Freebies  </p>
+        <a href="#"> <button>Buy Now</button></a>
+
+    </div>
+</section>
+
+
+
+<section class="products">
+    <div class="section-header">
+        <h2>All Products</h2>
+        <button onclick="openProductModal()">View All</button>
+             <span class="close-btn" onclick="closeSaleModal()">&times;</span>
+    </div>
+
+    <div class="product-grid">
+     {% for p in homepage_products %}
+<div class="product-card">
+    <img src="{{ url_for('static', filename='uploads/' + p.file) }}">
+    <h4>{{ p.product_name }}</h4>
+    <p>{{ p.description }}</p>
+    <p>₹ {{ p.price }}</p>
+    <button onclick="addToCart({{ p.id }})">
+    Add to Bag 👜
+</button>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="live-reviews" style="padding: 50px 40px;">
+    <h2 style="text-align:center; margin-bottom:30px;">What Our Customers Say ✨</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+        {% for rev in live_reviews %}
+        <div class="review-card" style="background:#fdfdfd; padding:20px; border-radius:15px; border:1px solid #eee;">
+            <div style="display:flex; justify-content:space-between;">
+                <span style="font-weight:600;">{{ rev.customer_email.split('@')[0] }}</span>
+                <span class="verified-badge"><i class="fa-solid fa-check-circle"></i> Verified</span>
+            </div>
+            <div style="color:#ffcc00; margin:5px 0;">
+                {% for i in range(rev.rating|int) %}★{% endfor %}
+            </div>
+            <p style="font-size:13px; color:#555;">"{{ rev.review_text }}"</p>
+            {% if rev.review_image %}
+            <img src="{{ url_for('static', filename='uploads/reviews/' + rev.review_image) }}" style="width:100%; height:150px; object-fit:cover; border-radius:10px; margin-top:10px;">
+            {% endif %}
+            <div style="margin-top:10px; font-size:11px; color:#888;">Product: {{ rev.product_name }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<footer class="bg-[#3f414d] text-white overflow-hidden relative md:min-h-[30vh] flex flex-col justify-between mt-20">
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 w-full">
+        <div class="grid md:grid-cols-12 gap-12 items-start">
+
+            <div class="md:col-span-7 space-y-10">
+                <div>
+                    <div class="logo" align="left">GlamFleur</div>
+                    <br>
+                    <br>
+                    <br>
+                    <p class="text-gray-400 max-w-lg text-xl font-light leading-relaxed" align="left">
+                        Celebrating the eternal elegance of beauty and flowers. We bridge the gap between Parisian luxury and modern Indian grace, curating experiences that linger in the soul.
+                    </p>
+                </div>
+
+                <div class="space-y-6">
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] text-white/50" align="left">Connect With Us</h5>
+                    <div class="flex space-x-8 text-3xl">
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="hover:text-[#fc2779] transition-all"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-5 grid grid-cols-2 gap-8">
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Explore</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/aboutus" class="hover:text-[#fc2779] transition">Who are we?</a></li>
+                        <li><a href="/authenticity" class="hover:text-[#fc2779] transition">Authenticity</a></li>
+                        <li><a href="/career" class="hover:text-[#fc2779] transition">Career</a></li>
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold text-xs uppercase tracking-[0.3em] mb-10 text-white/50">Support</h5>
+                    <ul class="space-y-5 text-base font-medium">
+                        <li><a href="/privacy_policy" class="hover:text-[#fc2779] transition">Shipping Policy</a></li>
+                        <li><a href="/return_policy" class="hover:text-[#fc2779] transition">Return Center</a></li>
+
+                        <li><a href="/helpcenter" class="hover:text-[#fc2779] transition">FAQs</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full">
+        <div class="max-w-7xl mx-auto px-4 border-t border-white/10 py-10 flex flex-col md:flex-row justify-between items-center text-[11px] font-bold uppercase tracking-widest text-white/40">
+            <p>© 2026 GLAMFLEUR E-RETAIL LIMITED. ALL RIGHTS RESERVED.</p>
+            <div class="flex space-x-10 mt-6 md:mt-0">
+                <a href="/privacy_policy" class="hover:text-white transition">Privacy</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Terms</a>
+                <a href="/terms_conditions" class="hover:text-white transition">Cookies</a>
+            </div>
+        </div>
+        <div class="h-2 bg-gradient-to-r from-[#fc2779] via-[#ff7eb3] to-[#fc2779]"></div>
+    </div>
+</footer>
+
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeProductModal()">&times;</span>
+
+        <h2>All Products</h2>
+
+        <div class="filter-section">
+            <label>Sort by Price:</label>
+            <select id="priceSort">
+                <option value="">Select</option>
+                <option value="low">Low to High</option>
+                <option value="high">High to Low</option>
+            </select>
+
+            <label>Category:</label>
+            <select id="categoryFilter">
+                <option value="">All</option>
+                {% for cat in categories %}
+                <option value="{{ cat }}">{{ cat }}</option>
+
+                {% endfor %}
+            </select>
+        </div>
+
+        <div id="modalProductGrid" class="product-grid">  </div>
+
+    </div>
+</div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+let allProducts = {{ all_products | tojson | safe }};
+let filteredProducts = [...allProducts];
+
+// OPEN PRODUCT MODAL
+window.openProductModal = function(){
+    document.getElementById("productModal").style.display="block";
+    displayProducts(filteredProducts);
+}
+
+window.closeProductModal = function(){
+    document.getElementById("productModal").style.display="none";
+}
+
+// OPEN SALE MODAL
+window.openSaleModal = function(){
+    document.getElementById("saleModal").style.display="block";
+}
+
+window.closeSaleModal = function(){
+    document.getElementById("saleModal").style.display="none";
+}
+
+// DISPLAY PRODUCTS
+
+function displayProducts(products){
+
+    let grid = document.getElementById("modalProductGrid");
+    grid.innerHTML = "";
+
+    products.forEach(p=>{
+
+        let imagePath = p.file
+            ? "/static/uploads/" + p.file
+            : "https://via.placeholder.com/200";
+
+        grid.innerHTML += `
+        <div class="modal-product-card">
+            <img src="${imagePath}">
+            <h4>${p.product_name}</h4>
+            <div class="price">₹ ${p.price}</div>
+
+            <button onclick="addToCart(${p.id})">
+                Add to Bag 👜
+            </button>
+        </div>`;
+    });
+}
+
+// SAFE EVENT LISTENERS
+let priceSort = document.getElementById("priceSort");
+if(priceSort){
+    priceSort.addEventListener("change", function(){
+        if(this.value === "low"){
+            filteredProducts.sort((a,b)=> a.price - b.price);
+        }
+        else if(this.value === "high"){
+            filteredProducts.sort((a,b)=> b.price - a.price);
+        }
+        displayProducts(filteredProducts);
+    });
+}
+
+let categoryFilter = document.getElementById("categoryFilter");
+if(categoryFilter){
+    categoryFilter.addEventListener("change", function(){
+
+        let category = this.value;
+
+        if(category === ""){
+            filteredProducts = [...allProducts];
+        } else {
+            filteredProducts = allProducts.filter(p =>
+                p.category_name.trim() === category.trim()
+            );
+        }
+
+        displayProducts(filteredProducts);
+    });
+}
+
+// CLOSE ON OUTSIDE CLICK
+window.onclick = function(event){
+    let productModal = document.getElementById("productModal");
+    let saleModal = document.getElementById("saleModal");
+
+    if(event.target == productModal){
+        productModal.style.display="none";
+    }
+
+    if(event.target == saleModal){
+        saleModal.style.display="none";
+    }
+}
+
+});
+
+    // ADd to cart fuction
+function addToCart(productId){
+
+    fetch("/add_to_cart/" + productId, {
+        method: "POST"
+    })
+    .then(response => {
+
+        // If login required
+        if(response.redirected){
+            window.location.href = response.url;
+            return;
+        }
+
+        return response.json();
+    })
+    .then(data => {
+
+        if(data && data.status === "success"){
+
+            // Update cart badge
+            document.getElementById("cartCount").innerText = data.cart_count;
+
+            // Optional toast
+            console.log("Product added to cart");
+        }
+    })
+    .catch(error => console.log("Error:", error));
+}
+    const searchInput = document.getElementById("searchInput");
+const searchResults = document.getElementById("searchResults");
+
+if(searchInput){
+
+    searchInput.addEventListener("keyup", function(){
+
+        let query = this.value;
+
+        if(query.length < 2){
+            searchResults.style.display="none";
+            return;
+        }
+
+        fetch("/search_products?q=" + query)
+        .then(res=>res.json())
+        .then(data=>{
+
+            searchResults.innerHTML="";
+
+            if(data.results.length === 0){
+                searchResults.innerHTML="<p style='padding:10px;'>No products found</p>";
+            }
+
+            data.results.forEach(p=>{
+
+                let imagePath = p.file
+                    ? "/static/uploads/" + p.file
+                    : "https://via.placeholder.com/50";
+
+                searchResults.innerHTML += `
+                    <div style="display:flex;
+                                align-items:center;
+                                padding:10px;
+                                cursor:pointer;
+                                border-bottom:1px solid #eee;"
+                         onclick="addToCart(${p.id})">
+
+                        <img src="${imagePath}"
+                             style="width:40px;height:40px;
+                                    object-fit:cover;
+                                    border-radius:8px;
+                                    margin-right:10px;">
+
+                        <div>
+                            <div>${p.product_name}</div>
+                            <small style="color:gray;">
+                                ${p.category_name} • ₹${p.price}
+                            </small>
+                        </div>
+                    </div>
+                `;
+            });
+
+            searchResults.style.display="block";
+        });
+    });
+
+    // Hide when clicking outside
+    document.addEventListener("click", function(e){
+        if(!searchInput.contains(e.target)){
+            searchResults.style.display="none";
+        }
+    });
+}
+// categories dialog box JS
+   window.openCategoryModal = function(categoryName) {
+    const modal = document.getElementById("categoryModal");
+    const grid = document.getElementById("categoryProductGrid");
+    const title = document.getElementById("categoryTitle");
+
+    title.innerText = categoryName + " Collection";
+    grid.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>✨ Searching for the best products...</p>";
+    modal.style.display = "block";
+
+    fetch("/get_products_by_category/" + encodeURIComponent(categoryName))
+        .then(res => res.json())
+        .then(data => {
+            console.log("Data received:", data); // DEBUG: Check your F12 console
+            grid.innerHTML = "";
+
+            if (!data || data.length === 0) {
+                grid.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>No products found in " + categoryName + " yet.</p>";
+                return;
+            }
+
+            data.forEach(p => {
+                // Determine property names (handles both Dictionary and Tuple fallback)
+                let id = p.id || p[0];
+                let name = p.product_name || p[1];
+                let price = p.price || p[2];
+                let file = p.file || p[3];
+
+                let imagePath = file ? "/static/uploads/" + file : "https://via.placeholder.com/200";
+
+                grid.innerHTML += `
+                <div class="modal-product-card">
+                    <img src="${imagePath}" onerror="this.src='https://via.placeholder.com/200'">
+                    <h4>${name}</h4>
+                    <div class="price">₹ ${price}</div>
+                    <button onclick="addToCart(${id})">
+                        Add to Bag 👜
+                    </button>
+                </div>`;
+            });
+        })
+        .catch(err => {
+            console.error("Fetch error:", err);
+            grid.innerHTML = "<p style='color:red;'>Oops! Something went wrong while loading.</p>";
+        });
+}
+
+// Ensure the modal can close
+window.closeCategoryModal = function() {
+    document.getElementById("categoryModal").style.display = "none";
+}
+
+</script>
+
+<div id="productmodal" class="modal">
+    <div class="modal-content">
+
+        <span class="close-btn" onclick="closeSaleModal()">&times;</span>
+
+        <h2>🔥 Live Sale Products</h2>
+
+        <div class="product-grid">
+
+            {% for s in sale_products %}
+            <div class="modal-product-card">
+
+                <div class="badge">SAVE {{ s[3] }}%</div>
+
+                <img src="{{ url_for('static', filename='uploads/' + s[4]) if s[4] else 'https://via.placeholder.com/200' }}">
+
+                <h4>{{ s[0] }}</h4>
+
+                <div class="price">
+                    <span style="text-decoration: line-through; color: gray;">
+                        ₹ {{ s[1] }}
+                    </span>
+                    <br>
+                    ₹ {{ s[2] }}
+                </div>
+
+           <button class="primary" type="button"
+        onclick="addToCart({{ s.id }})">
+    Apply offer ✨
+</button>
+
+            </div>
+            {% else %}
+            <p style="text-align:center;">No Sale Products Available</p>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</div>
+
+<div id="categoryModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeCategoryModal()">&times;</span>
+        <h2 id="categoryTitle" style="margin-bottom: 20px;">Category Products</h2>
+        <hr>
+        <div id="categoryProductGrid" class="product-grid">
+            </div>
+    </div>
+</div>
+
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeProductModal()">&times;</span>
+
+        <h2>All Products</h2>
+
+        <div class="filter-section">
+            <label>Sort by Price:</label>
+            <select id="priceSort">
+                <option value="">Select</option>
+                <option value="low">Low to High</option>
+                <option value="high">High to Low</option>
+            </select>
+
+            <label>Category:</label>
+            <select id="categoryFilter">
+                <option value="">All</option>
+                {% for cat in categories %}
+                <option value="{{ cat }}">{{ cat }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div id="modalProductGrid" class="product-grid"  button="add to bag"></div>
+    </div>
+</div>
+
+<div id="categoryModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeCategoryModal()">&times;</span>
+
+        <h2 id="categoryTitle" style="margin-bottom: 20px;">Category Products</h2>
+
+        <div id="categoryProductGrid" class="product-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 35px;">
+            </div>
+    </div>
+</div>
+
+</body>
+</html>

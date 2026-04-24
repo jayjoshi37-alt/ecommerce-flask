@@ -1,0 +1,224 @@
+{% include 'admin/base_admin.html' %}
+
+<style>
+    /* RESET & LAYOUT FIX */
+    :root {
+        --pink-gradient: linear-gradient(90deg, #ff2d75, #ff2d8d);
+        --sidebar-width: 250px;
+        --bg-light: #f8fafc;
+    }
+
+    body {
+        background-color: var(--bg-light);
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    /* Main Content Wrapper - THIS FIXES THE OVERLAP */
+    .delivery-dashboard {
+        margin-left: var(--sidebar-width);
+        padding: 40px;
+        min-height: 100vh;
+        transition: all 0.3s;
+    }
+
+    /* KPI Cards Styling */
+    .delivery-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border-bottom: 4px solid #eee;
+    }
+
+    .stat-card.pending { border-color: #facc15; }
+    .stat-card.transit { border-color: #3b82f6; }
+    .stat-card.delivered { border-color: #22c55e; }
+
+    /* Modern Table Styling */
+    .table-container {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        overflow: hidden;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        background: #1e293b;
+        color: white;
+        padding: 18px;
+        text-align: left;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    td {
+        padding: 15px 18px;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+    }
+
+    tr:hover { background-color: #fcfdfe; }
+
+    /* UI Components */
+    .status-select {
+        padding: 8px 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background: #fff;
+        font-size: 14px;
+        width: 140px;
+    }
+
+    .btn-update {
+        background: var(--pink-gradient);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.3s;
+        margin-left: 5px;
+    }
+
+    .btn-update:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255, 45, 117, 0.3); }
+
+    .badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        display: inline-block;
+    }
+
+    /* Sidebar Active Link Fix */
+    .dash-sidebar a.active {
+        background: var(--pink-gradient) !important;
+        color: white !important;
+    }
+</style>
+
+<div class="delivery-dashboard">
+    <div class="dash-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <div>
+            <h1 style="margin: 0; font-size: 26px; color: #1e293b;">Shipping Logistics</h1>
+            <p style="color: #64748b; margin: 5px 0 0 0;">Manage real-time order tracking and delivery statuses</p>
+        </div>
+        <div class="search-box">
+            <input type="text" id="deliverySearch" placeholder="Search order or email..."
+                   style="padding: 12px 20px; width: 300px; border-radius: 10px; border: 1px solid #ddd; outline: none;">
+        </div>
+    </div>
+
+    <div class="delivery-stats">
+        <div class="stat-card pending">
+            <h4 style="margin: 0; color: #64748b;">New Orders</h4>
+            <h2 style="margin: 10px 0 0 0;">{{ pending }}</h2>
+        </div>
+        <div class="stat-card transit">
+            <h4 style="margin: 0; color: #64748b;">In Transit</h4>
+            <h2 style="margin: 10px 0 0 0;">{{ in_transit }}</h2>
+        </div>
+        <div class="stat-card">
+            <h4 style="margin: 0; color: #64748b;">Partners</h4>
+            <p style="margin: 10px 0 0 0; font-weight: 600; color: #ff2d8d;">Shiprocket / Delhivery</p>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Order Details</th>
+                    <th>Customer & Contact</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Update Status</th>
+                </tr>
+            </thead>
+            <tbody id="deliveryTableBody">
+               {% for d in deliveries %}
+<tr>
+    <td>
+        <span style="font-weight: 700; color: #ff2d8d;">#{{ d.order_number }}</span><br>
+        <small style="color: #64748b;">{{ d.product_name }}</small>
+    </td>
+    <td>
+        <div style="font-weight: 600;">{{ d.fullname or d.customer_name }}</div>
+        <div style="font-size: 12px; color: #94a3b8;">{{ d.customer_email }}</div>
+    </td>
+    <td style="max-width: 200px; font-size: 13px;">
+        {% if d.address_line1 %}
+            <i class="fas fa-map-marker-alt" style="color: #ff2d8d;"></i>
+            {{ d.address_line1 }}, {{ d.city }}, {{ d.pincode }}
+        {% else %}
+            <span style="color: #94a3b8; font-style: italic;">{{ d.location }}</span>
+        {% endif %}
+    </td>
+    <td>
+        <div style="margin-bottom: 5px;">
+            {% if d.status|lower == 'placed' %}
+                <span class="badge" style="background:#fef3c7; color:#92400e;">PLACED</span>
+            {% elif d.status|lower == 'on way' %}
+                <span class="badge" style="background:#dcfce7; color:#166534;">ON THE WAY</span>
+            {% elif d.status|lower == 'cancelled' %}
+                <span class="badge" style="background:#fee2e2; color:#991b1b;">CANCELLED</span>
+            {% else %}
+                <span class="badge" style="background:#e0e7ff; color:#3730a3;">{{ d.status|upper }}</span>
+            {% endif %}
+        </div>
+        <small style="font-weight: bold; color: #475569;">
+            {{ d.payment_method }} -
+            <span style="color: {% if d.payment_method == 'COD' %}#f59e0b{% else %}#10b981{% endif %};">
+                {% if d.payment_method == 'COD' %}Pending{% else %}Paid{% endif %}
+            </span>
+        </small>
+    </td>
+    <td>
+        {% if d.status|lower == 'cancelled' %}
+            <span style="color: #ef4444; font-weight: 600; font-size: 13px;">Order Terminated</span>
+        {% else %}
+            <form action="/admin_delivery" method="POST" style="display: flex; align-items: center;">
+                <input type="hidden" name="order_id" value="{{ d.id }}">
+                <select name="status" class="status-select">
+                    <option value="Placed" {% if d.status == 'Placed' %}selected{% endif %}>Placed</option>
+                    <option value="processing" {% if d.status == 'processing' %}selected{% endif %}>Processing</option>
+                    <option value="on way" {% if d.status == 'on way' %}selected{% endif %}>On Way</option>
+                    <option value="arrived" {% if d.status == 'arrived' %}selected{% endif %}>Arrived</option>
+                    <option value="cancelled" {% if d.status == 'cancelled' %}selected{% endif %}>Cancel Order</option>
+                </select>
+                <button type="submit" class="btn-update"><i class="fas fa-check"></i></button>
+            </form>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Search Functionality
+    document.getElementById("deliverySearch").addEventListener("keyup", function() {
+        let value = this.value.toLowerCase();
+        let rows = document.querySelectorAll("#deliveryTableBody tr");
+        rows.forEach(row => {
+            row.style.display = row.textContent.toLowerCase().includes(value) ? "" : "none";
+        });
+    });
+</script>

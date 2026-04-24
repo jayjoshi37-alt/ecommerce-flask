@@ -1,0 +1,222 @@
+{% include 'admin/base_admin.html' %}
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        :root {
+            --pink: #ff2d8d;
+            --pink-light: #fff1f2;
+            --bg: #f8fafc;
+            --dark: #0f172a;
+            --border: #e2e8f0;
+            --success: #22c55e;
+        }
+
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); display: flex; color: var(--dark); overflow-x: hidden; }
+ .sidebar {
+            width: 230px;
+            position: fixed;
+            height: 100vh;
+            background: #1d2b64;
+            z-index: 100;
+        }
+
+        /* Main Content wrapper to prevent merging under sidebar */
+        .main-content-fixed {
+            flex: 1;
+            margin-left: 230px; /* Matches sidebar width */
+            padding: 30px;
+            min-width: 0;
+        }
+
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 260px; padding: 40px; max-width: 1200px; }
+
+        /* Enhanced Header */
+        .header-section { margin-bottom: 35px; }
+        .header-section h1 { margin: 0; font-size: 32px; font-weight: 700; color: #1e293b; }
+        .header-section p { color: #64748b; margin-top: 8px; font-size: 15px; }
+
+        /* Modern Tabs */
+        .settings-nav { display: flex; gap: 8px; margin-bottom: 30px; background: #f1f5f9; padding: 6px; border-radius: 12px; width: fit-content; }
+        .nav-item { padding: 10px 20px; cursor: pointer; border-radius: 8px; font-size: 14px; font-weight: 600; color: #64748b; transition: 0.3s; }
+        .nav-item:hover { color: var(--pink); }
+        .nav-item.active { background: white; color: var(--pink); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+
+        /* Quick Info Cards (The "Extra" stuff you wanted) */
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .info-card { background: white; padding: 20px; border-radius: 16px; border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; }
+        .info-icon { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+
+        /* Settings Cards */
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card { background: white; border-radius: 20px; border: 1px solid var(--border); padding: 32px; margin-bottom: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .card-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .icon-box { width: 48px; height: 48px; background: var(--pink-light); color: var(--pink); display: flex; align-items: center; justify-content: center; border-radius: 14px; font-size: 22px; }
+
+        /* Form Elements */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select, textarea { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 12px; font-size: 14px; background: #fdfdfd; transition: all 0.3s; }
+        input:focus { outline: none; border-color: var(--pink); box-shadow: 0 0 0 4px rgba(255, 45, 141, 0.1); }
+
+        /* Switches */
+        .switch-row { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: #f8fafc; border-radius: 12px; margin-bottom: 12px; border: 1px solid transparent; transition: 0.3s; }
+        .switch-row:hover { border-color: var(--pink); background: white; }
+
+        /* Buttons */
+        .btn-action { background: var(--dark); color: white; border: none; padding: 30px 40px; border-radius: 40px; font-weight: 750; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; float: right; }
+        .btn-action:hover { background: var(--pink); transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(255, 45, 141, 0.3); }
+
+        /* TOAST POPUP */
+        #toast {
+            visibility: hidden; min-width: 300px; background-color: #1e293b; color: #fff; text-align: center; border-radius: 12px;
+            padding: 16px; position: fixed; z-index: 1000; right: 30px; top: 30px; font-weight: 500;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); border-left: 5px solid var(--success);
+        }
+        #toast.show { visibility: visible; animation: slideIn 0.5s, slideOut 0.5s 2.5s; }
+        @keyframes slideIn { from { right: -300px; opacity: 0; } to { right: 30px; opacity: 1; } }
+        @keyframes slideOut { from { right: 30px; opacity: 1; } to { right: -300px; opacity: 0; } }
+        .logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+
+    </style>
+
+
+    <div class="main-content">
+        <div class="header-section">
+            <h1 id="tab-title">Store Settings</h1>
+            <p id="tab-desc">Configure your shop identity, payments, and security protocols.</p>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-icon" style="background:#dcfce7; color:#16a34a;">🛡️</div>
+                <div><small style="color:#64748b">SSL Status</small><div style="font-weight:700">Active & Secure</div></div>
+            </div>
+            <div class="info-card">
+                <div class="info-icon" style="background:#e0e7ff; color:#4338ca;">💳</div>
+                <div><small style="color:#64748b">Primary Gateway</small><div style="font-weight:700">Razorpay</div></div>
+            </div>
+            <div class="info-card">
+                <div class="info-icon" style="background:#fef3c7; color:#d97706;">📦</div>
+                <div><small style="color:#64748b">Store Status</small><div style="font-weight:700">Online</div></div>
+            </div>
+        </div>
+
+        <div class="settings-nav">
+            <div class="nav-item active" onclick="openTab(event, 'general')">🏠 General</div>
+            <div class="nav-item" onclick="openTab(event, 'payment')">💳 Payment</div>
+            <div class="nav-item" onclick="openTab(event, 'shipping')">🚚 Shipping</div>
+            <div class="nav-item" onclick="openTab(event, 'notifications')">🔔 Notifications</div>
+            <div class="nav-item" onclick="openTab(event, 'security')">🔒 Security</div>
+        </div>
+
+        <div id="general" class="tab-content active">
+            <div class="card">
+                <div class="card-header"><div class="icon-box">🏢</div><h3>Store Identity</h3></div>
+                <div class="form-grid">
+                    <div class="form-group"><label>Store Name</label><input type="text" id="store_name" value="{{ s.store_name }}"></div>
+                    <div class="form-group"><label>Support Email</label><input type="email" id="store_email" value="{{ s.store_email }}"></div>
+                </div>
+                <button class="btn-action" onclick="showToast('General Settings Saved!')">💾 Save </button>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+
+        <div id="payment" class="tab-content">
+            <div class="card">
+                <div class="card-header"><div class="icon-box">💰</div><h3>Payment Methods</h3></div>
+                <div class="switch-row">
+                    <div><strong>Enable UPI Payments</strong><p style="font-size:12px; color:#64748b; margin:0">Accept PhonePe, GooglePay, etc.</p></div>
+                    <input type="checkbox" checked style="width:20px; height:20px; accent-color:var(--pink)">
+                </div>
+                <div class="switch-row">
+                    <div><strong>Cash On Delivery</strong><p style="font-size:12px; color:#64748b; margin:0">Charge extra ₹50 for COD orders</p></div>
+                    <input type="checkbox" style="width:20px; height:20px; accent-color:var(--pink)">
+                </div>
+                <button class="btn-action" style="margin-top:50px" onclick="showToast('Payment Methods Updated!')">Update Payment</button>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+
+        <div id="shipping" class="tab-content">
+            <div class="card">
+                <div class="card-header"><div class="icon-box">📦</div><h3>Shipping Configuration</h3></div>
+                <div class="form-grid">
+                    <div class="form-group"><label>Standard Delivery Fee</label><input type="number" value="40"></div>
+                    <div class="form-group"><label>Express Delivery Fee</label><input type="number" value="120"></div>
+                </div>
+                <button class="btn-action" onclick="showToast('Shipping Rates Saved!')">🚚 Save Shipping</button>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+
+        <div id="notifications" class="tab-content">
+            <div class="card">
+                <div class="card-header"><div class="icon-box">🔔</div><h3>Automated Alerts</h3></div>
+                <div class="switch-row">
+                    <div><strong>Customer Welcome Email</strong><p style="font-size:12px; color:#64748b; margin:0">Send after registration</p></div>
+                    <input type="checkbox" checked style="width:20px; height:20px">
+                </div>
+                <div class="switch-row">
+                    <div><strong>SMS Order Updates</strong><p style="font-size:12px; color:#64748b; margin:0">Notify customer on dispatch</p></div>
+                    <input type="checkbox" checked style="width:20px; height:20px">
+                </div>
+                <button class="btn-action" onclick="showToast('Notification Alerts Saved!')">🔔 Save Alerts</button>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+
+        <div id="security" class="tab-content">
+            <div class="card">
+                <div class="card-header"><div class="icon-box">🔐</div><h3>Password & Access</h3></div>
+                <div class="form-group"><label>New Admin Password</label><input type="password" placeholder="••••••••"></div>
+                <div class="form-group"><label>Confirm Password</label><input type="password" placeholder="••••••••"></div>
+                <button class="btn-action" onclick="showToast('Security Password Updated!')"> Update Password</button>
+                <div style="clear:both"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Tab Switching Logic
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) { tabcontent[i].classList.remove("active"); }
+
+            tablinks = document.getElementsByClassName("nav-item");
+            for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
+
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+
+            // Update Text
+            document.getElementById('tab-title').innerText = tabName.charAt(0).toUpperCase() + tabName.slice(1) + " Settings";
+        }
+
+        // Toast Popup Logic
+        function showToast(message) {
+            var x = document.getElementById("toast");
+            x.innerText = "✅ " + message;
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+    </script>
+</body>
+</html>

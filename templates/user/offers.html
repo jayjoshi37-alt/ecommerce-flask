@@ -1,0 +1,88 @@
+{% include 'user/base.html' %}
+<main class="content-area">
+    <div class="welcome-banner" style="background: linear-gradient(135deg, #e91e63, #8e24aa); padding: 35px; border-radius: 20px; color: white; margin-bottom: 25px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h1 style="margin: 0; font-size: 28px;"><i class="fa-solid fa-gift"></i> Special Offers & Deals 🎁</h1>
+                <p style="opacity: 0.9; margin-top: 5px;">Exclusive discounts just for you</p>
+            </div>
+            <div class="banner-metrics" style="display: flex; gap: 20px;">
+                <div style="background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 12px; text-align: center;">
+                    <span style="display: block; font-size: 24px; font-weight: 800;">{{ stats.active }}</span>
+                    <small>Active Offers</small>
+                </div>
+                <div style="background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 12px; text-align: center;">
+                    <span style="display: block; font-size: 24px; font-weight: 800;">{{ stats.max }}%</span>
+                    <small>Max Discount</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="offers-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px;">
+        {% for offer in offers %}
+        <div class="modern-offer-card">
+            <div class="card-top-accent" style="height: 10px; background: var(--nykaa-pink);"></div>
+            <div class="card-body" style="padding: 20px; background: white; border-radius: 0 0 15px 15px; border: 1px solid #eee; position: relative;">
+
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                    <div>
+                        <h3 style="margin: 0; font-size: 20px; color: #333;">{{ offer.title }}</h3>
+                        <p style="color: var(--text-muted); font-size: 13px; margin: 5px 0;">{{ offer.description or 'Limited time offer' }}</p>
+                    </div>
+                    <div class="discount-badge" style="background: var(--hover-pink); color: var(--nykaa-pink); padding: 8px 12px; border-radius: 8px; font-weight: 800;">
+                        {% if offer.discount_type == 'percentage' %}
+                            {{ offer.discount_value }}% OFF
+                        {% else %}
+                            ₹{{ offer.discount_value }} OFF
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="code-box" style="border: 2px dashed #ddd; background: #fafafa; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div>
+                        <small style="display: block; color: #888; text-transform: uppercase; font-size: 10px;">Use Code</small>
+                        <span style="font-family: 'Monospace'; font-weight: 700; font-size: 16px;">{{ offer.offer_code }}</span>
+                    </div>
+                    <button onclick="copyCode('{{ offer.offer_code }}')" style="border: none; background: none; color: #555; cursor: pointer; font-size: 14px;">
+                        <i class="fa-regular fa-copy"></i> Copy
+                    </button>
+                </div>
+
+                <div class="terms" style="font-size: 12px; color: #777; margin-bottom: 20px;">
+                    <div><i class="fa-regular fa-calendar"></i> Until {{ offer.end_date }}</div>
+                    <div style="margin-top: 4px;"><i class="fa-solid fa-circle-info"></i> Min. purchase ₹{{ offer.min_purchase }}</div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <button class="action-btn-pink" onclick="applyOffer('{{ offer.offer_code }}')" style="width: 100%; border-radius: 8px;">
+                        <i class="fa-solid fa-cart-plus"></i> Apply Offer
+                    </button>
+                    <button class="action-btn-outline" onclick="window.location.href='/'" style="width: 100%; border-radius: 8px;">
+                        Shop Now
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+
+<script>
+    function copyCode(code) {
+        navigator.clipboard.writeText(code);
+        // Custom Toast or Alert
+        const alertBox = document.createElement('div');
+        alertBox.innerHTML = `<div style="position: fixed; bottom: 20px; right: 20px; background: #333; color: white; padding: 15px 25px; border-radius: 10px; z-index: 10000; animation: slideIn 0.3s;">Code <b>${code}</b> copied!</div>`;
+        document.body.appendChild(alertBox);
+        setTimeout(() => alertBox.remove(), 3000);
+    }
+
+    function applyOffer(code) {
+        // Logic to store code in session or apply to cart
+        window.location.href = `/user_dashboard?applied_code=${code}`;
+    }
+</script>
+</div>
+</body>
+</html>

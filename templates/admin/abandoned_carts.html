@@ -1,0 +1,149 @@
+{% include 'admin/base_admin.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    :root {
+        --glam-pink: #fc2779;
+        --glam-dark: #1a1c23;
+        --glam-light-pink: #fff0f6;
+    }
+    .main-content { background: #f4f7f6; min-height: 100vh; padding: 30px; }
+
+    /* Stats Cards */
+    .promo-card {
+        background: white; border-radius: 20px; padding: 25px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: none;
+        transition: 0.3s; height: 100%;
+    }
+    .promo-card:hover { transform: translateY(-5px); }
+
+    /* Marketing Actions Bar */
+    .marketing-bar {
+        background: var(--glam-dark); color: white;
+        border-radius: 15px; padding: 20px; margin-bottom: 30px;
+        display: flex; justify-content: space-between; align-items: center;
+    }
+
+    /* Table Styling */
+    .glam-table-container {
+        background: white; border-radius: 20px; padding: 0;
+        overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    }
+    .table { margin-bottom: 0; }
+    .table thead th {
+        background: #fdfdfd; color: #888; font-size: 11px;
+        text-transform: uppercase; letter-spacing: 1px; padding: 20px; border: none;
+    }
+    .table tbody td { padding: 20px; vertical-align: middle; border-color: #f1f1f1; }
+
+    .user-email-pill {
+        background: var(--glam-light-pink); color: var(--glam-pink);
+        padding: 8px 15px; border-radius: 10px; font-weight: 700; font-size: 13px;
+    }
+
+    .btn-action {
+        border-radius: 10px; font-weight: 700; font-size: 12px;
+        padding: 8px 15px; transition: 0.3s;
+    }
+    .btn-cart { background: var(--glam-pink); color: white; border: none; }
+    .btn-miss { background: #6c757d; color: white; border: none; }
+</style>
+
+<div class="main-content">
+    <div class="marketing-bar animate__animated animate__fadeInDown">
+        <div>
+            <h3 class="m-0"><i class="fa-solid fa-bullhorn me-2"></i> Customer Engagement</h3>
+            <p class="m-0 opacity-75 small">Nurture your customers with personalized messages</p>
+        </div>
+        <button class="btn btn-light fw-bold px-4" data-bs-toggle="modal" data-bs-target="#broadcastModal">
+            <i class="fa-solid fa-paper-plane me-2"></i> Broadcast to All ({{ all_users|length }})
+        </button>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8 animate__animated animate__fadeInLeft">
+            <div class="glam-table-container">
+                <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold m-0 text-dark">Abandoned Carts ({{ carts|length }})</h5>
+                    <span class="badge bg-danger rounded-pill">Urgent Recovery</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Item Details</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in carts %}
+                            <tr>
+                                <td><span class="user-email-pill">{{ item.customer_email }}</span></td>
+                                <td>
+                                    <div class="fw-bold">{{ item.product_name }}</div>
+                                    <div class="text-danger small">₹{{ item.price }} | Qty: {{ item.quantity }}</div>
+                                </td>
+                                <td>
+                                    <form action="/admin/send_reminder" method="POST" class="d-inline">
+                                        <input type="hidden" name="email" value="{{ item.customer_email }}">
+                                        <input type="hidden" name="product" value="{{ item.product_name }}">
+                                        <button type="submit" class="btn btn-action btn-cart">Send 10% Off</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 animate__animated animate__fadeInRight">
+            <div class="promo-card">
+                <h5 class="fw-bold mb-4">Quick Engagement</h5>
+                <div class="user-list" style="max-height: 400px; overflow-y: auto;">
+                    {% for user in all_users %}
+                    <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+                        <div class="small fw-bold text-truncate me-2">{{ user.email }}</div>
+                        <form action="/admin/send_miss_you" method="POST">
+                            <input type="hidden" name="email" value="{{ user.email }}">
+                            <button type="submit" class="btn btn-action btn-miss" title="Send We Miss You">
+                                <i class="fa-solid fa-heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="broadcastModal" tabindex="-1">
+    <div class="modal-dialog">
+        <form action="/admin/broadcast_offer" method="POST" class="modal-content border-0 rounded-4">
+            <div class="modal-header bg-dark text-white border-0 py-4">
+                <h5 class="modal-title fw-bold">New Offer Blast ✨</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Offer Headline</label>
+                    <input type="text" name="subject" class="form-control rounded-3" placeholder="e.g. MEGA SALE: Up to 50% Off!" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">The Message</label>
+                    <textarea name="message" rows="4" class="form-control rounded-3" placeholder="Write something lovely for your customers..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer border-0 p-4">
+                <button type="submit" class="btn btn-recover w-100 py-3">Send to All Customers</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

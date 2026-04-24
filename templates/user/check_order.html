@@ -1,0 +1,257 @@
+{% include 'user/base.html' %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    :root {
+        --glam-pink: #fc2779;
+        --glam-pink-light: #ffebf2;
+        --glam-dark: #1a1c23;
+        --track-bg: #f8f9fd;
+        --glass: rgba(255, 255, 255, 0.9);
+    }
+
+    body { background-color: var(--track-bg); font-family: 'Inter', sans-serif; color: #333; overflow-x: hidden; }
+
+    .main-wrapper { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+
+    /* --- SLEEK SEARCH BAR --- */
+    .search-section {
+        background: white;
+        padding: 30px;
+        border-radius: 30px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+        margin-bottom: 30px;
+        border: 1px solid rgba(252, 39, 121, 0.1);
+        text-align: center;
+    }
+
+    .glam-input-group {
+        display: flex;
+        background: #f4f4f4;
+        padding: 8px;
+        border-radius: 20px;
+        max-width: 500px;
+        margin: 20px auto 0;
+        border: 2px solid transparent;
+        transition: 0.3s;
+    }
+
+    .glam-input-group:focus-within {
+        border-color: var(--glam-pink);
+        background: white;
+        box-shadow: 0 0 15px rgba(252, 39, 121, 0.1);
+    }
+
+    .glam-input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        padding: 10px 20px;
+        outline: none;
+        font-weight: 600;
+    }
+
+    .search-btn {
+        background: var(--glam-pink);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 15px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .search-btn:hover { transform: scale(1.05); background: #e61a6b; }
+
+    /* --- TRACKING CARD --- */
+    .tracking-dashboard {
+        background: var(--glass);
+        backdrop-filter: blur(10px);
+        border-radius: 35px;
+        overflow: hidden;
+        box-shadow: 0 40px 80px rgba(0,0,0,0.07);
+        border: 1px solid white;
+    }
+
+    .dash-header {
+        background: var(--glam-dark);
+        color: white;
+        padding: 35px 45px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+
+    .dash-header::after {
+        content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 5px;
+        background: linear-gradient(90deg, transparent, var(--glam-pink), transparent);
+    }
+
+    /* --- ANIMATED TIMELINE --- */
+    .timeline-box { padding: 50px 40px; background: white; }
+
+    .step-progress {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+    }
+
+    .step-progress::before {
+        content: ""; position: absolute; top: 25px; left: 10%; width: 80%; height: 3px; background: #eee; z-index: 1;
+    }
+
+    .progress-fill {
+        position: absolute; top: 25px; left: 10%; height: 3px; background: var(--glam-pink); z-index: 2;
+        transition: width 2s cubic-bezier(0.22, 1, 0.36, 1);
+        width: {% if order.status|lower == 'pending' %} 0%
+               {% elif order.status|lower == 'paid' %} 33%
+               {% elif order.status|lower == 'shipped' %} 66%
+               {% elif order.status|lower == 'delivered' %} 80% {% endif %};
+    }
+
+    .step { position: relative; z-index: 3; text-align: center; flex: 1; }
+
+    .step-icon {
+        width: 50px; height: 50px; background: white; border: 3px solid #eee; border-radius: 18px;
+        display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;
+        color: #bbb; transition: 0.5s ease;
+    }
+
+    .step.active .step-icon {
+        background: var(--glam-pink); border-color: var(--glam-pink); color: white;
+        transform: rotateY(360deg); box-shadow: 0 10px 20px rgba(252, 39, 121, 0.3);
+    }
+
+    .step-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #aaa; letter-spacing: 1px; }
+    .step.active .step-label { color: var(--glam-dark); }
+
+    /* --- PRODUCT LIST SCROLL --- */
+    .product-scroll-area {
+        max-height: 400px; overflow-y: auto; padding: 20px 40px; background: #fdfdfd;
+    }
+
+    .product-item {
+        display: flex; align-items: center; gap: 20px; padding: 15px;
+        background: white; border-radius: 20px; margin-bottom: 15px;
+        border: 1px solid #f0f0f0; transition: 0.3s;
+    }
+
+    .product-item:hover { transform: translateX(10px); border-color: var(--glam-pink); }
+
+    .item-img {
+        width: 80px; height: 80px; border-radius: 15px; object-fit: cover;
+        background: #f9f9f9; padding: 5px;
+    }
+
+    /* --- SUMMARY FOOTER --- */
+    .summary-footer {
+        padding: 30px 45px; background: white; border-top: 2px dashed #eee;
+        display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .price-tag { font-size: 28px; font-weight: 900; color: var(--glam-dark); }
+
+    .status-badge {
+        padding: 6px 15px; border-radius: 10px; font-size: 11px; font-weight: 800;
+        text-transform: uppercase; background: var(--glam-pink-light); color: var(--glam-pink);
+    }
+
+    /* Custom Scrollbar */
+    .product-scroll-area::-webkit-scrollbar { width: 6px; }
+    .product-scroll-area::-webkit-scrollbar-thumb { background: #eee; border-radius: 10px; }
+
+
+</style>
+
+<div class="main-wrapper">
+
+    <div class="search-section animate__animated animate__fadeInDown">
+        <h1 style="font-weight: 900; letter-spacing: -1.5px; margin: 0;">GlamFleur Trace</h1>
+        <p style="color: #888; font-size: 14px;">Where is your beauty box right now?</p>
+
+        <form method="POST" action="/check_order" class="glam-input-group">
+            <input type="text" name="order_id" placeholder="Enter Order Number..." required class="glam-input">
+            <button type="submit" class="search-btn">TRACK</button>
+        </form>
+    </div>
+
+    {% if order_items %}
+    <div class="tracking-dashboard animate__animated animate__fadeInUp">
+
+        <div class="dash-header">
+            <div>
+                <p style="font-size: 11px; font-weight: 700; opacity: 0.6; margin: 0; text-transform: uppercase;">Tracking Package</p>
+                <h2 style="margin: 0; font-weight: 900; letter-spacing: 1px;">#GF-{{ order.order_number }}</h2>
+            </div>
+            <div style="text-align: right;">
+                <span class="status-badge">{{ order.status }}</span>
+                <p style="font-size: 11px; margin-top: 8px; opacity: 0.6;"><i class="fa-regular fa-calendar"></i> {{ order.order_date }}</p>
+            </div>
+        </div>
+
+        <div class="timeline-box">
+            <div class="step-progress">
+                <div class="progress-fill"></div>
+
+                <div class="step active">
+                    <div class="step-icon"><i class="fa-solid fa-check"></i></div>
+                    <div class="step-label">Placed</div>
+                </div>
+
+                <div class="step {% if order.status|lower in ['paid', 'shipped', 'delivered'] %}active{% endif %}">
+                    <div class="step-icon"><i class="fa-solid fa-hand-sparkles"></i></div>
+                    <div class="step-label">Processing</div>
+                </div>
+
+                <div class="step {% if order.status|lower in ['shipped', 'delivered'] %}active{% endif %}">
+                    <div class="step-icon"><i class="fa-solid fa-truck-ramp-box"></i></div>
+                    <div class="step-label">On Way</div>
+                </div>
+
+                <div class="step {% if order.status|lower == 'delivered' %}active{% endif %}">
+                    <div class="step-icon"><i class="fa-solid fa-gift"></i></div>
+                    <div class="step-label">Arrived</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-scroll-area">
+            <p style="font-size: 12px; font-weight: 800; color: #ccc; text-transform: uppercase; margin-bottom: 15px;">Items in this shipment</p>
+
+            {% for item in order_items %}
+            <div class="product-item animate__animated animate__fadeInLeft" style="animation-delay: {{ loop.index0 * 0.1 }}s">
+                <img src="{{ url_for('static', filename='uploads/' + item.file) }}"
+                     class="item-img" onerror="this.src='https://via.placeholder.com/100'">
+
+                <div style="flex: 1;">
+                    <h4 style="margin: 0; font-weight: 800; font-size: 15px;">{{ item.product_name }}</h4>
+                    <p style="margin: 3px 0 0; color: var(--glam-pink); font-weight: 700; font-size: 14px;">₹{{ "{:,.2f}".format(item.amount|float) }}</p>
+                </div>
+
+                <i class="fa-solid fa-circle-check" style="color: #00c853; font-size: 20px;"></i>
+            </div>
+            {% endfor %}
+        </div>
+
+
+        <div class="summary-footer">
+            <a href="/invoice/<order_no>">
+            <button onclick="window.print()" style="background: #f4f4f4; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 700; cursor: pointer;">
+                <i class="fa-solid fa-file-invoice"></i> Get Invoice
+            </button></a>
+
+
+            <div style="text-align: right;">
+                <p style="font-size: 11px; font-weight: 800; color: #999; margin: 0; text-transform: uppercase;">Total Paid</p>
+                <div class="price-tag">₹{{ "{:,.2f}".format(order_items|sum(attribute='amount')|float) }}</div>
+            </div>
+        </div>
+
+    </div>
+    {% endif %}
+
+</div>

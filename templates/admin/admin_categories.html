@@ -1,0 +1,193 @@
+{% include 'admin/base_admin.html' %}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<style>
+.category-table img{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:8px;
+}
+ .sidebar {
+            width: 230px;
+            position: fixed;
+            height: 100vh;
+            background: #1d2b64;
+            z-index: 100;
+        }
+
+        /* Main Content wrapper to prevent merging under sidebar */
+        .main-content-fixed {
+            flex: 1;
+            margin-left: 230px; /* Matches sidebar width */
+            padding: 30px;
+            min-width: 0;
+        }
+
+
+.action-btn{
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-size:16px;
+    margin-right:10px;
+}
+
+.delete-btn{
+    color:red;
+}
+
+.edit-btn{
+    color:#ff3c93;
+}
+.logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(90deg,#ff2d75,#8a2be2);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+ /* Adjustment for your specific style.css sidebar */
+        .sidebar {
+            width: 230px;
+            position: fixed;
+            height: 100vh;
+            background: #1d2b64;
+            z-index: 100;
+        }
+
+        /* Main Content wrapper to prevent merging under sidebar */
+        .main-content-fixed {
+            flex: 1;
+            margin-left: 230px; /* Matches sidebar width */
+            padding: 30px;
+            min-width: 0;
+        }
+
+
+</style>
+
+
+
+<div class="main-content">
+
+<div class="top-bar" style="background: black; border-radius: 12px; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+            <div style="position: relative; width: 50%;">
+                <i class="fa fa-search" style="position: absolute; left: 15px; top: 12px; color: #94a3b8;"></i>
+                <input type="text" id="wildSearch" placeholder="Wildcard Search: Product, Brand, Category..." onkeyup="wildcardFilter()"
+                       style="width: 100%; padding: 10px 15px 10px 45px; border-radius: 25px; border: 1px solid #e2e8f0; outline: none;">
+            </div>
+            <div class="admin" style="color: white; font-weight: 600;">
+                <i class="fa fa-user-circle"></i> Admin User
+            </div>
+        </div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+<h2>Categories Management</h2>
+<button class="primary-btn" onclick="openAddModal()">+ Add Category</button>
+</div>
+
+<table class="category-table">
+<thead>
+<tr>
+    <th>Image</th>
+    <th>Category Name</th>
+    <th>Description</th>
+    <th>Actions</th>
+</tr>
+</thead>
+
+<tbody>
+{% for cat in categories %}
+<tr>
+    <td>
+        <img src="{{ url_for('static', filename='uploads/' + cat[2]) if cat[2] else 'https://via.placeholder.com/60' }}">
+    </td>
+    <td>{{ cat[1] }}</td>
+    <td>{{ cat[3] }}</td>
+    <td>
+        <button class="edit-btn"
+        onclick="openEditModal('{{cat[0]}}','{{cat[1]}}','{{cat[3]}}')">✏️</button>
+
+        <a href="/delete_category/{{cat[0]}}"
+           onclick="return confirm('Delete this category?')"
+           class="delete-btn">🗑️</a>
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="categoryModal">
+<div class="modal-content">
+
+<h3 id="modalTitle">Add Category</h3>
+
+<form method="POST" enctype="multipart/form-data" id="categoryForm">
+
+<input type="hidden" name="cid" id="cid">
+
+<label>Category Name</label>
+<input type="text" name="category_name" id="category_name" required>
+
+<label>Upload Image</label>
+<input type="file" name="fuPhoto">
+
+<label>Description</label>
+<textarea name="description" id="description"></textarea>
+
+<br>
+
+<button type="button" onclick="closeModal()">Cancel</button>
+<button type="submit" class="primary-btn" id="submitBtn">Add Category</button>
+
+</form>
+
+</div>
+</div>
+
+<script>
+function openAddModal(){
+    categoryModal.style.display="flex";
+    modalTitle.innerText="Add Category";
+    submitBtn.innerText="Add Category";
+    categoryForm.action="/add_category";
+    categoryForm.reset();
+}
+
+function openEditModal(id,name,desc){
+    categoryModal.style.display="flex";
+    modalTitle.innerText="Edit Category";
+    submitBtn.innerText="Update Category";
+    categoryForm.action="/update_category";
+    cid.value=id;
+    category_name.value=name;
+    description.value=desc;
+}
+
+function closeModal(){
+    categoryModal.style.display="none";
+}
+
+        // Wildcard Search Function
+        function wildcardFilter() {
+            let input = document.getElementById("wildSearch").value.toLowerCase();
+            let rows = document.querySelectorAll(".product-row");
+            rows.forEach(row => {
+                let text = row.innerText.toLowerCase();
+                row.style.display = text.includes(input) ? "" : "none";
+            });
+        }
+</script>
+
+</body>
+</html>

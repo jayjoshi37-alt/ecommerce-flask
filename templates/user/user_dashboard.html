@@ -1,0 +1,254 @@
+{% include 'user/base.html' %}
+
+<style>
+    /* --- GRID & LAYOUT --- */
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 25px;
+        padding: 20px 0;
+    }
+
+    .product-item {
+        position: relative;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s;
+        border: 1px solid #eee;
+    }
+
+    .image-box {
+        position: relative;
+        height: 250px;
+        background: #fdfdfd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* --- THE HEART BUTTON --- */
+    .fav-btn {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: white;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        z-index: 30;
+        transition: transform 0.2s ease;
+    }
+
+    .fav-btn:hover { transform: scale(1.15); }
+
+    .fav-btn i {
+        font-size: 18px;
+        color: #ccc;
+        transition: color 0.3s;
+    }
+
+    /* --- TOAST NOTIFICATION --- */
+    .cart-toast {
+        position: fixed;
+        bottom: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #333;
+        color: white;
+        padding: 14px 28px;
+        border-radius: 50px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        transition: bottom 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 500;
+    }
+
+    .cart-toast.show { bottom: 40px; }
+    .fav-btn.active i {
+    color: #E80071 !important;
+    animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+@keyframes bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+.cart-badge.bounce {
+    animation: bounce 0.3s ease;
+}
+
+</style>
+{% if not products %}
+    <h3 style="text-align:center; margin-top:40px;">
+        No products found 😔
+    </h3>
+{% endif %}
+
+<main class="content-area">
+    <section class="section-container">
+        <div class="section-header-flex">
+            <h3 class="section-title">All Products <span class="count-tag">({{ products|length }} items)</span></h3>
+        </div>
+
+        <div class="product-grid">
+            {% for p in products %}
+            <div class="product-item">
+                <div class="image-box">
+                    <span class="promo-tag">{{ range(20, 35)|random }}% OFF</span>
+
+                    <img src="{{ url_for('static', filename='uploads/' + p.file) if p.file else 'https://via.placeholder.com/200' }}" alt="prod" style="max-height: 200px; object-fit: contain;">
+<button class="fav-btn" onclick="addToWishlist('{{ p.id }}', this)">
+    <i class="fa-{{ 'solid' if p.in_wishlist else 'regular' }} fa-heart"
+       style="color: {{ '#E80071' if p.in_wishlist else '#ccc' }};">
+    </i>
+</button>
+
+
+                    <div class="slide-overlay">
+                        <button type="button" class="bag-action" onclick="addToCart('{{ p.id }}')">
+                            Add to Bag
+                        </button>
+                    </div>
+                </div>
+
+                <div class="info-box" style="padding: 15px;">
+                    <span class="brand-label">{{ p.brand }}</span>
+                    <h4 class="prod-name">{{ p.product_name }}</h4>
+
+                    <div class="price-stack">
+                        <span class="main-price">₹{{ p.price }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+
+<div id="cart-toast" class="cart-toast">
+    <i class="fa-solid fa-circle-check" style="color: #4CAF50;"></i>
+    <span id="toast-message">Added! ✨</span>
+</div>
+
+<script>
+    // Unified Toast Function
+    function showToast(message) {
+        const toast = document.getElementById('cart-toast');
+        const msgSpan = document.getElementById('toast-message');
+        msgSpan.innerText = message;
+        toast.classList.add('show');
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    // Add to Cart Logic
+   function addToCart(productId) {
+    fetch('/add_to_cart/' + productId, { method: 'POST' })
+    .then(response => {
+        if (response.status === 401) {
+            window.location.href = '/user_login';
+            return;
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.status === "success") {
+
+            // 🔥 Update cart badge with real count
+            let badge = document.getElementById('cart-count');
+            if (badge) {
+                badge.innerText = data.cart_count;
+            }
+
+            showToast("Product added to bag! 🛍️");
+        }
+    })
+    .catch(err => console.error('Cart Error:', err));
+}
+
+    // Add to Wishlist Logic
+    function addToWishlist(productId, btnElement) {
+        fetch('/add_to_wishlist/' + productId, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success' || data.status === 'exists') {
+                showToast(data.message || "Added to wishlist! 🩷");
+                badge.classList.add("bounce");
+setTimeout(() => badge.classList.remove("bounce"), 300);
+                // UI Update: Turn Heart Solid Pink
+                const icon = btnElement.querySelector('i');
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+                icon.style.color = '#E80071';
+            } else {
+                window.location.href = '/user_login';
+            }
+        })
+        .catch(err => console.error('Wishlist Error:', err));
+    }
+    function addToWishlist(productId, btnElement) {
+    fetch('/add_to_wishlist/' + productId, { method: 'POST' })
+    .then(response => response.json())
+    .then(data => {
+
+        const icon = btnElement.querySelector('i');
+
+        if (data.status === 'success' || data.status === 'exists') {
+
+            // Toggle to pink
+            icon.classList.remove('fa-regular');
+            icon.classList.add('fa-solid');
+            icon.style.color = '#E80071';
+
+            showToast("Added to Wishlist! 🩷");
+
+        } else {
+            window.location.href = '/user_login';
+        }
+    })
+    .catch(err => console.error('Wishlist Error:', err));
+}
+
+
+</script>
+
+<section class="live-reviews" style="padding: 50px 40px;">
+    <h2 style="text-align:center; margin-bottom:30px;">What Our Customers Say ✨</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+        {% for rev in live_reviews %}
+        <div class="review-card" style="background:#fdfdfd; padding:20px; border-radius:15px; border:1px solid #eee;">
+            <div style="display:flex; justify-content:space-between;">
+                <span style="font-weight:600;">{{ rev.customer_email.split('@')[0] }}</span>
+                <span class="verified-badge"><i class="fa-solid fa-check-circle"></i> Verified</span>
+            </div>
+            <div style="color:#ffcc00; margin:5px 0;">
+                {% for i in range(rev.rating|int) %}★{% endfor %}
+            </div>
+            <p style="font-size:13px; color:#555;">"{{ rev.review_text }}"</p>
+            {% if rev.review_image %}
+            <img src="{{ url_for('static', filename='uploads/reviews/' + rev.review_image) }}" style="width:100%; height:150px; object-fit:cover; border-radius:10px; margin-top:10px;">
+            {% endif %}
+            <div style="margin-top:10px; font-size:11px; color:#888;">Product: {{ rev.product_name }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</section>

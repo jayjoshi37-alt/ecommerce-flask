@@ -1,0 +1,136 @@
+{% include 'admin/base_admin.html' %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+    .admin-content-wrapper {
+        margin-left: 260px;
+        width: calc(100% - 260px);
+    }
+    .order-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Stronger border and a slight glow to define the card boundaries */
+        border: 1px solid #e5e7eb;
+        border-left: 6px solid #fc2779; /* Colored accent to distinguish each order */
+        box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    }
+    .order-card:hover {
+        transform: scale(1.01);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+    }
+    .product-img-sm {
+        width: 55px;
+        height: 55px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    /* Visual separation line styling */
+    .order-divider {
+        border: 0;
+        height: 1px;
+        background-image: linear-gradient(to right, transparent, #fc2779, transparent);
+        opacity: 0.3;
+        margin: 3rem 5rem;
+    }
+</style>
+
+<div class="p-6 bg-[#f8f9fa] min-h-screen admin-content-wrapper">
+
+    <div class="flex justify-between items-center mb-10 animate__animated animate__fadeInDown">
+        <div>
+            <h1 class="text-2xl font-black text-gray-800 tracking-tight">ORDERS MANAGEMENT</h1>
+            <p class="text-xs text-gray-400 font-bold uppercase tracking-widest">Customer Sales Terminal</p>
+        </div>
+        <div class="bg-white px-5 py-2 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-3">
+            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+            <span class="text-xs font-black text-gray-600 uppercase">{{ orders|length }} Live Records</span>
+        </div>
+    </div>
+
+    <div class="space-y-12 pb-20">
+        {% for order_no, data in orders.items() %}
+
+        <div class="order-card bg-white rounded-2xl overflow-hidden animate__animated animate__fadeInUp"
+             style="animation-delay: {{ loop.index0 * 0.05 }}s">
+
+            <div class="bg-gray-50/80 p-6 border-b border-gray-100">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Order ID</p>
+                        <p class="text-base font-black text-[#fc2779]">#{{ order_no }}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Customer Email</p>
+                        <p class="text-sm font-bold text-gray-700 truncate">{{ data.email }}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Placement Date</p>
+                        <p class="text-sm font-semibold text-gray-600">{{ data.date }}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Status</p>
+                        <span class="inline-block px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter
+                            {% if data.status|lower == 'pending' %} bg-orange-100 text-orange-600
+                            {% elif data.status|lower == 'paid' %} bg-green-100 text-green-600
+                            {% else %} bg-blue-100 text-blue-600 {% endif %}">
+                            🪙 {{ data.status }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-white">
+                        <tr>
+                            <th class="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Image</th>
+                            <th class="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Product Name</th>
+                            <th class="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Description</th>
+                            <th class="px-8 py-4 text-right text-[10px] font-bold text-gray-400 uppercase tracking-widest">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        {% for item in data['items'] %}
+                        <tr class="hover:bg-gray-50/30 transition-colors">
+                            <td class="px-8 py-4">
+                                <img src="{{ url_for('static', filename='uploads/' + item.file) }}"
+                                     class="product-img-sm border border-gray-100 shadow-sm"
+                                     onerror="this.src='https://via.placeholder.com/100'">
+                            </td>
+                            <td class="px-8 py-4">
+                                <p class="text-xs font-bold text-gray-800">{{ item.product_name }}</p>
+                            </td>
+                            <td class="px-8 py-4">
+                                <p class="text-[10px] text-gray-500 italic max-w-xs truncate">
+                                    {{ item.description if item.description else 'No description provided' }}
+                                </p>
+                            </td>
+                            <td class="px-8 py-4 text-right">
+                                <span class="text-xs font-black text-gray-900 tracking-tight">₹{{ "{:,.2f}".format(item.amount|float) }}</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-gray-50/30 px-8 py-5 flex justify-between items-center border-t border-gray-100">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-file-invoice text-gray-300 text-xs"></i>
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Order Summary List</span>
+                </div>
+                <div class="text-right">
+                    <span class="text-[10px] text-gray-400 font-bold uppercase mr-3">Amount Due:</span>
+                    <span class="text-2xl font-black text-gray-900">₹{{ "{:,.2f}".format(data.total|float) }}</span>
+                </div>
+            </div>
+        </div>
+
+        {% if not loop.last %}
+        <hr class="order-divider">
+        {% endif %}
+
+        {% endfor %}
+    </div>
+</div>
