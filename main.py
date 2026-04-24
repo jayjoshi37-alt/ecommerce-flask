@@ -32,15 +32,25 @@ RAZORPAY_KEY_SECRET = "A91j95r6yDJBbWr1w81kmMCU"
 
 razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
 
-#-------------Mail Verifications ----------------------
-load_dotenv() # This loads the variables from the ..env file
+# ------------------ Mail Config ------------------
+app.config['MAIL_SERVER'] = os.getenv("MAIL_SERVER")
+app.config['MAIL_PORT'] = int(os.getenv("MAIL_PORT"))
+app.config['MAIL_USE_TLS'] = os.getenv("MAIL_USE_TLS") == "true"
+app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")
+app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv("MAIL_DEFAULT_SENDER")
 
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'apikey'
-app.config['MAIL_PASSWORD'] = 'SG.xxxxxxxxxxxx'
-app.config['MAIL_DEFAULT_SENDER'] = 'auth@glamfleur.com'
+mail = Mail(app)
+
+
+#database configuration
+app.config['MYSQL_HOST'] = os.getenv("MYSQLHOST")
+app.config['MYSQL_USER'] = os.getenv("MYSQLUSER")
+app.config['MYSQL_PASSWORD'] = os.getenv("MYSQLPASSWORD")
+app.config['MYSQL_DB'] = os.getenv("MYSQLDATABASE")
+app.config['MYSQL_PORT'] = int(os.getenv("MYSQLPORT"))
+
+mysql=MySQL(app)
 
 
 #-------------FIle Managements --------------------------------
@@ -55,17 +65,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-
-#database configuration
-app.config['MYSQL_HOST'] = os.getenv("MYSQLHOST")
-app.config['MYSQL_USER'] = os.getenv("MYSQLUSER")
-app.config['MYSQL_PASSWORD'] = os.getenv("MYSQLPASSWORD")
-app.config['MYSQL_DB'] = os.getenv("MYSQLDATABASE")
-app.config['MYSQL_PORT'] = int(os.getenv("MYSQLPORT"))
-
-mysql=MySQL(app)
 
 #-----------------------review config
 # Configuration for review image uploads
