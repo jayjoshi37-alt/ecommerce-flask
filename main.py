@@ -1,5 +1,4 @@
 import datetime
-import imghdr
 import smtplib
 import os
 import razorpay
