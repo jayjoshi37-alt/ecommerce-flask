@@ -18,8 +18,6 @@ from flask import Response
 from PIL import Image
 import os
 from dotenv import load_dotenv
-from PIL import Image
-from io import BytesIO
 
 load_dotenv()
 
@@ -1838,37 +1836,23 @@ def upload_profile_image():
 @app.route('/get_profile_image/<email>')
 def get_profile_image(email):
     cur = mysql.connection.cursor()
+    cur.execute(
+        "SELECT profile_file FROM glamfluer_registration WHERE email=%s",
+        (email,)
+    )
+    user = cur.fetchone()
+    cur.close()
 
-    try:
-        cur.execute(
-            "SELECT profile_image FROM users WHERE email = %s",
-            (email,)
-        )
-        user = cur.fetchone()
+    if user and user[0]:
 
-        if user and user[0]:
-            image_data = user[0]
+        image_data = user[0]
+        image_type = imghdr.what(None, image_data)
 
-            try:
-                with Image.open(BytesIO(image_data)) as img:
-                    image_type = img.format.lower()
+        if image_type:
+            return Response(image_data, mimetype=f'image/{image_type}')
 
-                if image_type == "jpeg":
-                    image_type = "jpeg"
+    return ""
 
-                return Response(
-                    image_data,
-                    mimetype=f"image/{image_type}"
-                )
-
-            except Exception:
-                app.logger.warning("Unable to identify profile image format")
-                return ""
-
-        return ""
-
-    finally:
-        cur.close()
 
 @app.route('/update_profile', methods=['POST'])
 def update_profile():
@@ -1896,18 +1880,33 @@ def update_profile():
 
 @app.context_processor
 def inject_user_data():
+    # The public homepage must still render if the optional database is offline.
     if 'user' in session:
-        cur = mysql.connection.cursor(DictCursor)
-        cur.execute("SELECT fullname, profile_file FROM glamfluer_registration WHERE email=%s", (session['user'],))
-        user = cur.fetchone()
-        cur.close()
-
-        if user:
-            return dict(
-                fullname=user['fullname'],
-                user_data=user,
-                username=session['user']
+        cur = None
+        try:
+            cur = mysql.connection.cursor(DictCursor)
+            cur.execute(
+                "SELECT fullname, profile_file FROM glamfluer_registration WHERE email=%s",
+                (session['user'],)
             )
+            user = cur.fetchone()
+
+            if user:
+                return dict(
+                    fullname=user.get('fullname'),
+                    user_data=user,
+                    username=session['user']
+                )
+        except Exception as exc:
+            app.logger.warning(
+                "Could not load session user data (%s)", type(exc).__name__
+            )
+        finally:
+            if cur is not None:
+                try:
+                    cur.close()
+                except Exception:
+                    pass
 
     return dict(fullname=None, user_data=None, username=None)
 
@@ -2380,17 +2379,36 @@ def check_order_by_id(order_id):
 
 @app.context_processor
 def inject_stats():
-    cur = mysql.connection.cursor(DictCursor)
+    # Templates receive safe defaults when MySQL is unavailable.
+    stats = {'Total': 0, 'Delivered': 0}
+    cur = None
 
-    cur.execute("""
-        SELECT 
-            COUNT(*) as Total,
-            SUM(CASE WHEN status = 'Delivered' THEN 1 ELSE 0 END) as Delivered
-        FROM glamfluer_orders
-    """)
-    stats = cur.fetchone()
+    try:
+        cur = mysql.connection.cursor(DictCursor)
+        cur.execute("""
+            SELECT
+                COUNT(*) as Total,
+                SUM(CASE WHEN status = 'Delivered' THEN 1 ELSE 0 END) as Delivered
+            FROM glamfluer_orders
+        """)
+        result = cur.fetchone()
+        if result:
+            stats = {
+                'Total': result.get('Total') or 0,
+                'Delivered': result.get('Delivered') or 0
+            }
+    except Exception as exc:
+        app.logger.warning(
+            "Stats unavailable because database is offline (%s)",
+            type(exc).__name__
+        )
+    finally:
+        if cur is not None:
+            try:
+                cur.close()
+            except Exception:
+                pass
 
-    cur.close()
     return dict(stats=stats)
 
 
