@@ -18,6 +18,8 @@ from flask import Response
 from PIL import Image
 import os
 from dotenv import load_dotenv
+from PIL import Image
+from io import BytesIO
 
 load_dotenv()
 
@@ -1836,23 +1838,37 @@ def upload_profile_image():
 @app.route('/get_profile_image/<email>')
 def get_profile_image(email):
     cur = mysql.connection.cursor()
-    cur.execute(
-        "SELECT profile_file FROM glamfluer_registration WHERE email=%s",
-        (email,)
-    )
-    user = cur.fetchone()
-    cur.close()
 
-    if user and user[0]:
+    try:
+        cur.execute(
+            "SELECT profile_image FROM users WHERE email = %s",
+            (email,)
+        )
+        user = cur.fetchone()
 
-        image_data = user[0]
-        image_type = imghdr.what(None, image_data)
+        if user and user[0]:
+            image_data = user[0]
 
-        if image_type:
-            return Response(image_data, mimetype=f'image/{image_type}')
+            try:
+                with Image.open(BytesIO(image_data)) as img:
+                    image_type = img.format.lower()
 
-    return ""
+                if image_type == "jpeg":
+                    image_type = "jpeg"
 
+                return Response(
+                    image_data,
+                    mimetype=f"image/{image_type}"
+                )
+
+            except Exception:
+                app.logger.warning("Unable to identify profile image format")
+                return ""
+
+        return ""
+
+    finally:
+        cur.close()
 
 @app.route('/update_profile', methods=['POST'])
 def update_profile():
