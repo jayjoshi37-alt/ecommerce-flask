@@ -28,8 +28,8 @@ app.secret_key = os.getenv("SECRET_KEY") or "fallback_secret_123"
 #Razorpay API Keys
 import razorpay
 
-RAZORPAY_KEY_ID = "rzp_test_SN0hso3lWNXjPI"
-RAZORPAY_KEY_SECRET = "A91j95r6yDJBbWr1w81kmMCU"
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET", "")
 
 razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
 
@@ -239,50 +239,84 @@ def send_marketing_email(to_email, subject, message):
 
 @app.route('/')
 def index():
-
-    cur = mysql.connection.cursor(DictCursor)
+    """
+    Temporary UI-demo mode:
+    Render the homepage even when MySQL is unavailable.
+    Database-dependent features remain unavailable until the database is restored.
+    """
     is_logged_in = 'user_id' in session
-    # Show only 8 products on homepage (2 rows)
-    cur.execute("""
-        SELECT p.id, p.product_name, p.price, p.file, p.description,
-               c.category_name
-        FROM glamfluer_products p
-        JOIN glamfluer_categories c ON p.category_id = c.id
-        WHERE p.status='Active'
-        ORDER BY p.id DESC
-        LIMIT 8
-    """)
-    homepage_products = cur.fetchall()
+    homepage_products = []
+    all_products = []
+    categories = []
+    sale_products = []
+    live_reviews = []
 
-    # Fetch ALL products for View All modal
-    cur.execute("""
-        SELECT p.id, p.product_name, p.price, p.file, p.description,
-               c.category_name
-        FROM glamfluer_products p
-        JOIN glamfluer_categories c ON p.category_id = c.id
-        WHERE p.status='Active'
-        ORDER BY p.id DESC
-    """)
-    all_products = cur.fetchall()
+    cur = None
+    try:
+        cur = mysql.connection.cursor(DictCursor)
 
-    # Fetch categories
-    cur.execute("SELECT category_name FROM glamfluer_categories")
-    categories = [row['category_name'] for row in cur.fetchall()]
+        cur.execute("""
+            SELECT p.id, p.product_name, p.price, p.file, p.description,
+                   c.category_name
+            FROM glamfluer_products p
+            JOIN glamfluer_categories c ON p.category_id = c.id
+            WHERE p.status='Active'
+            ORDER BY p.id DESC
+            LIMIT 8
+        """)
+        homepage_products = cur.fetchall()
 
-    # Fetch sale products (only active)
-    cur.execute("""
-        SELECT id, sale_name, product_name, original_price,
-               offer_percentage, sale_price, image_url
-        FROM sale_products
-        WHERE status='Active'
-        ORDER BY id DESC
-    """)
-    sale_products = cur.fetchall()
+        cur.execute("""
+            SELECT p.id, p.product_name, p.price, p.file, p.description,
+                   c.category_name
+            FROM glamfluer_products p
+            JOIN glamfluer_categories c ON p.category_id = c.id
+            WHERE p.status='Active'
+            ORDER BY p.id DESC
+        """)
+        all_products = cur.fetchall()
 
-    cur.execute("SELECT * FROM glamfluer_reviews WHERE status='Approved' ORDER BY created_at DESC LIMIT 6")
-    live_reviews = cur.fetchall()
+        cur.execute("SELECT category_name FROM glamfluer_categories")
+        categories = [row['category_name'] for row in cur.fetchall()]
 
-    cur.close()
+        cur.execute("""
+            SELECT id, sale_name, product_name, original_price,
+                   offer_percentage, sale_price, image_url
+            FROM sale_products
+            WHERE status='Active'
+            ORDER BY id DESC
+        """)
+        sale_products = cur.fetchall()
+
+        cur.execute("""
+            SELECT * FROM glamfluer_reviews
+            WHERE status='Approved'
+            ORDER BY created_at DESC
+            LIMIT 6
+        """)
+        live_reviews = cur.fetchall()
+
+    except Exception as exc:
+        # Keep the landing page available for a temporary UI-only demo.
+        app.logger.warning(
+            "Homepage database unavailable; showing empty demo data (%s)",
+            type(exc).__name__
+        )
+        homepage_products = []
+        all_products = []
+        categories = []
+        sale_products = []
+        live_reviews = []
+    finally:
+        if cur is not None:
+            try:
+                cur.close()
+            except Exception:
+                pass
+
+    demo_mode = not bool(
+        homepage_products or all_products or categories or sale_products or live_reviews
+    )
 
     return render_template(
         "index.html",
@@ -291,7 +325,8 @@ def index():
         categories=categories,
         sale_products=sale_products,
         user_logged_in=is_logged_in,
-        live_reviews=live_reviews
+        live_reviews=live_reviews,
+        demo_mode=demo_mode
     )
 
 
@@ -2750,4 +2785,5 @@ def broadcast_offer():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
